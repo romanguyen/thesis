@@ -1,0 +1,30 @@
+# Local configuration files - these are specific to your installation
+/conf/local.php
+/conf/users.auth.php
+/conf/acl.auth.php
+/conf/plugins.local.php
+/conf/license.php
+/conf/mediameta.php
+/conf/scheme.conf
+
+# DokuWiki's generated data - we are NOT ignoring /pages/ or /media/
+/data/attic/
+/data/cache/
+/data/index/
+/data/locks/
+/data/log/
+/data/tmp/
+/data/media_attic/
+/data/media_meta/
+/data/deleted.files
+
+# Composer dependencies
+/vendor/
+
+# Installed plugins (assuming you manage these via the admin interface)
+/lib/plugins/
+
+# Log files
+*.log
+error.log
+debug.log

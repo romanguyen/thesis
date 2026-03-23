@@ -1,8 +1,7 @@
 # Local configuration files - these are specific to your installation
-/conf/local.php
+# (conf/local.php and conf/plugins.local.php are tracked intentionally)
 /conf/users.auth.php
 /conf/acl.auth.php
-/conf/plugins.local.php
 /conf/license.php
 /conf/mediameta.php
 /conf/scheme.conf

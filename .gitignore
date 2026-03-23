@@ -11,6 +11,7 @@
 /data/attic/
 /data/cache/
 /data/index/
+/data/meta/
 /data/locks/
 /data/log/
 /data/tmp/
@@ -28,3 +29,10 @@
 *.log
 error.log
 debug.log
+
+# Local backup artifacts
+/conf/*.bak.php
+
+# macOS metadata
+.DS_Store
+**/.DS_Store

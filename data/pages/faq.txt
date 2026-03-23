@@ -1,0 +1,32 @@
+====== FAQ and Help ======
+Frequently asked questions and documentation for MetaCentrum users.
+
+===== Documentation =====
+Comprehensive documentation covering all aspects of using MetaCentrum resources.
+
+  * Getting started guide
+  * Job submission and PBS
+  * Software and modules
+  * Data storage and transfer
+  * Using MetaCloud
+
+===== Frequently Asked Questions =====
+
+==== How do I get an account? ====
+You need to register through the Perun system using your eduID.cz identity. See the [[join|Get Account]] page for details.
+
+==== What resources are available? ====
+MetaCentrum provides access to computing clusters, cloud resources, and storage. See the [[resources|Resources]] page for a complete list.
+
+==== How do I submit jobs? ====
+Jobs are submitted using the PBS scheduling system. Documentation is available in our user guides.
+
+==== Who can use MetaCentrum? ====
+Members of Czech academic and research institutions can use MetaCentrum services free of charge.
+
+===== Need more help? =====
+If you cannot find the answer to your question, contact our user support team.
+
+Email: support@cesnet.cz
+
+//Last changed: Mon Dec 19 10:35:37 CET 2016//

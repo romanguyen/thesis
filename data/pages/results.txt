@@ -1,0 +1,20 @@
+====== Results ======
+Annual reports, technical reports, yearbooks, and publications from MetaCentrum.
+
+===== Annual Reports =====
+Comprehensive reports documenting MetaCentrum's activities, achievements, and statistics for each year.
+
+  * Annual Report 2023
+  * Annual Report 2022
+  * Annual Report 2021
+  * Annual Report 2020
+  * Annual Report 2019
+
+See [[results:annual|all annual reports]].
+
+===== Publications =====
+Scientific papers, conference proceedings, and technical publications produced by MetaCentrum staff and users.
+
+See [[research:publications|all publications]].
+
+//Last changed: Mon Dec 19 10:35:37 CET 2016//

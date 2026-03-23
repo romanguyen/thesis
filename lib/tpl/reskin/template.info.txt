@@ -1,0 +1,7 @@
+base     dokuwiki
+author   MetaCentrum Reskin
+email    info@cesnet.cz
+date     2025-02-14
+name     Reskin Template
+desc     Bootstrap-based reskin of the MetaCentrum NGI layout
+url      https://example.com

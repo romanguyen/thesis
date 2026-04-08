@@ -1,37 +1,37 @@
-# Local configuration files - these are specific to your installation
-# (conf/local.php and conf/plugins.local.php are tracked intentionally)
-/conf/users.auth.php
-/conf/acl.auth.php
-/conf/license.php
-/conf/mediameta.php
-/conf/scheme.conf
+# OS / editor files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+.idea/
+.vscode/
 
-# DokuWiki's generated data - we are NOT ignoring /pages/ or /media/
-/data/attic/
-/data/cache/
-/data/index/
-/data/meta/
-/data/locks/
-/data/log/
-/data/tmp/
-/data/media_attic/
-/data/media_meta/
-/data/deleted.files
+# DokuWiki local config and credentials
+conf/local.php
+conf/users.auth.php
+conf/acl.auth.php
+conf/mysql.conf.php
+conf/plugins.local.php
 
-# Composer dependencies
-/vendor/
+# DokuWiki generated runtime data
+data/cache/
+data/index/
+data/locks/
+data/log/
+data/tmp/
+data/meta/
+data/media_meta/
+data/attic/
+data/media_attic/
+data/deleted.files
 
-# Installed plugins (assuming you manage these via the admin interface)
-/lib/plugins/
+# Common plugin/runtime temp files
+lib/plugins/*/tmp/
+*.log
 
 # Log files
 *.log
 error.log
 debug.log
 
-# Local backup artifacts
-/conf/*.bak.php
-
-# macOS metadata
-.DS_Store
-**/.DS_Store

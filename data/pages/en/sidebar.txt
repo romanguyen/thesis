@@ -1,0 +1,16 @@
+====== Navigation ======
+
+===== MetaCentrum =====
+
+  * [[en:start|Home]]
+  * [[en:about|About MetaCentrum]]
+  * [[en:sluzby|Services]]
+  * [[en:vo|Get account in VO]]
+  * [[en:resources|Resources]]
+  * [[en:devel|R and D]]
+  * [[en:results|Results]]
+  * [[en:projekty|Projects]]
+  * [[en:faq|FAQ]]
+  * [[en:news:start|News]]
+  * [[en:outages:start|Outages]]
+  * [[en:hardware:start|Hardware overview]]

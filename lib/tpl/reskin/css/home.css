@@ -1,0 +1,616 @@
+.reskin-hero {
+  position: relative;
+  padding: 4rem 0 3rem;
+  background:
+    radial-gradient(
+      circle at top right,
+      rgba(240, 100, 44, 0.2),
+      transparent 55%
+    ),
+    radial-gradient(
+      circle at bottom left,
+      rgba(255, 223, 207, 0.6),
+      transparent 50%
+    );
+  border-bottom: 1px solid var(--reskin-border);
+  z-index: 0;
+}
+
+.reskin-hero-content h1,
+.reskin-hero-content h2 {
+  font-size: clamp(2.3rem, 4vw, 3.6rem);
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.reskin-hero-content strong {
+  color: var(--reskin-primary-dark);
+}
+
+.reskin-hero-content p {
+  font-size: 1.1rem;
+  color: rgba(28, 26, 23, 0.7);
+}
+
+[data-theme="dark"] .reskin-hero-content p {
+  color: rgba(244, 241, 236, 0.75);
+}
+
+.reskin-hero-card {
+  position: relative;
+  height: 280px;
+  border-radius: var(--reskin-radius);
+  border: 1px solid var(--reskin-border);
+  background: var(--reskin-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  box-shadow: var(--reskin-shadow);
+  overflow: hidden;
+}
+
+.reskin-hero-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: var(--reskin-radius);
+  object-fit: cover;
+  display: block;
+  z-index: 1;
+}
+
+.reskin-hero-rings {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(
+      circle at 20% 20%,
+      rgba(240, 100, 44, 0.2),
+      transparent 40%
+    ),
+    radial-gradient(
+      circle at 80% 80%,
+      rgba(240, 100, 44, 0.18),
+      transparent 45%
+    );
+  z-index: 2;
+}
+
+.reskin-updates {
+  padding: 1.5rem 0 0;
+}
+
+.reskin-update-card {
+  height: 100%;
+  background: #ffffff;
+  border: 1px solid var(--reskin-border);
+  border-radius: var(--reskin-radius);
+  box-shadow: var(--reskin-shadow);
+  padding: 1.35rem 1.35rem 1.15rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.reskin-update-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #f0642c 0%, #f7ab84 100%);
+}
+
+.reskin-update-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 700;
+}
+
+.reskin-update-title i {
+  color: var(--reskin-primary-dark);
+  font-size: 1.05rem;
+}
+
+.reskin-update-desc {
+  margin: 0.45rem 0 0;
+  color: rgba(28, 26, 23, 0.72);
+  font-size: 0.94rem;
+}
+
+.reskin-update-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.45rem;
+}
+
+.reskin-update-list li {
+  margin: 0;
+}
+
+.reskin-update-list a {
+  display: block;
+  text-decoration: none;
+  color: var(--reskin-fg);
+  border-radius: 0.65rem;
+  border: 1px solid transparent;
+  padding: 0.55rem 0.7rem;
+  background: var(--reskin-muted);
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease,
+    background 0.2s ease;
+}
+
+.reskin-update-list a:hover,
+.reskin-update-list a:focus {
+  color: var(--reskin-primary-dark);
+  border-color: #f2b99b;
+  background: #fff4ed;
+}
+
+.reskin-update-empty {
+  margin: 0;
+  color: rgba(28, 26, 23, 0.7);
+  font-size: 0.94rem;
+}
+
+.reskin-update-more {
+  margin-top: auto;
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.15rem;
+  text-decoration: none;
+  color: var(--reskin-primary-dark);
+  font-weight: 600;
+}
+
+.reskin-update-more i {
+  font-size: 1.2rem;
+}
+
+[data-theme="dark"] .reskin-update-card {
+  background: #1b1916;
+}
+
+[data-theme="dark"] .reskin-update-desc,
+[data-theme="dark"] .reskin-update-empty {
+  color: rgba(244, 241, 236, 0.72);
+}
+
+[data-theme="dark"] .reskin-update-list a {
+  background: #201e1a;
+}
+
+[data-theme="dark"] .reskin-update-list a:hover,
+[data-theme="dark"] .reskin-update-list a:focus {
+  border-color: #5b3d2e;
+  background: #2a241f;
+  color: #ffd0b1;
+}
+
+[data-theme="dark"] .reskin-update-more {
+  color: #ffbe99;
+}
+
+.reskin-metrics,
+.reskin-stories {
+  position: relative;
+  padding: 2.2rem 0 2.6rem;
+}
+
+.reskin-metrics {
+  background: var(--reskin-muted);
+  overflow: hidden;
+}
+
+.reskin-metrics::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    -28deg,
+    rgba(240, 100, 44, 0.065) 0,
+    rgba(240, 100, 44, 0.065) 2px,
+    transparent 2px,
+    transparent 22px
+  );
+  opacity: 0.34;
+  pointer-events: none;
+}
+
+.reskin-metrics::after {
+  content: "";
+  position: absolute;
+  left: -8%;
+  right: -8%;
+  bottom: -70px;
+  height: 140px;
+  background: var(--reskin-bg);
+  transform: skewY(-2.2deg);
+  transform-origin: 0 100%;
+  pointer-events: none;
+}
+
+.reskin-metrics .container-xl,
+.reskin-stories .container-xl {
+  position: relative;
+  z-index: 1;
+}
+
+.reskin-section-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.reskin-section-head h2 {
+  margin: 0;
+  font-size: clamp(1.35rem, 1.9vw, 1.7rem);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+.reskin-section-head p {
+  margin: 0.4rem 0 0;
+  color: rgba(28, 26, 23, 0.75);
+  font-size: 0.95rem;
+}
+
+.reskin-section-head--metrics p {
+  max-width: 62ch;
+}
+
+.reskin-metric-links {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 0.9rem;
+}
+
+.reskin-metric-link {
+  text-decoration: none;
+  color: var(--reskin-fg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 0.8rem 0.55rem;
+  min-height: 188px;
+  border-radius: var(--reskin-radius);
+  border: 1px solid var(--reskin-border);
+  background: rgba(255, 255, 255, 0.78);
+  box-shadow: 0 8px 22px rgba(25, 15, 10, 0.06);
+  transition:
+    transform 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+.reskin-metric-link:hover,
+.reskin-metric-link:focus {
+  transform: translateY(-2px);
+  color: var(--reskin-primary-dark);
+  border-color: #eab697;
+  background: #fff8f3;
+  box-shadow: 0 12px 28px rgba(25, 15, 10, 0.12);
+}
+
+.reskin-metric-link-icon {
+  width: 80px;
+  height: 80px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--reskin-primary);
+  font-size: 2.8rem;
+  line-height: 1;
+}
+
+.reskin-metric-link-title {
+  margin-top: 0.5rem;
+  font-size: 0.94rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  max-width: 22ch;
+}
+
+.reskin-metric-link-arrow {
+  margin-top: auto;
+  color: var(--reskin-primary-dark);
+  font-size: 1.45rem;
+  line-height: 1;
+}
+
+.reskin-metric-hex-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 1.1rem;
+  margin-top: 1.8rem;
+  flex-wrap: wrap;
+}
+
+.reskin-metric-hex {
+  width: clamp(180px, 22vw, 250px);
+  aspect-ratio: 1.1;
+  clip-path: polygon(25% 5%, 75% 5%, 100% 50%, 75% 95%, 25% 95%, 0 50%);
+  background: #ffffff;
+  border: 1px solid var(--reskin-border);
+  box-shadow: 0 16px 30px rgba(25, 15, 10, 0.08);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 1.25rem;
+}
+
+.reskin-metric-hex.is-offset {
+  transform: translateY(2.25rem);
+}
+
+.reskin-metric-hex-number {
+  font-size: clamp(2rem, 3vw, 3.25rem);
+  line-height: 1;
+  font-weight: 700;
+  color: var(--reskin-primary-dark);
+  letter-spacing: 0.01em;
+}
+
+.reskin-metric-hex-label {
+  margin-top: 0.55rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+  max-width: 14ch;
+}
+
+.reskin-stories {
+  background: var(--reskin-bg);
+  padding-top: 2.4rem;
+}
+
+.reskin-section-head--stories {
+  align-items: center;
+}
+
+.reskin-stories-archive {
+  text-decoration: none;
+  color: var(--reskin-primary-dark);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.reskin-story-carousel {
+  position: relative;
+  padding-right: 3.5rem;
+}
+
+.reskin-story-viewport {
+  overflow: hidden;
+}
+
+.reskin-story-track {
+  display: flex;
+  gap: 1rem;
+  padding-top: 3px;
+  transition: transform 0.45s cubic-bezier(0.22, 0.61, 0.36, 1);
+  will-change: transform;
+}
+
+.reskin-story-item {
+  flex: 0 0 calc((100% - 2rem) / 3);
+  min-width: 0;
+}
+
+.reskin-story-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  text-decoration: none;
+  color: var(--reskin-fg);
+  border-radius: var(--reskin-radius);
+  border: 1px solid #d8c5b3;
+  background: #ffffff;
+  background-clip: padding-box;
+  box-shadow: none;
+  padding: 0.9rem;
+  overflow: hidden;
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.reskin-story-card:hover,
+.reskin-story-card:focus {
+  transform: translateY(-2px);
+  border-color: #eab697;
+}
+
+.reskin-story-image {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 230px;
+  clip-path: none;
+  border-radius: 0.8rem;
+  overflow: hidden;
+  background-size: cover;
+  background-position: center;
+  background-color: #e6ded5;
+  border: 0;
+  box-shadow: none;
+  margin-bottom: 0.85rem;
+}
+
+.reskin-story-image::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border: 1px solid #b9a691;
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+.reskin-story-image::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: #b9a691;
+  pointer-events: none;
+}
+
+.reskin-story-date {
+  display: inline-block;
+  margin-bottom: 0.5rem;
+  color: var(--reskin-primary-dark);
+  font-size: 1.1rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.01em;
+}
+
+.reskin-story-title {
+  font-size: clamp(1.12rem, 1.8vw, 1.45rem);
+  line-height: 1.2;
+  font-weight: 600;
+  margin-bottom: 0.55rem;
+}
+
+.reskin-story-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--reskin-primary-dark);
+}
+
+.reskin-story-cta i {
+  font-size: 1rem;
+  color: var(--reskin-primary-dark);
+}
+
+.reskin-story-controls {
+  position: absolute;
+  top: 36%;
+  right: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.reskin-story-control {
+  width: 42px;
+  height: 42px;
+  border: 1px solid var(--reskin-control-border);
+  border-radius: var(--reskin-radius);
+  background: var(--reskin-control-bg);
+  color: var(--reskin-control-text);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.65);
+}
+
+.reskin-story-control:hover,
+.reskin-story-control:focus {
+  background: var(--reskin-control-bg-hover);
+  color: var(--reskin-primary-dark);
+}
+
+.reskin-story-control:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+[data-theme="dark"] .reskin-metrics {
+  background: var(--reskin-muted);
+}
+
+[data-theme="dark"] .reskin-metrics::before {
+  opacity: 0.22;
+}
+
+[data-theme="dark"] .reskin-metrics::after,
+[data-theme="dark"] .reskin-stories {
+  background: var(--reskin-bg);
+}
+
+[data-theme="dark"] .reskin-section-head p {
+  color: rgba(244, 241, 236, 0.74);
+}
+
+[data-theme="dark"] .reskin-metric-link,
+[data-theme="dark"] .reskin-stories-archive,
+[data-theme="dark"] .reskin-story-cta,
+[data-theme="dark"] .reskin-story-title,
+[data-theme="dark"] .reskin-story-date,
+[data-theme="dark"] .reskin-metric-hex-label {
+  color: #f4f1ec;
+}
+
+[data-theme="dark"] .reskin-metric-link,
+[data-theme="dark"] .reskin-story-card {
+  background-color: #1b1916;
+}
+
+[data-theme="dark"] .reskin-story-card {
+  border-color: #7b6e5f;
+}
+
+[data-theme="dark"] .reskin-story-card:hover,
+[data-theme="dark"] .reskin-story-card:focus {
+  border-color: #ff9a6e;
+}
+
+[data-theme="dark"] .reskin-story-image {
+  border: 0;
+}
+
+[data-theme="dark"] .reskin-story-image::after {
+  border-color: #8a7b69;
+}
+
+[data-theme="dark"] .reskin-story-image::before {
+  background: #8a7b69;
+}
+
+[data-theme="dark"] .reskin-metric-hex {
+  background: #201d1a;
+  border-color: var(--reskin-border);
+}
+
+[data-theme="dark"] .reskin-story-control {
+  box-shadow: none;
+}
+
+[data-theme="dark"] .reskin-story-control:hover,
+[data-theme="dark"] .reskin-story-control:focus {
+  background: var(--reskin-control-bg-hover);
+}

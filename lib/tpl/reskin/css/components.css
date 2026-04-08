@@ -1,0 +1,156 @@
+.reskin-sidebar {
+  background: var(--reskin-muted);
+  border: 1px solid var(--reskin-border);
+  border-radius: var(--reskin-radius);
+  padding: 1.5rem;
+  max-height: calc(100vh - 24px - 1rem);
+  overflow-y: auto;
+  top: 1rem;
+  z-index: 200;
+}
+
+.reskin-sidebar.sticky-top {
+  top: 1rem;
+}
+
+.reskin-nav-tree h1,
+.reskin-nav-tree h2,
+.reskin-nav-tree h3 {
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(28, 26, 23, 0.72);
+  margin-top: 1.5rem;
+}
+
+[data-theme="dark"] .reskin-nav-tree h1,
+[data-theme="dark"] .reskin-nav-tree h2,
+[data-theme="dark"] .reskin-nav-tree h3 {
+  color: rgba(244, 241, 236, 0.8);
+}
+
+.reskin-nav-tree ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+.reskin-nav-tree p,
+.reskin-nav-tree .level1 {
+  margin-bottom: 0.75rem;
+}
+
+.reskin-nav-tree li {
+  margin: 0;
+  position: relative;
+}
+
+.reskin-nav-tree .reskin-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.reskin-nav-tree .reskin-nav-item > a {
+  flex: 1;
+}
+
+.reskin-nav-tree li a {
+  display: block;
+  padding: 0.4rem 0.6rem;
+  border-radius: var(--reskin-radius);
+  text-decoration: none;
+  color: var(--reskin-fg);
+}
+
+.reskin-nav-tree li a.is-active,
+.reskin-nav-tree li.is-active > .reskin-nav-item > a {
+  background: var(--reskin-accent);
+  color: var(--reskin-primary-dark);
+  font-weight: 600;
+}
+
+.reskin-nav-tree li a:hover,
+.reskin-nav-tree li a:focus {
+  background: var(--reskin-accent);
+  color: var(--reskin-primary-dark);
+}
+
+.reskin-nav-toggle-input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.reskin-nav-tree li > ul {
+  display: none;
+  margin: 0.35rem 0 0.6rem 0.6rem;
+  padding-left: 0.8rem;
+  border-left: 1px solid var(--reskin-border);
+}
+
+.reskin-nav-tree li > .reskin-nav-toggle-input:checked ~ ul {
+  display: block;
+}
+
+.reskin-nav-tree li > ul a {
+  padding: 0.3rem 0.5rem;
+  font-size: 0.95rem;
+  color: rgba(28, 26, 23, 0.75);
+}
+
+[data-theme="dark"] .reskin-nav-tree li > ul a {
+  color: rgba(244, 241, 236, 0.75);
+}
+
+[data-theme="dark"] .reskin-nav-tree li a.is-active,
+[data-theme="dark"] .reskin-nav-tree li.is-active > .reskin-nav-item > a,
+[data-theme="dark"] .reskin-nav-tree li a:hover,
+[data-theme="dark"] .reskin-nav-tree li a:focus {
+  color: var(--reskin-primary);
+}
+
+.reskin-nav-toggle {
+  border: 0;
+  background: transparent;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--reskin-radius);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--reskin-fg);
+  opacity: 0.6;
+  transition:
+    transform 0.2s ease,
+    opacity 0.2s ease,
+    background 0.2s ease;
+  margin-left: auto;
+  cursor: pointer;
+}
+
+.reskin-nav-toggle:hover,
+.reskin-nav-toggle:focus {
+  opacity: 1;
+  background: var(--reskin-accent);
+}
+
+.reskin-nav-toggle::before {
+  content: "▾";
+  font-size: 0.9rem;
+  line-height: 1;
+  transition: transform 0.2s ease;
+}
+
+.reskin-nav-tree
+  li
+  > .reskin-nav-toggle-input:checked
+  ~ .reskin-nav-item
+  .reskin-nav-toggle::before {
+  transform: rotate(180deg);
+}
+
+.reskin-nav-tree li.is-open > .reskin-nav-item .reskin-nav-toggle {
+  transform: rotate(180deg);
+  opacity: 1;
+}

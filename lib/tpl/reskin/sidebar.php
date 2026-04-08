@@ -1,11 +1,13 @@
 <?php
 if (!defined('DOKU_INC')) die();
 
+require_once __DIR__ . '/i18n.php';
+
 global $conf, $ID;
 ?>
 <div class="reskin-nav-tree">
     <?php
-    $sidebarHtml = tpl_include_page($conf['sidebar'], false, true);
+    $sidebarHtml = reskin_i18n_include_page($conf['sidebar'], false, true);
     if (!$sidebarHtml) {
         return;
     }
@@ -18,6 +20,27 @@ global $conf, $ID;
     libxml_clear_errors();
 
     $xpath = new DOMXPath($doc);
+    $headingNodes = $xpath->query('//h1|//h2|//h3|//h4|//h5|//h6');
+    foreach ($headingNodes as $heading) {
+        if ($heading instanceof DOMElement && $heading->parentNode) {
+            $heading->parentNode->removeChild($heading);
+        }
+    }
+
+    $comments = $xpath->query('//comment()');
+    foreach ($comments as $comment) {
+        if ($comment->parentNode) {
+            $comment->parentNode->removeChild($comment);
+        }
+    }
+
+    $emptyDivs = $xpath->query('//div[not(*) and normalize-space(.)=""]');
+    foreach ($emptyDivs as $div) {
+        if ($div instanceof DOMElement && $div->parentNode) {
+            $div->parentNode->removeChild($div);
+        }
+    }
+
     $links = $xpath->query('//a[@data-wiki-id]');
 
     $addClass = function (DOMElement $node, string $class) {
@@ -30,6 +53,7 @@ global $conf, $ID;
     };
 
     foreach ($links as $link) {
+        if (!($link instanceof DOMElement)) continue;
         $id = $link->getAttribute('data-wiki-id');
         if (!$id) continue;
 
@@ -93,7 +117,7 @@ global $conf, $ID;
             $label = $doc->createElement('label');
             $label->setAttribute('class', 'reskin-nav-toggle');
             $label->setAttribute('for', $toggleId);
-            $label->setAttribute('aria-label', 'Toggle section');
+            $label->setAttribute('aria-label', reskin_i18n_t('toggle_navigation'));
             $wrapper->appendChild($label);
         }
     }

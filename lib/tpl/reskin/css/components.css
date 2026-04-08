@@ -136,8 +136,8 @@
 }
 
 .reskin-nav-toggle::before {
-  content: "▾";
-  font-size: 0.9rem;
+  content: "▸";
+  font-size: 0.82rem;
   line-height: 1;
   transition: transform 0.2s ease;
 }
@@ -147,10 +147,10 @@
   > .reskin-nav-toggle-input:checked
   ~ .reskin-nav-item
   .reskin-nav-toggle::before {
-  transform: rotate(180deg);
+  transform: rotate(90deg);
 }
 
 .reskin-nav-tree li.is-open > .reskin-nav-item .reskin-nav-toggle {
-  transform: rotate(180deg);
+  transform: rotate(90deg);
   opacity: 1;
 }

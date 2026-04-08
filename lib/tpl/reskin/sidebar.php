@@ -52,12 +52,23 @@ global $conf, $ID;
         $node->setAttribute('class', trim(implode(' ', $classes)));
     };
 
+    $normalizeId = function (string $pageId): string {
+        if (substr($pageId, -6) === ':start') {
+            return substr($pageId, 0, -6);
+        }
+        return $pageId;
+    };
+
+    $currentBaseId = $normalizeId($currentId);
+
     foreach ($links as $link) {
         if (!($link instanceof DOMElement)) continue;
         $id = $link->getAttribute('data-wiki-id');
         if (!$id) continue;
 
-        if ($id === $currentId) {
+        $linkBaseId = $normalizeId($id);
+
+        if ($linkBaseId === $currentBaseId) {
             $addClass($link, 'is-active');
             $li = $link->parentNode;
             while ($li && $li->nodeName !== 'li') {
@@ -66,7 +77,7 @@ global $conf, $ID;
             if ($li instanceof DOMElement) {
                 $addClass($li, 'is-active');
             }
-        } elseif (strpos($currentId, $id . ':') === 0) {
+        } elseif (strpos($currentBaseId, $linkBaseId . ':') === 0) {
             $li = $link->parentNode;
             while ($li && $li->nodeName !== 'li') {
                 $li = $li->parentNode;

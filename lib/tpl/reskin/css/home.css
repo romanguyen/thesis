@@ -385,6 +385,12 @@
 .reskin-stories {
   background: var(--reskin-bg);
   padding-top: 2.4rem;
+  padding-bottom: 1.3rem;
+}
+
+.reskin-stories + .reskin-sidebar-mobile + .reskin-content,
+.reskin-stories + .reskin-content {
+  padding-top: 0.75rem;
 }
 
 .reskin-section-head--stories {

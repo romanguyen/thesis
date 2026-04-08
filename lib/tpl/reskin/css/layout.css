@@ -1,17 +1,75 @@
 .reskin-sidebar-mobile {
-  margin-top: 1.5rem;
+  position: fixed;
+  right: clamp(0.75rem, 4vw, 1.5rem);
+  bottom: calc(1rem + env(safe-area-inset-bottom));
+  z-index: 2100;
+  width: auto;
+  pointer-events: none;
 }
 
-.reskin-sidebar-toggle {
-  width: 100%;
-  border-radius: var(--reskin-radius);
-  border: 1px solid var(--reskin-border);
+.reskin-sidebar-fab {
+  pointer-events: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  min-height: 46px;
+  padding: 0.55rem 0.95rem 0.55rem 0.85rem;
+  border-radius: 999px;
+  border: 1px solid var(--reskin-control-border);
   background: var(--reskin-muted);
+  color: var(--reskin-control-text);
+  font-weight: 600;
+  font-size: 0.93rem;
+  line-height: 1;
+  letter-spacing: 0.01em;
+  box-shadow: 0 10px 24px rgba(25, 15, 10, 0.18);
+  transition:
+    transform 0.18s ease,
+    border-color 0.2s ease,
+    background-color 0.2s ease,
+    color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.reskin-sidebar-fab i {
+  font-size: 1.02rem;
+  line-height: 1;
+}
+
+.reskin-sidebar-fab:hover,
+.reskin-sidebar-fab:focus-visible {
+  transform: translateY(-1px);
+  border-color: var(--reskin-primary);
+  background: var(--reskin-control-bg-hover);
+  color: var(--reskin-primary-dark);
+  box-shadow: 0 14px 28px rgba(25, 15, 10, 0.24);
+}
+
+.reskin-sidebar-fab:active {
+  transform: translateY(0);
+}
+
+[data-theme="dark"] .reskin-sidebar-fab {
+  background: rgba(27, 25, 22, 0.95);
   color: var(--reskin-fg);
+  border-color: var(--reskin-control-border);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+}
+
+[data-theme="dark"] .reskin-sidebar-fab:hover,
+[data-theme="dark"] .reskin-sidebar-fab:focus-visible {
+  color: var(--reskin-primary);
+  border-color: var(--reskin-primary);
+  background: rgba(255, 122, 69, 0.14);
 }
 
 .reskin-content {
   padding: 2.5rem 0 4rem;
+}
+
+.reskin-main {
+  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 .reskin-page {
@@ -35,6 +93,26 @@
 
 .reskin-page p {
   line-height: 1.7;
+}
+
+.reskin-page p,
+.reskin-page li,
+.reskin-page td,
+.reskin-page th,
+.reskin-page a {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.reskin-page .table,
+.reskin-page pre,
+.reskin-page .code {
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.reskin-page .table {
+  -webkit-overflow-scrolling: touch;
 }
 
 .reskin-page img {
@@ -173,6 +251,10 @@
 
 .reskin-search-open {
   overflow: hidden;
+}
+
+.reskin-search-open .reskin-sidebar-mobile {
+  display: none;
 }
 
 .navbar-toggler-icon {

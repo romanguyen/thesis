@@ -178,6 +178,12 @@
   .reskin-search-toggle,
   .reskin-theme-toggle {
     width: 36px;
+    min-width: 36px;
+    flex: 0 0 36px;
+  }
+
+  .reskin-theme-toggle {
+    padding: 0;
   }
 
   .reskin-brand-logo--header {
@@ -206,5 +212,29 @@
 
   .reskin-page {
     padding: 1.5rem;
+  }
+
+  .reskin-sidebar-mobile {
+    right: 0.65rem;
+    bottom: calc(0.8rem + env(safe-area-inset-bottom));
+  }
+
+  .reskin-sidebar-fab {
+    min-height: 44px;
+    padding: 0.5rem 0.82rem;
+    font-size: 0.88rem;
+  }
+}
+
+@media (max-width: 420px) {
+  .reskin-sidebar-fab-label {
+    display: none;
+  }
+
+  .reskin-sidebar-fab {
+    width: 44px;
+    min-width: 44px;
+    padding: 0;
+    justify-content: center;
   }
 }

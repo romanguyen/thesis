@@ -203,15 +203,17 @@ $isStart = ($reskinParsedId['base'] === $conf['start']);
             <?php endif; ?>
 
             <?php if ($showSidebar) : ?>
-                <div class="container-xl d-lg-none reskin-sidebar-mobile">
+                <div class="d-lg-none reskin-sidebar-mobile">
                     <button
-                        class="btn reskin-sidebar-toggle"
+                        class="btn reskin-sidebar-fab"
                         type="button"
                         data-bs-toggle="offcanvas"
                         data-bs-target="#reskinSidebar"
                         aria-controls="reskinSidebar"
+                        aria-label="<?php echo hsc(reskin_i18n_t('browse_sections')); ?>"
                     >
-                        <?php echo hsc(reskin_i18n_t('browse_sections')); ?>
+                        <i class="bi bi-layout-text-sidebar-reverse" aria-hidden="true"></i>
+                        <span class="reskin-sidebar-fab-label"><?php echo hsc(reskin_i18n_t('browse_sections')); ?></span>
                     </button>
                 </div>
             <?php endif; ?>

@@ -5,7 +5,6 @@
   padding: 1.5rem;
   max-height: calc(100vh - 24px - 1rem);
   overflow-y: auto;
-  top: 1rem;
   z-index: 200;
 }
 
@@ -148,11 +147,6 @@
   ~ .reskin-nav-item
   .reskin-nav-toggle::before {
   transform: rotate(90deg);
-}
-
-.reskin-nav-tree li.is-open > .reskin-nav-item .reskin-nav-toggle {
-  transform: rotate(90deg);
-  opacity: 1;
 }
 
 :is(.reskin-pageid-cs-resources-hardware-start, .reskin-pageid-en-resources-hardware-start) .reskin-page h1 {

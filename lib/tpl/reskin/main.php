@@ -304,8 +304,10 @@ $reskinPageIdClass = 'reskin-pageid-' . $reskinPageIdClass;
     $reskinJsFiles = [
         'theme.js',
         'search.js',
-        'story-slider.js',
     ];
+    if ($isStart && $ACT === 'show') {
+        $reskinJsFiles[] = 'story-slider.js';
+    }
     if (preg_match('/^(cs|en):resources:hardware(?::start)?$/', (string) $ID) === 1) {
         $reskinJsFiles[] = 'hardware-drawer.js';
     }

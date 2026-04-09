@@ -9,7 +9,6 @@ function reskin_i18n_messages(): array
     return [
         'cs' => [
             'skip_to_content' => 'Preskocit na obsah',
-            'menu' => 'Menu',
             'close' => 'Zavrit',
             'open_search' => 'Otevrit hledani',
             'close_search' => 'Zavrit hledani',
@@ -45,7 +44,6 @@ function reskin_i18n_messages(): array
         ],
         'en' => [
             'skip_to_content' => 'Skip to content',
-            'menu' => 'Menu',
             'close' => 'Close',
             'open_search' => 'Open search',
             'close_search' => 'Close search',

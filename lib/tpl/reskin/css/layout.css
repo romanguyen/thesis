@@ -256,7 +256,3 @@
 .reskin-search-open .reskin-sidebar-mobile {
   display: none;
 }
-
-.navbar-toggler-icon {
-  filter: grayscale(1) contrast(1.2);
-}

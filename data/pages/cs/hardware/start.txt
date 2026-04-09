@@ -2,4 +2,4 @@
 
 Národní Gridová Infrastruktura koordinuje poskytování výpočetních prostředků uživatelům pomocí tvz. Virtuálních Organizací.
 
-Seznam aktuálně používaných strojů ve VO MetaCentrum je dostupný [[cs:resources:hardware|zde]].
+Seznam aktuálně používaných strojů ve VO MetaCentrum je dostupný [[cs:resources:hardware:start|zde]].

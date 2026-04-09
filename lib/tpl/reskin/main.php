@@ -17,13 +17,19 @@ $reskinFallbackNotice = reskin_i18n_fallback_notice();
 $hasSidebar = reskin_i18n_resolve_fragment($conf['sidebar'])['found'];
 $showSidebar = $hasSidebar && ($ACT === 'show');
 $isStart = ($reskinParsedId['base'] === $conf['start']);
+$reskinPageIdClass = preg_replace('/[^a-z0-9_-]+/i', '-', strtolower((string) $ID));
+$reskinPageIdClass = trim((string) $reskinPageIdClass, '-');
+if ($reskinPageIdClass === '') {
+    $reskinPageIdClass = 'start';
+}
+$reskinPageIdClass = 'reskin-pageid-' . $reskinPageIdClass;
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo hsc($reskinCurrentLang); ?>" dir="<?php echo hsc($lang['direction']); ?>" class="no-js">
 <?php require __DIR__ . '/head.php'; ?>
 
 <body class="reskin-body">
-    <div id="dokuwiki__site" class="reskin-site <?php echo tpl_classes(); ?> <?php echo $showSidebar ? 'has-sidebar' : ''; ?>">
+    <div id="dokuwiki__site" class="reskin-site <?php echo tpl_classes(); ?> <?php echo hsc($reskinPageIdClass); ?> <?php echo $showSidebar ? 'has-sidebar' : ''; ?>">
         <?php require __DIR__ . '/header.php'; ?>
 
         <main id="reskin-main" class="reskin-main">
@@ -300,6 +306,9 @@ $isStart = ($reskinParsedId['base'] === $conf['start']);
         'search.js',
         'story-slider.js',
     ];
+    if (preg_match('/^(cs|en):resources:hardware(?::start)?$/', (string) $ID) === 1) {
+        $reskinJsFiles[] = 'hardware-drawer.js';
+    }
     ?>
     <?php foreach ($reskinJsFiles as $reskinJsFile) : ?>
         <?php $reskinJsVersion = @filemtime(__DIR__ . '/js/' . $reskinJsFile); ?>

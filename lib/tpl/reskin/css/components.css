@@ -154,3 +154,245 @@
   transform: rotate(90deg);
   opacity: 1;
 }
+
+:is(.reskin-pageid-cs-resources-hardware-start, .reskin-pageid-en-resources-hardware-start) .reskin-page h1 {
+  margin-top: 0;
+  margin-bottom: 0.85rem;
+  font-size: clamp(2rem, 3.3vw, 2.5rem);
+}
+
+:is(.reskin-pageid-cs-resources-hardware-start, .reskin-pageid-en-resources-hardware-start) .reskin-page h2 {
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.45rem;
+  border-bottom: 1px solid var(--reskin-border);
+}
+
+:is(.reskin-pageid-cs-resources-hardware-start, .reskin-pageid-en-resources-hardware-start) .reskin-page > .level1 > p {
+  color: rgba(28, 26, 23, 0.76);
+  max-width: 70ch;
+}
+
+[data-theme="dark"] :is(.reskin-pageid-cs-resources-hardware-start, .reskin-pageid-en-resources-hardware-start) .reskin-page > .level1 > p {
+  color: rgba(244, 241, 236, 0.78);
+}
+
+:is(.reskin-pageid-cs-resources-hardware-start, .reskin-pageid-en-resources-hardware-start) .reskin-page .table {
+  width: 100%;
+  margin: 1rem 0 1.55rem;
+}
+
+:is(.reskin-pageid-cs-resources-hardware-start, .reskin-pageid-en-resources-hardware-start) .reskin-page table.inline {
+  width: 100%;
+  min-width: 760px;
+  border-collapse: separate;
+  border-spacing: 0;
+  border: 1px solid var(--reskin-border);
+  border-radius: 0.9rem;
+  overflow: hidden;
+  background: #ffffff;
+  box-shadow: 0 10px 22px rgba(24, 14, 9, 0.05);
+}
+
+:is(.reskin-pageid-cs-resources-hardware-start, .reskin-pageid-en-resources-hardware-start) .reskin-page table.inline th {
+  border: 0;
+  padding: 0.7rem 0.76rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  overflow-wrap: normal;
+  word-break: normal;
+  color: rgba(28, 26, 23, 0.72);
+  background: var(--reskin-muted);
+}
+
+:is(.reskin-pageid-cs-resources-hardware-start, .reskin-pageid-en-resources-hardware-start) .reskin-page table.inline td {
+  padding: 0.7rem 0.76rem;
+  border-top: 1px solid var(--reskin-border);
+  vertical-align: top;
+  background: #ffffff;
+}
+
+:is(.reskin-pageid-cs-resources-hardware-start, .reskin-pageid-en-resources-hardware-start) .reskin-page table.inline tr:nth-child(even) td {
+  background: #fdfaf7;
+}
+
+:is(.reskin-pageid-cs-resources-hardware-start, .reskin-pageid-en-resources-hardware-start) .reskin-page table.inline tr:hover td {
+  background: #fff6ef;
+}
+
+:is(.reskin-pageid-cs-resources-hardware-start, .reskin-pageid-en-resources-hardware-start) .reskin-page .table:first-of-type table.inline {
+  min-width: 520px;
+}
+
+:is(.reskin-pageid-cs-resources-hardware-start, .reskin-pageid-en-resources-hardware-start) .reskin-page .table:first-of-type table.inline td:first-child {
+  font-weight: 600;
+}
+
+:is(.reskin-pageid-cs-resources-hardware-start, .reskin-pageid-en-resources-hardware-start) .reskin-page .table:nth-of-type(2) table.inline td:nth-child(1) {
+  font-weight: 600;
+  color: rgba(28, 26, 23, 0.84);
+}
+
+:is(.reskin-pageid-cs-resources-hardware-start, .reskin-pageid-en-resources-hardware-start) .reskin-page .table:nth-of-type(2) table.inline td:nth-child(2) a {
+  font-family: var(--reskin-font-mono);
+  font-size: 0.92rem;
+  font-weight: 600;
+}
+
+:is(.reskin-pageid-cs-resources-hardware-start, .reskin-pageid-en-resources-hardware-start) .reskin-page .table:nth-of-type(2) table.inline th:nth-child(4),
+:is(.reskin-pageid-cs-resources-hardware-start, .reskin-pageid-en-resources-hardware-start) .reskin-page .table:nth-of-type(2) table.inline td:nth-child(4) {
+  min-width: 4.5rem;
+  text-align: center;
+  white-space: nowrap;
+  overflow-wrap: normal;
+  word-break: normal;
+}
+
+:is(.reskin-pageid-cs-resources-hardware-start, .reskin-pageid-en-resources-hardware-start) .reskin-page table.inline th.reskin-hw-detail-head,
+:is(.reskin-pageid-cs-resources-hardware-start, .reskin-pageid-en-resources-hardware-start) .reskin-page table.inline td.reskin-hw-detail-cell {
+  width: 92px;
+  min-width: 92px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+:is(.reskin-pageid-cs-resources-hardware-start, .reskin-pageid-en-resources-hardware-start) .reskin-hw-detail-btn {
+  border-color: var(--reskin-control-border);
+  color: var(--reskin-control-text);
+  background: var(--reskin-control-bg);
+  font-weight: 600;
+}
+
+:is(.reskin-pageid-cs-resources-hardware-start, .reskin-pageid-en-resources-hardware-start) .reskin-hw-detail-btn:hover,
+:is(.reskin-pageid-cs-resources-hardware-start, .reskin-pageid-en-resources-hardware-start) .reskin-hw-detail-btn:focus {
+  border-color: var(--reskin-primary);
+  color: var(--reskin-primary-dark);
+  background: var(--reskin-control-bg-hover);
+}
+
+[data-theme="dark"] :is(.reskin-pageid-cs-resources-hardware-start, .reskin-pageid-en-resources-hardware-start) .reskin-page table.inline {
+  border-color: #5c5248;
+  background: #1f1c19;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.32);
+}
+
+[data-theme="dark"] :is(.reskin-pageid-cs-resources-hardware-start, .reskin-pageid-en-resources-hardware-start) .reskin-page table.inline th {
+  background: #2b2723;
+  color: rgba(244, 241, 236, 0.78);
+}
+
+[data-theme="dark"] :is(.reskin-pageid-cs-resources-hardware-start, .reskin-pageid-en-resources-hardware-start) .reskin-page table.inline td {
+  border-top-color: #5c5248;
+  background: #1f1c19;
+}
+
+[data-theme="dark"] :is(.reskin-pageid-cs-resources-hardware-start, .reskin-pageid-en-resources-hardware-start) .reskin-page table.inline tr:nth-child(even) td {
+  background: #25211d;
+}
+
+[data-theme="dark"] :is(.reskin-pageid-cs-resources-hardware-start, .reskin-pageid-en-resources-hardware-start) .reskin-page table.inline tr:hover td {
+  background: #2e2923;
+}
+
+[data-theme="dark"] :is(.reskin-pageid-cs-resources-hardware-start, .reskin-pageid-en-resources-hardware-start) .reskin-page .table:nth-of-type(2) table.inline td:nth-child(1) {
+  color: rgba(244, 241, 236, 0.88);
+}
+
+.reskin-hw-drawer {
+  width: min(620px, 94vw);
+}
+
+.reskin-hw-drawer .offcanvas-header {
+  border-bottom: 1px solid var(--reskin-border);
+  background: var(--reskin-muted);
+}
+
+.reskin-hw-drawer .offcanvas-title {
+  font-weight: 600;
+  font-family: var(--reskin-font-mono);
+  font-size: 1.25rem;
+}
+
+.reskin-hw-drawer-image {
+  width: 100%;
+  height: auto;
+  max-height: min(62vh, 520px);
+  object-fit: contain;
+  border-radius: 0.68rem;
+  border: 1px solid var(--reskin-border);
+  background: var(--reskin-muted);
+  margin-bottom: 0.9rem;
+}
+
+.reskin-hw-drawer-table {
+  margin-bottom: 0;
+  border: 1px solid var(--reskin-border);
+}
+
+.reskin-hw-drawer-table th,
+.reskin-hw-drawer-table td {
+  padding: 0.48rem 0.56rem;
+  border-top: 1px solid var(--reskin-border);
+  vertical-align: top;
+  background: #ffffff;
+}
+
+.reskin-hw-drawer-table tr:first-child th,
+.reskin-hw-drawer-table tr:first-child td {
+  border-top: 0;
+}
+
+.reskin-hw-drawer-table th {
+  width: 34%;
+  color: rgba(28, 26, 23, 0.75);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-size: 0.78rem;
+  background: var(--reskin-muted);
+}
+
+.reskin-hw-drawer-table td {
+  color: var(--reskin-fg);
+}
+
+[data-theme="dark"] .reskin-hw-drawer .offcanvas-header {
+  border-bottom-color: #5c5248;
+  background: #2b2723;
+}
+
+[data-theme="dark"] .reskin-hw-drawer-image {
+  border-color: #6a5d51;
+}
+
+[data-theme="dark"] .reskin-hw-drawer-table {
+  border-color: #5c5248;
+}
+
+[data-theme="dark"] .reskin-hw-drawer-table th,
+[data-theme="dark"] .reskin-hw-drawer-table td {
+  border-top-color: #5c5248;
+}
+
+[data-theme="dark"] .reskin-hw-drawer-table th {
+  color: rgba(244, 241, 236, 0.78);
+  background: #2b2723;
+}
+
+[data-theme="dark"] .reskin-hw-drawer-table td {
+  color: rgba(244, 241, 236, 0.92);
+  background: #1f1c19;
+}
+
+@media (max-width: 760px) {
+  :is(.reskin-pageid-cs-resources-hardware-start, .reskin-pageid-en-resources-hardware-start) .reskin-page table.inline {
+    min-width: 620px;
+  }
+
+  :is(.reskin-pageid-cs-resources-hardware-start, .reskin-pageid-en-resources-hardware-start) .reskin-page table.inline th.reskin-hw-detail-head,
+  :is(.reskin-pageid-cs-resources-hardware-start, .reskin-pageid-en-resources-hardware-start) .reskin-page table.inline td.reskin-hw-detail-cell {
+    width: 82px;
+    min-width: 82px;
+  }
+}

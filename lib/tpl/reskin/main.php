@@ -13,10 +13,21 @@ reskin_i18n_handle_request();
 $reskinParsedId = reskin_i18n_parse_id();
 $reskinCurrentLang = $reskinParsedId['lang'];
 $reskinFallbackNotice = reskin_i18n_fallback_notice();
+$reskinVariant = reskin_variant_context();
+$reskinLayout = $reskinVariant['layout'];
+$reskinStyle = $reskinVariant['style'];
 
 $hasSidebar = reskin_i18n_resolve_fragment($conf['sidebar'])['found'];
 $showSidebar = $hasSidebar && ($ACT === 'show');
+$showSidebarAside = $showSidebar && ($reskinLayout === 'left');
+$showTopNavigation = $showSidebar && ($reskinLayout === 'top');
+$showSidebarMobileTrigger = $showSidebar && in_array($reskinLayout, ['left', 'top'], true);
+$showSidebarOffcanvas = $showSidebarMobileTrigger;
 $isStart = ($reskinParsedId['base'] === $conf['start']);
+$isHardwarePage = (preg_match('/^(cs|en):resources:hardware(?::start)?$/', (string) $ID) === 1);
+$reskinHardwareCatalogUrl = $isHardwarePage
+    ? (DOKU_BASE . 'lib/exe/fetch.php?media=' . rawurlencode('hardware:catalog.json'))
+    : '';
 $reskinPageIdClass = preg_replace('/[^a-z0-9_-]+/i', '-', strtolower((string) $ID));
 $reskinPageIdClass = trim((string) $reskinPageIdClass, '-');
 if ($reskinPageIdClass === '') {
@@ -29,8 +40,15 @@ $reskinPageIdClass = 'reskin-pageid-' . $reskinPageIdClass;
 <?php require __DIR__ . '/head.php'; ?>
 
 <body class="reskin-body">
-    <div id="dokuwiki__site" class="reskin-site <?php echo tpl_classes(); ?> <?php echo hsc($reskinPageIdClass); ?> <?php echo $showSidebar ? 'has-sidebar' : ''; ?>">
+    <div
+        id="dokuwiki__site"
+        class="reskin-site <?php echo tpl_classes(); ?> <?php echo hsc($reskinPageIdClass); ?> <?php echo $showSidebarAside ? 'has-sidebar' : ''; ?> <?php echo hsc('reskin-layout-' . $reskinLayout); ?> <?php echo hsc('reskin-style-' . $reskinStyle); ?>"
+        <?php if ($isHardwarePage) : ?>data-hw-catalog-url="<?php echo hsc($reskinHardwareCatalogUrl); ?>"<?php endif; ?>
+    >
         <?php require __DIR__ . '/header.php'; ?>
+        <?php if ($showTopNavigation) : ?>
+            <?php require __DIR__ . '/topnav.php'; ?>
+        <?php endif; ?>
 
         <main id="reskin-main" class="reskin-main">
             <?php if ($isStart && $ACT === 'show') : ?>
@@ -208,7 +226,7 @@ $reskinPageIdClass = 'reskin-pageid-' . $reskinPageIdClass;
                 <?php endif; ?>
             <?php endif; ?>
 
-            <?php if ($showSidebar) : ?>
+            <?php if ($showSidebarMobileTrigger) : ?>
                 <div class="d-lg-none reskin-sidebar-mobile">
                     <button
                         class="btn reskin-sidebar-fab"
@@ -226,7 +244,7 @@ $reskinPageIdClass = 'reskin-pageid-' . $reskinPageIdClass;
 
             <div class="container-xl reskin-content">
                 <div class="row g-4">
-                    <?php if ($showSidebar) : ?>
+                    <?php if ($showSidebarAside) : ?>
                         <aside class="col-lg-3 d-none d-lg-block">
                             <div class="reskin-sidebar sticky-top">
                                 <?php $reskinSidebarInstance = 'desktop'; ?>
@@ -235,7 +253,7 @@ $reskinPageIdClass = 'reskin-pageid-' . $reskinPageIdClass;
                         </aside>
                     <?php endif; ?>
 
-                    <div class="<?php echo $showSidebar ? 'col-12 col-lg-9' : 'col-12'; ?>">
+                    <div class="<?php echo $showSidebarAside ? 'col-12 col-lg-9' : 'col-12'; ?>">
                         <?php html_msgarea(); ?>
 
                         <?php if ($reskinFallbackNotice) : ?>
@@ -282,7 +300,7 @@ $reskinPageIdClass = 'reskin-pageid-' . $reskinPageIdClass;
     <div class="no"><?php tpl_indexerWebBug() ?></div>
     <div id="screen__mode" class="no"></div>
 
-    <?php if ($showSidebar) : ?>
+    <?php if ($showSidebarOffcanvas) : ?>
         <div class="offcanvas offcanvas-start reskin-offcanvas" tabindex="-1" id="reskinSidebar" aria-labelledby="reskinSidebarLabel">
             <div class="offcanvas-header">
                 <h5 class="offcanvas-title" id="reskinSidebarLabel"><?php echo hsc(reskin_i18n_t('navigation')); ?></h5>
@@ -305,10 +323,13 @@ $reskinPageIdClass = 'reskin-pageid-' . $reskinPageIdClass;
         'theme.js',
         'search.js',
     ];
+    if ($showTopNavigation) {
+        $reskinJsFiles[] = 'topnav-overflow.js';
+    }
     if ($isStart && $ACT === 'show') {
         $reskinJsFiles[] = 'story-slider.js';
     }
-    if (preg_match('/^(cs|en):resources:hardware(?::start)?$/', (string) $ID) === 1) {
+    if ($isHardwarePage) {
         $reskinJsFiles[] = 'hardware-drawer.js';
     }
     ?>

@@ -185,6 +185,7 @@
   border-radius: 0.9rem;
   overflow: hidden;
   background: #ffffff;
+  color: var(--reskin-fg);
   box-shadow: 0 10px 22px rgba(24, 14, 9, 0.05);
 }
 
@@ -205,6 +206,7 @@
   border-top: 1px solid var(--reskin-border);
   vertical-align: top;
   background: #ffffff;
+  color: var(--reskin-fg);
 }
 
 :is(.reskin-pageid-cs-resources-hardware-start, .reskin-pageid-en-resources-hardware-start) .reskin-page table.inline tr:nth-child(even) td {
@@ -268,6 +270,7 @@
 [data-theme="dark"] :is(.reskin-pageid-cs-resources-hardware-start, .reskin-pageid-en-resources-hardware-start) .reskin-page table.inline {
   border-color: #5c5248;
   background: #1f1c19;
+  color: rgba(244, 241, 236, 0.92);
   box-shadow: 0 12px 24px rgba(0, 0, 0, 0.32);
 }
 
@@ -279,6 +282,7 @@
 [data-theme="dark"] :is(.reskin-pageid-cs-resources-hardware-start, .reskin-pageid-en-resources-hardware-start) .reskin-page table.inline td {
   border-top-color: #5c5248;
   background: #1f1c19;
+  color: rgba(244, 241, 236, 0.92);
 }
 
 [data-theme="dark"] :is(.reskin-pageid-cs-resources-hardware-start, .reskin-pageid-en-resources-hardware-start) .reskin-page table.inline tr:nth-child(even) td {

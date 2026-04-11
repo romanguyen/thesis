@@ -356,6 +356,18 @@
   --reskin-content-width: min(1320px, 100%);
 }
 
+.reskin-layout-clean {
+  --reskin-content-width: min(1320px, 100%);
+}
+
+.reskin-layout-clean .reskin-main {
+  background: var(--reskin-bg);
+}
+
+.reskin-layout-clean .reskin-content {
+  padding-top: 1.5rem;
+}
+
 .reskin-layout-top .reskin-content {
   padding-top: 2rem;
 }

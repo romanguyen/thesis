@@ -12,6 +12,7 @@ $reskinTopParams = ['layout' => 'top'];
 if ($reskinTopStyle !== 'reskin') {
     $reskinTopParams['style'] = $reskinTopStyle;
 }
+$reskinCleanUrl = wl($ID, ['layout' => 'clean'], false, '&');
 $reskinLeftUrl = wl($ID, [], false, '&');
 $reskinTopUrl = wl($ID, $reskinTopParams, false, '&');
 ?>
@@ -96,6 +97,15 @@ $reskinTopUrl = wl($ID, $reskinTopParams, false, '&');
                         >
                             <i class="bi bi-menu-button-wide" aria-hidden="true"></i>
                             <span class="reskin-layout-label"><?php echo hsc(reskin_i18n_t('layout_top')); ?></span>
+                        </a>
+                        <a
+                            class="reskin-layout-btn<?php echo $reskinVariant['layout'] === 'clean' ? ' is-current' : ''; ?>"
+                            href="<?php echo hsc($reskinCleanUrl); ?>"
+                            title="<?php echo hsc(reskin_i18n_t('layout_clean_hint')); ?>"
+                            <?php if ($reskinVariant['layout'] === 'clean') echo 'aria-current="page"'; ?>
+                        >
+                            <i class="bi bi-border-all" aria-hidden="true"></i>
+                            <span class="reskin-layout-label"><?php echo hsc(reskin_i18n_t('layout_clean')); ?></span>
                         </a>
                     </div>
 

@@ -62,7 +62,7 @@ function reskin_variant_context(): array
     $layout = strtolower(trim((string) $INPUT->str('layout')));
     $style = strtolower(trim((string) $INPUT->str('style')));
 
-    if ($layout !== 'top') $layout = 'left';
+    if (!in_array($layout, ['left', 'top', 'clean'], true)) $layout = 'left';
     if ($style !== 'cesnet') $style = 'reskin';
 
     // keep the style variant tied to the top layout mode

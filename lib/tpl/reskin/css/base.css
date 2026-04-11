@@ -7,6 +7,10 @@
   --reskin-primary: #f0642c;
   --reskin-primary-dark: #a93a10;
   --reskin-primary-contrast: #ffffff;
+  --reskin-cesnet-blue: #0f3f78;
+  --reskin-cesnet-blue-soft: #1f5f9f;
+  --reskin-cesnet-blue-deep: #0a2b52;
+  --reskin-cesnet-ink: #153252;
   --reskin-accent: #ffdfcf;
   --reskin-shadow: 0 16px 48px rgba(25, 15, 10, 0.12);
   --reskin-control-height: 40px;
@@ -28,6 +32,10 @@
   --reskin-primary: #ff7a45;
   --reskin-primary-dark: #e76435;
   --reskin-primary-contrast: #1b140f;
+  --reskin-cesnet-blue: #5da5f1;
+  --reskin-cesnet-blue-soft: #82bcf8;
+  --reskin-cesnet-blue-deep: #204f86;
+  --reskin-cesnet-ink: #dcecff;
   --reskin-accent: #3a2418;
   --reskin-shadow: 0 16px 48px rgba(0, 0, 0, 0.4);
   --reskin-control-bg: rgba(255, 255, 255, 0.04);
@@ -52,6 +60,8 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 .reskin-body > .no,
@@ -452,6 +462,61 @@
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.65);
 }
 
+.reskin-layout-switcher {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.18rem;
+  padding: 2px;
+  height: var(--reskin-control-height);
+  border: 1px solid var(--reskin-control-border);
+  border-radius: var(--reskin-radius);
+  background: linear-gradient(180deg, #f8f2e9 0%, #f0e7dc 100%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.65);
+}
+
+.reskin-layout-btn {
+  height: calc(var(--reskin-control-height) - 6px);
+  padding: 0 0.55rem;
+  border-radius: var(--reskin-radius);
+  border: 1px solid transparent;
+  color: #59544d;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  text-decoration: none;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.reskin-layout-btn i {
+  font-size: 0.84rem;
+  line-height: 1;
+}
+
+.reskin-layout-btn:hover,
+.reskin-layout-btn:focus {
+  color: var(--reskin-primary-dark);
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.reskin-layout-btn.is-current {
+  color: var(--reskin-primary-contrast);
+  background: var(--reskin-primary);
+  border-color: rgba(169, 58, 16, 0.3);
+  box-shadow: 0 4px 12px rgba(201, 75, 26, 0.28);
+}
+
+.reskin-layout-btn.is-current:hover,
+.reskin-layout-btn.is-current:focus {
+  color: var(--reskin-primary-contrast);
+}
+
 .reskin-control-icon:hover,
 .reskin-control-icon:focus,
 .reskin-search-toggle:hover,
@@ -489,4 +554,25 @@
 [data-theme="dark"] .reskin-search-toggle,
 [data-theme="dark"] .reskin-search-close {
   box-shadow: none;
+}
+
+[data-theme="dark"] .reskin-layout-switcher {
+  background: linear-gradient(180deg, #23201d 0%, #1b1816 100%);
+  box-shadow: none;
+}
+
+[data-theme="dark"] .reskin-layout-btn {
+  color: var(--reskin-control-text);
+}
+
+[data-theme="dark"] .reskin-layout-btn:hover,
+[data-theme="dark"] .reskin-layout-btn:focus {
+  color: #ffd0b1;
+  background: rgba(255, 122, 69, 0.14);
+}
+
+[data-theme="dark"] .reskin-layout-btn.is-current {
+  color: var(--reskin-primary-contrast);
+  background: var(--reskin-primary);
+  border-color: rgba(255, 255, 255, 0.12);
 }

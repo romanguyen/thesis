@@ -66,6 +66,8 @@ global $conf, $ID;
         $id = $link->getAttribute('data-wiki-id');
         if (!$id) continue;
 
+        $link->setAttribute('href', wl($id, reskin_variant_url_params(), false, '&'));
+
         $linkBaseId = $normalizeId($id);
 
         if ($linkBaseId === $currentBaseId) {

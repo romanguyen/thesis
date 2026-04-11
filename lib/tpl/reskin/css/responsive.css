@@ -1,4 +1,14 @@
 @media (max-width: 991px) {
+  .reskin-topnav-list {
+    gap: 0.2rem;
+  }
+
+  .reskin-topnav-link {
+    min-height: 40px;
+    padding: 0.45rem 0.7rem;
+    font-size: 0.8rem;
+  }
+
   .reskin-header-actions {
     gap: 0.45rem !important;
   }
@@ -12,6 +22,10 @@
   .reskin-header-actions .reskin-nav-link {
     padding: 0 0.62rem;
     font-size: 0.73rem;
+  }
+
+  .reskin-layout-btn {
+    padding: 0 0.45rem;
   }
 
   .reskin-search form.search input.edit {
@@ -42,7 +56,68 @@
   }
 }
 
+@media (min-width: 768px) {
+  .reskin-layout-top .reskin-sidebar-mobile {
+    display: none !important;
+  }
+}
+
 @media (max-width: 767px) {
+  .reskin-layout-top .reskin-topnav {
+    display: none;
+  }
+
+  .reskin-topnav .navbar-collapse {
+    padding-bottom: 0.7rem;
+  }
+
+  .reskin-topnav-list {
+    flex-direction: column;
+    width: 100%;
+    padding: 0.35rem 0;
+  }
+
+  .reskin-topnav .nav-item {
+    width: 100%;
+  }
+
+  .reskin-topnav-link {
+    width: 100%;
+    justify-content: space-between;
+    font-size: 0.86rem;
+  }
+
+  .reskin-topnav-dropdown {
+    position: static !important;
+    border: 0;
+    border-radius: 0;
+    margin-top: 0;
+    padding: 0.15rem 0 0.55rem 0.65rem;
+    box-shadow: none;
+    background: transparent;
+    transform: none !important;
+  }
+
+  .reskin-topnav-subitem {
+    font-size: 0.84rem;
+    padding: 0.35rem 0.5rem;
+  }
+
+  .reskin-layout-top.reskin-style-cesnet .reskin-topnav-dropdown {
+    border-top: 1px solid var(--reskin-border);
+  }
+
+  .reskin-layout-top.reskin-style-cesnet .reskin-topnav-subitem {
+    color: var(--reskin-primary-dark);
+  }
+
+  .reskin-layout-top.reskin-style-cesnet .reskin-topnav-subitem:hover,
+  .reskin-layout-top.reskin-style-cesnet .reskin-topnav-subitem:focus,
+  .reskin-layout-top.reskin-style-cesnet .reskin-topnav-subitem.is-active {
+    background: rgba(240, 100, 44, 0.16);
+    color: var(--reskin-primary-dark);
+  }
+
   .reskin-header-actions {
     gap: 0.4rem !important;
   }
@@ -53,6 +128,16 @@
 
   .reskin-search {
     display: none;
+  }
+
+  .reskin-layout-label {
+    display: none;
+  }
+
+  .reskin-layout-btn {
+    min-width: 34px;
+    justify-content: center;
+    padding: 0;
   }
 
   .reskin-search-toggle {
@@ -149,6 +234,17 @@
 }
 
 @media (max-width: 575px) {
+  .reskin-topnav-toggler {
+    margin: 0.45rem 0;
+    padding: 0.42rem 0.6rem;
+    font-size: 0.73rem;
+  }
+
+  .reskin-topnav-link {
+    min-height: 38px;
+    font-size: 0.82rem;
+  }
+
   .reskin-header-actions {
     gap: 0.3rem !important;
   }
@@ -168,6 +264,15 @@
   .reskin-search-toggle,
   .reskin-theme-toggle {
     height: 36px;
+  }
+
+  .reskin-layout-switcher {
+    height: 36px;
+  }
+
+  .reskin-layout-btn {
+    height: 30px;
+    min-width: 30px;
   }
 
   .reskin-header-actions .reskin-nav-link {

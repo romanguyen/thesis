@@ -6,6 +6,14 @@ require_once __DIR__ . '/i18n.php';
 global $ID, $INPUT, $lang;
 
 $reskinLangTargets = reskin_i18n_language_targets();
+$reskinVariant = reskin_variant_context();
+$reskinTopStyle = ($reskinVariant['layout'] === 'top') ? $reskinVariant['style'] : 'cesnet';
+$reskinTopParams = ['layout' => 'top'];
+if ($reskinTopStyle !== 'reskin') {
+    $reskinTopParams['style'] = $reskinTopStyle;
+}
+$reskinLeftUrl = wl($ID, [], false, '&');
+$reskinTopUrl = wl($ID, $reskinTopParams, false, '&');
 ?>
 <header class="reskin-header">
     <a class="reskin-skip" href="#reskin-main"><?php echo hsc(reskin_i18n_t('skip_to_content')); ?></a>
@@ -39,7 +47,7 @@ $reskinLangTargets = reskin_i18n_language_targets();
                             <?php endforeach; ?>
                         </div>
                         <?php if ($INPUT->server->str('REMOTE_USER')) : ?>
-                            <a class="reskin-nav-link" href="<?php echo wl($ID, ['do' => 'logout', 'sectok' => getSecurityToken()], true, '&'); ?>">
+                            <a class="reskin-nav-link" href="<?php echo wl($ID, reskin_variant_url_params(['do' => 'logout', 'sectok' => getSecurityToken()]), true, '&'); ?>">
                                 <?php echo hsc($lang['btn_logout'] ?? 'Logout'); ?>
                             </a>
                         <?php endif; ?>
@@ -69,6 +77,27 @@ $reskinLangTargets = reskin_i18n_language_targets();
                         </span>
                         <span class="visually-hidden"><?php echo hsc(reskin_i18n_t('toggle_theme')); ?></span>
                     </button>
+
+                    <div class="reskin-layout-switcher" role="group" aria-label="<?php echo hsc(reskin_i18n_t('layout_switcher')); ?>">
+                        <a
+                            class="reskin-layout-btn<?php echo $reskinVariant['layout'] === 'left' ? ' is-current' : ''; ?>"
+                            href="<?php echo hsc($reskinLeftUrl); ?>"
+                            title="<?php echo hsc(reskin_i18n_t('layout_left_hint')); ?>"
+                            <?php if ($reskinVariant['layout'] === 'left') echo 'aria-current="page"'; ?>
+                        >
+                            <i class="bi bi-layout-sidebar" aria-hidden="true"></i>
+                            <span class="reskin-layout-label"><?php echo hsc(reskin_i18n_t('layout_left')); ?></span>
+                        </a>
+                        <a
+                            class="reskin-layout-btn<?php echo $reskinVariant['layout'] === 'top' ? ' is-current' : ''; ?>"
+                            href="<?php echo hsc($reskinTopUrl); ?>"
+                            title="<?php echo hsc(reskin_i18n_t('layout_top_hint')); ?>"
+                            <?php if ($reskinVariant['layout'] === 'top') echo 'aria-current="page"'; ?>
+                        >
+                            <i class="bi bi-menu-button-wide" aria-hidden="true"></i>
+                            <span class="reskin-layout-label"><?php echo hsc(reskin_i18n_t('layout_top')); ?></span>
+                        </a>
+                    </div>
 
                     <a class="reskin-nav-link d-none d-sm-inline-flex" href="https://www.cesnet.cz" target="_blank" rel="noopener">CESNET</a>
                 </div>

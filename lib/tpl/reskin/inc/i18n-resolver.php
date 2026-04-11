@@ -47,6 +47,59 @@ function reskin_i18n_current_lang(): string
 }
 
 /**
+ * Resolve visual variant from request
+ *
+ * @return array{layout:string,style:string}
+ */
+function reskin_variant_context(): array
+{
+    /** @var Input $INPUT */
+    global $INPUT;
+
+    static $variant;
+    if (is_array($variant)) return $variant;
+
+    $layout = strtolower(trim((string) $INPUT->str('layout')));
+    $style = strtolower(trim((string) $INPUT->str('style')));
+
+    if ($layout !== 'top') $layout = 'left';
+    if ($style !== 'cesnet') $style = 'reskin';
+
+    // keep the style variant tied to the top layout mode
+    if ($layout !== 'top') {
+        $style = 'reskin';
+    }
+
+    $variant = [
+        'layout' => $layout,
+        'style' => $style,
+    ];
+
+    return $variant;
+}
+
+/**
+ * Merge current layout/style variant params into URL params
+ *
+ * @param array $params
+ * @return array
+ */
+function reskin_variant_url_params(array $params = []): array
+{
+    $variant = reskin_variant_context();
+    $variantParams = [];
+
+    if ($variant['layout'] !== 'left') {
+        $variantParams['layout'] = $variant['layout'];
+    }
+    if ($variant['style'] !== 'reskin') {
+        $variantParams['style'] = $variant['style'];
+    }
+
+    return array_merge($variantParams, $params);
+}
+
+/**
  * @param string $base
  * @param string $lang
  * @return string
@@ -303,7 +356,7 @@ function reskin_i18n_link(string $base, array $params = [], bool $abs = false, ?
         reskin_i18n_log_missing($resolved['base'], $preferred, $resolved['lang'], 'link');
     }
 
-    return wl($resolved['id'], $params, $abs);
+    return wl($resolved['id'], reskin_variant_url_params($params), $abs, '&');
 }
 
 /**
@@ -368,7 +421,7 @@ function reskin_i18n_recent_headings(string $base, int $limit = 3, ?string $pref
 
         $items[] = [
             'title' => trim((string) preg_replace('/\s+/u', ' ', $title)),
-            'url' => wl($resolved['id']) . '#' . $anchor,
+            'url' => wl($resolved['id'], reskin_variant_url_params(), false, '&') . '#' . $anchor,
         ];
 
         if (count($items) >= $limit) break;
@@ -385,6 +438,7 @@ function reskin_i18n_language_targets(?string $id = null): array
 {
     $parsed = reskin_i18n_parse_id($id);
     $targets = [];
+    $variantParams = reskin_variant_url_params();
 
     foreach (RESKIN_I18N_LANGS as $lang => $label) {
         $resolved = reskin_i18n_resolve_exact($parsed['base'], $lang, true, true);
@@ -392,8 +446,8 @@ function reskin_i18n_language_targets(?string $id = null): array
 
         $targets[$lang] = [
             'label' => $label,
-            'url' => wl($resolved['id']),
-            'url_abs' => wl($resolved['id'], '', true),
+            'url' => wl($resolved['id'], $variantParams, false, '&'),
+            'url_abs' => wl($resolved['id'], $variantParams, true, '&'),
             'current' => $parsed['localized'] ? ($parsed['lang'] === $lang) : ($lang === RESKIN_I18N_PRIMARY_LANG),
             'available' => $available,
             'resolved_lang' => $resolved['lang'],
@@ -437,7 +491,7 @@ function reskin_i18n_handle_request(): void
     if (!$parsed['localized']) {
         $target = reskin_i18n_resolve_exact($parsed['base'], RESKIN_I18N_PRIMARY_LANG, true, true);
         if ($target['found'] && !$target['legacy'] && $target['id'] !== $ID) {
-            send_redirect(wl($target['id'], '', true, '&'), 302);
+            send_redirect(wl($target['id'], reskin_variant_url_params(), true, '&'), 302);
         }
         return;
     }
@@ -452,6 +506,6 @@ function reskin_i18n_handle_request(): void
             reskin_i18n_log_missing($parsed['base'], $parsed['lang'], $target['lang'], 'route');
         }
 
-        send_redirect(wl($target['id'], $params, true, '&'), 302);
+        send_redirect(wl($target['id'], reskin_variant_url_params($params), true, '&'), 302);
     }
 }

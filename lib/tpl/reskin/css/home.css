@@ -82,6 +82,11 @@
   padding: 1.5rem 0 0;
 }
 
+.reskin-updates--inline {
+  padding-top: 0.25rem;
+  padding-bottom: 0.4rem;
+}
+
 .reskin-update-card {
   height: 100%;
   background: #ffffff;
@@ -213,6 +218,17 @@
 .reskin-metrics {
   background: var(--reskin-muted);
   overflow: hidden;
+}
+
+.reskin-metrics--inline {
+  background: transparent;
+  overflow: visible;
+  padding-top: 0.35rem;
+}
+
+.reskin-metrics--inline::before,
+.reskin-metrics--inline::after {
+  display: none;
 }
 
 .reskin-metrics::before {
@@ -386,6 +402,12 @@
   background: var(--reskin-bg);
   padding-top: 2.4rem;
   padding-bottom: 1.3rem;
+}
+
+.reskin-stories--inline {
+  background: transparent;
+  padding-top: 1.35rem;
+  padding-bottom: 0.55rem;
 }
 
 .reskin-stories + .reskin-sidebar-mobile + .reskin-content,

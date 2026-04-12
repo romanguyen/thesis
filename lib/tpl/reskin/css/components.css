@@ -299,6 +299,7 @@
 
 .reskin-hw-drawer {
   width: min(620px, 94vw);
+  color: var(--reskin-fg);
 }
 
 .reskin-hw-drawer .offcanvas-header {
@@ -310,6 +311,7 @@
   font-weight: 600;
   font-family: var(--reskin-font-mono);
   font-size: 1.25rem;
+  color: var(--reskin-fg);
 }
 
 .reskin-hw-drawer-image {
@@ -358,6 +360,16 @@
 [data-theme="dark"] .reskin-hw-drawer .offcanvas-header {
   border-bottom-color: #5c5248;
   background: #2b2723;
+}
+
+[data-theme="dark"] .reskin-hw-drawer .btn-close {
+  filter: invert(1) grayscale(100%);
+  opacity: 0.82;
+}
+
+[data-theme="dark"] .reskin-hw-drawer .btn-close:hover,
+[data-theme="dark"] .reskin-hw-drawer .btn-close:focus {
+  opacity: 1;
 }
 
 [data-theme="dark"] .reskin-hw-drawer-image {

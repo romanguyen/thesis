@@ -114,6 +114,14 @@ $buildMenuItems = function (DOMElement $list, int $depth = 0) use (&$buildMenuIt
 
 $topItems = $buildMenuItems($menuRoot, 0);
 if (empty($topItems)) return;
+
+$hasTopLevelCurrent = false;
+foreach ($topItems as $topItem) {
+    if (!empty($topItem['is_current'])) {
+        $hasTopLevelCurrent = true;
+        break;
+    }
+}
 ?>
 <nav class="reskin-topnav navbar navbar-expand-md" data-topnav-overflow aria-label="<?php echo hsc(reskin_i18n_t('navigation')); ?>">
     <div class="container-xl">
@@ -135,7 +143,7 @@ if (empty($topItems)) return;
                 <?php foreach ($topItems as $idx => $item) : ?>
                     <?php
                     $hasChildren = !empty($item['children']);
-                    $isActive = $item['is_current'] || $item['is_parent'];
+                    $isActive = $item['is_current'] || (!$hasTopLevelCurrent && $item['is_parent']);
                     $itemClasses = 'nav-link reskin-topnav-link';
                     if ($isActive) $itemClasses .= ' is-active';
                     ?>

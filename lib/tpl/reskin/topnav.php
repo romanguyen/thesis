@@ -116,12 +116,21 @@ $topItems = $buildMenuItems($menuRoot, 0);
 if (empty($topItems)) return;
 
 $hasTopLevelCurrent = false;
-foreach ($topItems as $topItem) {
-    if (!empty($topItem['is_current'])) {
+foreach ($topItems as &$topItem) {
+    $topItem['is_current_child'] = false;
+    if (!empty($topItem['children'])) {
+        foreach ($topItem['children'] as $child) {
+            if (!empty($child['is_current'])) {
+                $topItem['is_current_child'] = true;
+                break;
+            }
+        }
+    }
+    if (!empty($topItem['is_current']) || !empty($topItem['is_current_child'])) {
         $hasTopLevelCurrent = true;
-        break;
     }
 }
+unset($topItem);
 ?>
 <nav class="reskin-topnav navbar navbar-expand-md" data-topnav-overflow aria-label="<?php echo hsc(reskin_i18n_t('navigation')); ?>">
     <div class="container-xl">
@@ -143,7 +152,10 @@ foreach ($topItems as $topItem) {
                 <?php foreach ($topItems as $idx => $item) : ?>
                     <?php
                     $hasChildren = !empty($item['children']);
-                    $isActive = $item['is_current'] || (!$hasTopLevelCurrent && $item['is_parent']);
+                    $isActive = $item['is_current'] || $item['is_current_child'];
+                    if (!$hasTopLevelCurrent && $item['is_parent']) {
+                        $isActive = true;
+                    }
                     $itemClasses = 'nav-link reskin-topnav-link';
                     if ($isActive) $itemClasses .= ' is-active';
                     ?>

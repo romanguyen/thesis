@@ -6,6 +6,8 @@ Vizual je inspirovany sluzbami CESNETu, ale obsah zustava MetaCentrum.
 ===== Demo odkazy =====
 
   * [[cs:resources:hardware:start?layout=top&style=cesnet|Hardware stranka s horni navigaci (CESNET-inspired)]]
+  * [[cs:variants:news?layout=left|Samostatna stranka novinek (prehled + archiv)]]
+  * [[cs:variants:it4i-elements?layout=clean|Samostatna stranka IT4I prvku (cisty layout)]]
   * [[cs:news:start?layout=left&style=reskin|Stranka novinek s puvodni variantou leveho menu]]
   * [[cs:start?layout=left&style=reskin|Uvodni stranka s puvodni cistou/content variantou]]
 

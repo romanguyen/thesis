@@ -103,21 +103,6 @@
     padding: 0.35rem 0.5rem;
   }
 
-  .reskin-layout-top.reskin-style-cesnet .reskin-topnav-dropdown {
-    border-top: 1px solid var(--reskin-border);
-  }
-
-  .reskin-layout-top.reskin-style-cesnet .reskin-topnav-subitem {
-    color: var(--reskin-primary-dark);
-  }
-
-  .reskin-layout-top.reskin-style-cesnet .reskin-topnav-subitem:hover,
-  .reskin-layout-top.reskin-style-cesnet .reskin-topnav-subitem:focus,
-  .reskin-layout-top.reskin-style-cesnet .reskin-topnav-subitem.is-active {
-    background: rgba(240, 100, 44, 0.16);
-    color: var(--reskin-primary-dark);
-  }
-
   .reskin-header-actions {
     gap: 0.4rem !important;
   }

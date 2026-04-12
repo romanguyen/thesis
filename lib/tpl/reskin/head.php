@@ -29,7 +29,7 @@ $reskinLangTargets = reskin_i18n_language_targets();
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;600&family=Source+Sans+3:wght@400;500;600;700&family=Open+Sans:wght@400;500;600;700&display=swap"
         rel="stylesheet"
     />
 
@@ -55,6 +55,10 @@ $reskinLangTargets = reskin_i18n_language_targets();
         'layout.css',
         'responsive.css',
     ];
+    $reskinVariant = reskin_variant_context();
+    if ($reskinVariant['layout'] === 'top' && $reskinVariant['style'] === 'cesnet') {
+        $reskinCssFiles[] = 'top-cesnet.css';
+    }
     $reskinCssVersion = 1;
     foreach ($reskinCssFiles as $reskinCssFile) {
         $mtime = @filemtime(__DIR__ . '/css/' . $reskinCssFile);
@@ -64,6 +68,9 @@ $reskinLangTargets = reskin_i18n_language_targets();
     }
     ?>
     <link rel="stylesheet" href="<?php echo tpl_basedir(); ?>css/reskin.css?v=<?php echo $reskinCssVersion ?: '1'; ?>" />
+    <?php if ($reskinVariant['layout'] === 'top' && $reskinVariant['style'] === 'cesnet') : ?>
+        <link rel="stylesheet" href="<?php echo tpl_basedir(); ?>css/top-cesnet.css?v=<?php echo $reskinCssVersion ?: '1'; ?>" />
+    <?php endif; ?>
     <script>
       (function() {
         var host = window.location.hostname;

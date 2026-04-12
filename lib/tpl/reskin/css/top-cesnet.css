@@ -1,0 +1,580 @@
+.reskin-layout-top.reskin-style-cesnet {
+  --reskin-primary: #ff6600;
+  --reskin-primary-dark: #e65c00;
+  --reskin-primary-contrast: #ffffff;
+  --reskin-bg: #ffffff;
+  --reskin-muted: #f8f9fa;
+  --reskin-fg: #333333;
+  --reskin-border: #dee2e6;
+  --reskin-control-bg: #ffffff;
+  --reskin-control-bg-hover: #f8f9fa;
+  --reskin-control-border: #ced4da;
+  --reskin-control-text: #495057;
+  --reskin-radius: 4px;
+  --reskin-shadow: 0 1px 3px rgba(0, 0, 0, 0.08), 0 4px 12px rgba(0, 0, 0, 0.05);
+  --reskin-top-accent: #ff6600;
+  --reskin-font-sans: "Open Sans", "Source Sans 3", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-family: var(--reskin-font-sans);
+}
+
+.reskin-layout-top.reskin-style-cesnet,
+.reskin-layout-top.reskin-style-cesnet .reskin-topnav-link,
+.reskin-layout-top.reskin-style-cesnet h1,
+.reskin-layout-top.reskin-style-cesnet h2,
+.reskin-layout-top.reskin-style-cesnet h3,
+.reskin-layout-top.reskin-style-cesnet h4,
+.reskin-layout-top.reskin-style-cesnet h5,
+.reskin-layout-top.reskin-style-cesnet h6,
+.reskin-layout-top.reskin-style-cesnet .reskin-update-title,
+.reskin-layout-top.reskin-style-cesnet .reskin-story-title,
+.reskin-layout-top.reskin-style-cesnet .reskin-metric-link-title,
+.reskin-layout-top.reskin-style-cesnet .reskin-metric-hex-label,
+.reskin-layout-top.reskin-style-cesnet input,
+.reskin-layout-top.reskin-style-cesnet button,
+.reskin-layout-top.reskin-style-cesnet a {
+  font-family: var(--reskin-font-sans) !important;
+}
+
+.reskin-layout-top.reskin-style-cesnet .reskin-main {
+  background: #ffffff;
+  padding-bottom: 1.5rem;
+}
+
+.reskin-layout-top.reskin-style-cesnet .reskin-content {
+  padding-top: 3rem;
+}
+
+.reskin-layout-top.reskin-style-cesnet .reskin-page {
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  padding: 0;
+}
+
+.reskin-layout-top.reskin-style-cesnet .reskin-page-info {
+  border: none;
+  border-top: 1px solid var(--reskin-border);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  margin-top: 3rem;
+  padding: 1rem 0;
+}
+
+.reskin-layout-top.reskin-style-cesnet .reskin-pagetools {
+  border: none;
+  border-top: 1px solid var(--reskin-border);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  margin-top: 0;
+  padding: 1.25rem 0;
+}
+
+.reskin-layout-top.reskin-style-cesnet .reskin-header-bar {
+  background: #ffffff;
+  border-top: 4px solid var(--reskin-primary);
+  border-bottom: 1px solid var(--reskin-border);
+  padding: 0.5rem 0;
+}
+
+.reskin-layout-top.reskin-style-cesnet .reskin-lang-switcher {
+  border: 1px solid var(--reskin-control-border);
+  border-radius: var(--reskin-radius);
+  overflow: hidden;
+  box-shadow: none;
+}
+
+.reskin-layout-top.reskin-style-cesnet .reskin-lang-btn {
+  color: var(--reskin-fg);
+  border-right: 1px solid var(--reskin-control-border);
+  background: transparent;
+  font-weight: 700;
+  transition: all 0.2s ease;
+}
+
+.reskin-layout-top.reskin-style-cesnet .reskin-lang-btn:hover,
+.reskin-layout-top.reskin-style-cesnet .reskin-lang-btn:focus {
+  color: var(--reskin-primary);
+  background: var(--reskin-muted);
+}
+
+.reskin-layout-top.reskin-style-cesnet .reskin-lang-btn.is-current {
+  background: var(--reskin-primary);
+  color: var(--reskin-primary-contrast);
+  border-right-color: var(--reskin-primary);
+}
+
+.reskin-layout-top.reskin-style-cesnet .reskin-header-actions .reskin-nav-link,
+.reskin-layout-top.reskin-style-cesnet .reskin-search form.search,
+.reskin-layout-top.reskin-style-cesnet .reskin-theme-toggle,
+.reskin-layout-top.reskin-style-cesnet .reskin-search-toggle,
+.reskin-layout-top.reskin-style-cesnet .reskin-layout-switcher {
+  box-shadow: none;
+}
+
+.reskin-layout-top.reskin-style-cesnet .reskin-layout-switcher {
+  background: var(--reskin-muted);
+  border: 1px solid var(--reskin-control-border);
+  padding: 2px;
+}
+
+.reskin-layout-top.reskin-style-cesnet .reskin-layout-btn {
+  color: var(--reskin-control-text);
+  border-radius: var(--reskin-radius);
+  transition: all 0.2s ease;
+}
+
+.reskin-layout-top.reskin-style-cesnet .reskin-layout-btn:hover,
+.reskin-layout-top.reskin-style-cesnet .reskin-layout-btn:focus {
+  color: var(--reskin-primary);
+  background: #ffffff;
+}
+
+.reskin-layout-top.reskin-style-cesnet .reskin-layout-btn.is-current {
+  color: var(--reskin-primary-contrast);
+  background: var(--reskin-primary);
+  border-color: var(--reskin-primary);
+  box-shadow: 0 2px 4px rgba(255, 102, 0, 0.2);
+}
+
+.reskin-layout-top.reskin-style-cesnet .reskin-topnav {
+  background: #ffffff;
+  border-bottom: 1px solid var(--reskin-border);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+  padding: 0;
+}
+
+.reskin-layout-top.reskin-style-cesnet .reskin-topnav-list {
+  justify-content: flex-start;
+  gap: 1.5rem;
+  padding: 0;
+}
+
+.reskin-layout-top.reskin-style-cesnet .reskin-topnav-toggler {
+  border-color: var(--reskin-control-border);
+  color: var(--reskin-fg);
+  background: var(--reskin-control-bg);
+}
+
+.reskin-layout-top.reskin-style-cesnet .reskin-topnav-link {
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-transform: none;
+  letter-spacing: 0.02em;
+  color: #555555;
+  border: none !important;
+  border-radius: 0;
+  padding: 1.1rem 0;
+  position: relative;
+  transition: color 0.2s ease;
+}
+
+.reskin-layout-top.reskin-style-cesnet .reskin-topnav-link::before {
+  content: "";
+  position: absolute;
+  bottom: 8px;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: transparent;
+  transition: background 0.2s ease;
+}
+
+.reskin-layout-top.reskin-style-cesnet .reskin-topnav .nav-item.is-active > .reskin-topnav-link,
+.reskin-layout-top.reskin-style-cesnet .reskin-topnav-link.is-active,
+.reskin-layout-top.reskin-style-cesnet .reskin-topnav-link:hover,
+.reskin-layout-top.reskin-style-cesnet .reskin-topnav-link:focus-visible {
+  color: var(--reskin-primary);
+  background: transparent;
+  border: none !important;
+}
+
+.reskin-layout-top.reskin-style-cesnet .reskin-topnav .nav-item.is-active > .reskin-topnav-link::before,
+.reskin-layout-top.reskin-style-cesnet .reskin-topnav-link.is-active::before,
+.reskin-layout-top.reskin-style-cesnet .reskin-topnav-link:hover::before,
+.reskin-layout-top.reskin-style-cesnet .reskin-topnav-link:focus-visible::before {
+  background: var(--reskin-primary);
+}
+
+.reskin-layout-top.reskin-style-cesnet .reskin-topnav-dropdown {
+  border: 1px solid var(--reskin-border);
+  border-top: 3px solid var(--reskin-primary);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  border-radius: 0 0 var(--reskin-radius) var(--reskin-radius);
+  margin-top: -1px;
+}
+
+.reskin-layout-top.reskin-style-cesnet .reskin-topnav-subitem {
+  color: var(--reskin-fg);
+  padding: 0.6rem 1.25rem;
+  font-weight: 500;
+}
+
+.reskin-layout-top.reskin-style-cesnet .reskin-topnav-subitem:hover,
+.reskin-layout-top.reskin-style-cesnet .reskin-topnav-subitem:focus,
+.reskin-layout-top.reskin-style-cesnet .reskin-topnav-subitem.is-active {
+  color: var(--reskin-primary);
+  background: #fff5ee;
+}
+
+.reskin-layout-top.reskin-style-cesnet .reskin-hero {
+  background: #ffffff;
+  border-bottom: 1px solid var(--reskin-border);
+  padding: 4rem 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.reskin-layout-top.reskin-style-cesnet .reskin-hero::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 30%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 102, 0, 0.03));
+  pointer-events: none;
+}
+
+.reskin-layout-top.reskin-style-cesnet .reskin-hero-card {
+  border-radius: 8px;
+  border: 1px solid var(--reskin-border);
+  box-shadow: var(--reskin-shadow);
+  overflow: hidden;
+}
+
+.reskin-layout-top.reskin-style-cesnet .reskin-updates,
+.reskin-layout-top.reskin-style-cesnet .reskin-metrics,
+.reskin-layout-top.reskin-style-cesnet .reskin-stories {
+  background: transparent;
+  padding: 3rem 0;
+}
+
+.reskin-layout-top.reskin-style-cesnet .reskin-update-card,
+.reskin-layout-top.reskin-style-cesnet .reskin-metric-link,
+.reskin-layout-top.reskin-style-cesnet .reskin-metric-hex,
+.reskin-layout-top.reskin-style-cesnet .reskin-story-card {
+  border: 1px solid var(--reskin-border);
+  border-radius: 8px;
+  background: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.reskin-layout-top.reskin-style-cesnet .reskin-update-card::before {
+  background: var(--reskin-primary);
+  height: 4px;
+  border-radius: 4px 4px 0 0;
+}
+
+.reskin-layout-top.reskin-style-cesnet .reskin-update-list a {
+  background: var(--reskin-muted);
+  border: 1px solid transparent;
+  border-radius: var(--reskin-radius);
+  transition: all 0.2s ease;
+}
+
+.reskin-layout-top.reskin-style-cesnet .reskin-update-list a:hover,
+.reskin-layout-top.reskin-style-cesnet .reskin-update-list a:focus {
+  background: #ffffff;
+  border-color: var(--reskin-primary);
+  color: var(--reskin-primary);
+}
+
+.reskin-layout-top.reskin-style-cesnet .reskin-metrics::before {
+  display: none;
+}
+
+.reskin-layout-top.reskin-style-cesnet .reskin-metrics::after {
+  background: #e9ecef;
+}
+
+.reskin-layout-top.reskin-style-cesnet .reskin-story-card:hover,
+.reskin-layout-top.reskin-style-cesnet .reskin-story-card:focus,
+.reskin-layout-top.reskin-style-cesnet .reskin-metric-link:hover,
+.reskin-layout-top.reskin-style-cesnet .reskin-metric-link:focus {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+}
+
+.reskin-layout-top.reskin-style-cesnet .reskin-hero-image,
+.reskin-layout-top.reskin-style-cesnet .reskin-story-image {
+  border-radius: 6px 6px 0 0;
+}
+
+.reskin-layout-top.reskin-style-cesnet .reskin-brand-logo {
+  height: 48px;
+  width: auto;
+}
+
+.reskin-layout-top.reskin-style-cesnet .reskin-footer {
+  background: #222222;
+  border-top: 4px solid var(--reskin-primary);
+  color: #dddddd;
+  padding: 3rem 0 2rem;
+}
+
+.reskin-layout-top.reskin-style-cesnet .reskin-footer-title {
+  color: #ffffff;
+  text-transform: none;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  margin-bottom: 1rem;
+}
+
+.reskin-layout-top.reskin-style-cesnet .reskin-footer a {
+  color: #bbbbbb;
+  transition: color 0.2s ease;
+}
+
+.reskin-layout-top.reskin-style-cesnet .reskin-footer a:hover {
+  color: var(--reskin-primary);
+  text-decoration: none;
+}
+
+.reskin-layout-top.reskin-style-cesnet .reskin-footer-bottom {
+  border-top: 1px solid #333333;
+  padding-top: 2rem;
+  margin-top: 3rem;
+  color: #888888;
+  font-size: 0.85rem;
+}
+
+/* Dark Mode Overrides */
+[data-theme="dark"] .reskin-layout-top.reskin-style-cesnet {
+  --reskin-primary: #ff8533;
+  --reskin-primary-dark: #ffad70;
+  --reskin-bg: #1a1a1a;
+  --reskin-muted: #262626;
+  --reskin-fg: #e0e0e0;
+  --reskin-border: #333333;
+  --reskin-control-bg: #2d2d2d;
+  --reskin-control-bg-hover: #363636;
+  --reskin-control-border: #444444;
+  --reskin-control-text: #cccccc;
+  --reskin-font-sans: "Open Sans", "Source Sans 3", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+[data-theme="dark"] .reskin-layout-top.reskin-style-cesnet .reskin-main {
+  background: #121212;
+}
+
+[data-theme="dark"] .reskin-layout-top.reskin-style-cesnet .reskin-header-bar,
+[data-theme="dark"] .reskin-layout-top.reskin-style-cesnet .reskin-topnav,
+[data-theme="dark"] .reskin-layout-top.reskin-style-cesnet .reskin-hero {
+  background: #1a1a1a;
+  border-color: #333333;
+}
+
+[data-theme="dark"] .reskin-layout-top.reskin-style-cesnet .reskin-topnav-link {
+  color: #ffffff;
+}
+
+[data-theme="dark"] .reskin-layout-top.reskin-style-cesnet .reskin-topnav .nav-item.is-active > .reskin-topnav-link,
+[data-theme="dark"] .reskin-layout-top.reskin-style-cesnet .reskin-topnav-link.is-active,
+[data-theme="dark"] .reskin-layout-top.reskin-style-cesnet .reskin-topnav-link:hover {
+  color: var(--reskin-primary);
+}
+
+[data-theme="dark"] .reskin-layout-top.reskin-style-cesnet .reskin-layout-btn:hover,
+[data-theme="dark"] .reskin-layout-top.reskin-style-cesnet .reskin-layout-btn:focus,
+[data-theme="dark"] .reskin-layout-top.reskin-style-cesnet .reskin-lang-btn:hover,
+[data-theme="dark"] .reskin-layout-top.reskin-style-cesnet .reskin-lang-btn:focus,
+[data-theme="dark"] .reskin-layout-top.reskin-style-cesnet .reskin-nav-link:hover {
+  background: var(--reskin-control-bg-hover) !important;
+  color: var(--reskin-primary) !important;
+}
+
+[data-theme="dark"] .reskin-layout-top.reskin-style-cesnet .reskin-update-card,
+[data-theme="dark"] .reskin-layout-top.reskin-style-cesnet .reskin-metric-link,
+[data-theme="dark"] .reskin-layout-top.reskin-style-cesnet .reskin-metric-hex,
+[data-theme="dark"] .reskin-layout-top.reskin-style-cesnet .reskin-story-card {
+  background: #1e1e1e;
+  border-color: #333333;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .reskin-layout-top.reskin-style-cesnet .reskin-page,
+[data-theme="dark"] .reskin-layout-top.reskin-style-cesnet .reskin-page-info,
+[data-theme="dark"] .reskin-layout-top.reskin-style-cesnet .reskin-pagetools {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+[data-theme="dark"] .reskin-layout-top.reskin-style-cesnet .reskin-update-list a {
+  background: #2a2a2a;
+}
+
+[data-theme="dark"] .reskin-layout-top.reskin-style-cesnet .reskin-metrics::after {
+  background: transparent;
+}
+
+[data-theme="dark"] .reskin-layout-top.reskin-style-cesnet .reskin-page #dw__toc {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+[data-theme="dark"] .reskin-layout-top.reskin-style-cesnet .reskin-page #dw__toc .dw__tocheader {
+  background: transparent;
+  border: none;
+}
+
+/* News (Novinky) Variant Styles */
+.reskin-layout-top.reskin-style-cesnet:is(.reskin-pageid-cs-variants-news, .reskin-pageid-en-variants-news) .reskin-page .section_highlight_wrapper > h2:not(#archiv_novinek):not(#news_archive) {
+  background: #ffffff !important;
+  border: 1px solid var(--reskin-border) !important;
+  border-bottom: none !important;
+  border-radius: 4px 4px 0 0 !important;
+  padding: 1.25rem 1.5rem 0.75rem !important;
+  margin-top: 1.5rem !important;
+  color: var(--reskin-fg) !important;
+  position: relative !important;
+}
+
+.reskin-layout-top.reskin-style-cesnet:is(.reskin-pageid-cs-variants-news, .reskin-pageid-en-variants-news) .reskin-page .section_highlight_wrapper > h2:not(#archiv_novinek):not(#news_archive)::before {
+  content: "" !important;
+  position: absolute !important;
+  top: -1px !important;
+  left: -1px !important;
+  right: -1px !important;
+  height: 4px !important;
+  background: var(--reskin-primary) !important;
+  border-radius: 4px 4px 0 0 !important;
+}
+
+.reskin-layout-top.reskin-style-cesnet:is(.reskin-pageid-cs-variants-news, .reskin-pageid-en-variants-news) .reskin-page .section_highlight_wrapper > h2:not(#archiv_novinek):not(#news_archive) + .level2 {
+  background: #ffffff !important;
+  border: 1px solid var(--reskin-border) !important;
+  border-top: none !important;
+  border-radius: 0 0 4px 4px !important;
+  padding: 0.5rem 1.5rem 1.25rem !important;
+  margin-bottom: 1.5rem !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04) !important;
+}
+
+.reskin-layout-top.reskin-style-cesnet:is(.reskin-pageid-cs-variants-news, .reskin-pageid-en-variants-news) .reskin-page .section_highlight_wrapper > h2:not(#archiv_novinek):not(#news_archive) + .level2 p:last-child {
+  border-top: 1px solid var(--reskin-border) !important;
+  padding-top: 1rem !important;
+}
+
+[data-theme="dark"] .reskin-layout-top.reskin-style-cesnet:is(.reskin-pageid-cs-variants-news, .reskin-pageid-en-variants-news) .reskin-page .section_highlight_wrapper > h2:not(#archiv_novinek):not(#news_archive),
+[data-theme="dark"] .reskin-layout-top.reskin-style-cesnet:is(.reskin-pageid-cs-variants-news, .reskin-pageid-en-variants-news) .reskin-page .section_highlight_wrapper > h2:not(#archiv_novinek):not(#news_archive) + .level2 {
+  background: #1e1e1e !important;
+  border-color: #333333 !important;
+}
+
+/* Outages (Odstávky) Variant Styles */
+.reskin-layout-top.reskin-style-cesnet:is(.reskin-pageid-cs-outages-start, .reskin-pageid-en-outages-start) .reskin-page .section_highlight_wrapper > h2 {
+  background: #ffffff !important;
+  border: 1px solid var(--reskin-border) !important;
+  border-bottom: none !important;
+  border-radius: 4px 4px 0 0 !important;
+  padding: 1.25rem 1.5rem 0.75rem !important;
+  margin-top: 1.5rem !important;
+  color: var(--reskin-fg) !important;
+  position: relative !important;
+}
+
+.reskin-layout-top.reskin-style-cesnet:is(.reskin-pageid-cs-outages-start, .reskin-pageid-en-outages-start) .reskin-page .section_highlight_wrapper > h2::before {
+  content: "" !important;
+  position: absolute !important;
+  top: -1px !important;
+  left: -1px !important;
+  right: -1px !important;
+  height: 4px !important;
+  background: var(--reskin-primary) !important;
+  border-radius: 4px 4px 0 0 !important;
+}
+
+.reskin-layout-top.reskin-style-cesnet:is(.reskin-pageid-cs-outages-start, .reskin-pageid-en-outages-start) .reskin-page .section_highlight_wrapper > h2 + .level2 {
+  background: #ffffff !important;
+  border: 1px solid var(--reskin-border) !important;
+  border-top: none !important;
+  border-radius: 0 0 4px 4px !important;
+  padding: 0.5rem 1.5rem 1.25rem !important;
+  margin-bottom: 1.5rem !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04) !important;
+}
+
+[data-theme="dark"] .reskin-layout-top.reskin-style-cesnet:is(.reskin-pageid-cs-outages-start, .reskin-pageid-en-outages-start) .reskin-page .section_highlight_wrapper > h2,
+[data-theme="dark"] .reskin-layout-top.reskin-style-cesnet:is(.reskin-pageid-cs-outages-start, .reskin-pageid-en-outages-start) .reskin-page .section_highlight_wrapper > h2 + .level2 {
+  background: #1e1e1e !important;
+  border-color: #333333 !important;
+}
+
+/* Hardware Page Styles */
+.reskin-layout-top.reskin-style-cesnet:is(.reskin-pageid-cs-resources-hardware-start, .reskin-pageid-en-resources-hardware-start) .reskin-page table.inline {
+  border: 1px solid var(--reskin-border) !important;
+  border-radius: 4px !important;
+  overflow: hidden !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04) !important;
+}
+
+.reskin-layout-top.reskin-style-cesnet:is(.reskin-pageid-cs-resources-hardware-start, .reskin-pageid-en-resources-hardware-start) .reskin-page table.inline th {
+  background: var(--reskin-muted) !important;
+  color: var(--reskin-fg) !important;
+  font-weight: 700 !important;
+  text-transform: none !important;
+  font-size: 0.9rem !important;
+  letter-spacing: 0.02em !important;
+  padding: 1rem !important;
+  border-bottom: 2px solid var(--reskin-border) !important;
+}
+
+.reskin-layout-top.reskin-style-cesnet:is(.reskin-pageid-cs-resources-hardware-start, .reskin-pageid-en-resources-hardware-start) .reskin-page table.inline td {
+  padding: 1rem !important;
+  background: #ffffff !important;
+  border-bottom: 1px solid var(--reskin-border) !important;
+}
+
+.reskin-layout-top.reskin-style-cesnet:is(.reskin-pageid-cs-resources-hardware-start, .reskin-pageid-en-resources-hardware-start) .reskin-page table.inline tr:last-child td {
+  border-bottom: none !important;
+}
+
+.reskin-layout-top.reskin-style-cesnet:is(.reskin-pageid-cs-resources-hardware-start, .reskin-pageid-en-resources-hardware-start) .reskin-hw-detail-btn {
+  background: var(--reskin-primary) !important;
+  color: #ffffff !important;
+  border-radius: 4px !important;
+  font-weight: 600 !important;
+  padding: 0.4rem 0.8rem !important;
+  transition: all 0.2s ease !important;
+  white-space: nowrap !important;
+}
+
+.reskin-layout-top.reskin-style-cesnet:is(.reskin-pageid-cs-resources-hardware-start, .reskin-pageid-en-resources-hardware-start) .reskin-hw-detail-btn:hover {
+  background: var(--reskin-primary-dark) !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 4px 8px rgba(255, 102, 0, 0.2) !important;
+}
+
+[data-theme="dark"] .reskin-layout-top.reskin-style-cesnet:is(.reskin-pageid-cs-resources-hardware-start, .reskin-pageid-en-resources-hardware-start) .reskin-page table.inline td {
+  background: #1e1e1e !important;
+}
+
+[data-theme="dark"] .reskin-layout-top.reskin-style-cesnet:is(.reskin-pageid-cs-resources-hardware-start, .reskin-pageid-en-resources-hardware-start) .reskin-page table.inline th {
+  background: #2a2a2a !important;
+}
+
+@media (max-width: 767px) {
+  .reskin-layout-top.reskin-style-cesnet .reskin-topnav-list {
+    gap: 0;
+    padding: 0.5rem 0;
+  }
+
+  .reskin-layout-top.reskin-style-cesnet .reskin-topnav-link {
+    padding: 0.75rem 1rem;
+    border-bottom: none;
+    border-left: 3px solid transparent;
+  }
+
+  .reskin-layout-top.reskin-style-cesnet .reskin-topnav .nav-item.is-active > .reskin-topnav-link,
+  .reskin-layout-top.reskin-style-cesnet .reskin-topnav-link.is-active {
+    border-left-color: var(--reskin-primary);
+    background: #fff5ee;
+  }
+}

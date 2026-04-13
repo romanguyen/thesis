@@ -14,5 +14,6 @@ const RESKIN_I18N_EXCLUDED_ROOTS = [
 ];
 
 require_once __DIR__ . '/inc/i18n-resolver.php';
+require_once __DIR__ . '/inc/title-resolver.php';
 require_once __DIR__ . '/inc/home-data.php';
 require_once __DIR__ . '/inc/i18n-messages.php';

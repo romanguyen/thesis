@@ -7,16 +7,13 @@ $reskinLangTargets = reskin_i18n_language_targets();
 <head>
     <meta charset="utf-8" />
     <?php
-    $reskinTitle = tpl_pagetitle(null, true);
-    if ($reskinTitle !== '') {
-        $reskinTitle = str_replace(':', ' - ', $reskinTitle);
-        $reskinTitle = utf8_ucfirst($reskinTitle);
-    }
+    $reskinTitle = reskin_page_title();
     ?>
-    <title><?php echo $reskinTitle; ?></title>
+    <title><?php echo hsc($reskinTitle); ?></title>
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <?php tpl_metaheaders() ?>
     <?php echo tpl_favicon(['favicon', 'mobile']) ?>
+    <link rel="icon" type="image/svg+xml" href="<?php echo tpl_basedir(); ?>img/favicon.svg" />
     <?php tpl_includeFile('meta.html') ?>
 
     <?php foreach ($reskinLangTargets as $code => $target) : ?>

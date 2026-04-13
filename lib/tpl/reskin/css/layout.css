@@ -64,7 +64,8 @@
 }
 
 .reskin-content {
-  padding: 2.5rem 0 4rem;
+  padding-top: 2.5rem;
+  padding-bottom: 4rem;
 }
 
 .reskin-main {

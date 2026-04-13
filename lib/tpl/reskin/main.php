@@ -26,13 +26,14 @@ $showSidebarOffcanvas = $showSidebarMobileTrigger;
 $isStart = ($reskinParsedId['base'] === $conf['start']);
 $isNewsShowcasePage = ($reskinParsedId['base'] === 'variants:news');
 $isElementsShowcasePage = ($reskinParsedId['base'] === 'variants:it4i-elements');
+$isStartLeftInline = ($ACT === 'show') && $isStart && ($reskinLayout === 'left');
 $showHeroSection = $isStart && ($ACT === 'show');
-$showUpdatesSection = ($ACT === 'show') && $isStart;
-$showUpdatesInline = ($ACT === 'show') && $isNewsShowcasePage;
-$showMetricsSection = ($ACT === 'show') && $isStart;
-$showStoriesSection = ($ACT === 'show') && $isStart;
-$showMetricsInline = ($ACT === 'show') && $isElementsShowcasePage;
-$showStoriesInline = ($ACT === 'show') && $isElementsShowcasePage;
+$showUpdatesSection = ($ACT === 'show') && $isStart && !$isStartLeftInline;
+$showUpdatesInline = ($ACT === 'show') && ($isNewsShowcasePage || $isStartLeftInline);
+$showMetricsSection = ($ACT === 'show') && $isStart && !$isStartLeftInline;
+$showStoriesSection = ($ACT === 'show') && $isStart && !$isStartLeftInline;
+$showMetricsInline = ($ACT === 'show') && ($isElementsShowcasePage || $isStartLeftInline);
+$showStoriesInline = ($ACT === 'show') && ($isElementsShowcasePage || $isStartLeftInline);
 $isHardwarePage = (preg_match('/^(cs|en):resources:hardware(?::start)?$/', (string) $ID) === 1);
 $reskinHardwareCatalogUrl = $isHardwarePage
     ? (DOKU_BASE . 'lib/exe/fetch.php?media=' . rawurlencode('hardware:catalog.json'))

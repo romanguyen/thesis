@@ -417,7 +417,8 @@
 }
 
 /* News (Novinky) Variant Styles */
-.reskin-layout-top.reskin-style-cesnet:is(.reskin-pageid-cs-variants-news, .reskin-pageid-en-variants-news) .reskin-page .section_highlight_wrapper > h2:not(#archiv_novinek):not(#news_archive) {
+.reskin-layout-top.reskin-style-cesnet:is(.reskin-pageid-cs-variants-news, .reskin-pageid-en-variants-news) .reskin-page .section_highlight_wrapper > h2:not(#archiv_novinek):not(#news_archive),
+.reskin-layout-top.reskin-style-cesnet:is(.reskin-pageid-cs-variants-news, .reskin-pageid-en-variants-news) .reskin-page > h2:not(#archiv_novinek):not(#news_archive) {
   background: #ffffff;
   border: 1px solid var(--reskin-border);
   border-bottom: none;
@@ -428,7 +429,8 @@
   position: relative;
 }
 
-.reskin-layout-top.reskin-style-cesnet:is(.reskin-pageid-cs-variants-news, .reskin-pageid-en-variants-news) .reskin-page .section_highlight_wrapper > h2:not(#archiv_novinek):not(#news_archive)::before {
+.reskin-layout-top.reskin-style-cesnet:is(.reskin-pageid-cs-variants-news, .reskin-pageid-en-variants-news) .reskin-page .section_highlight_wrapper > h2:not(#archiv_novinek):not(#news_archive)::before,
+.reskin-layout-top.reskin-style-cesnet:is(.reskin-pageid-cs-variants-news, .reskin-pageid-en-variants-news) .reskin-page > h2:not(#archiv_novinek):not(#news_archive)::before {
   content: "";
   position: absolute;
   top: -1px;
@@ -439,7 +441,8 @@
   border-radius: 4px 4px 0 0;
 }
 
-.reskin-layout-top.reskin-style-cesnet:is(.reskin-pageid-cs-variants-news, .reskin-pageid-en-variants-news) .reskin-page .section_highlight_wrapper > h2:not(#archiv_novinek):not(#news_archive) + .level2 {
+.reskin-layout-top.reskin-style-cesnet:is(.reskin-pageid-cs-variants-news, .reskin-pageid-en-variants-news) .reskin-page .section_highlight_wrapper > h2:not(#archiv_novinek):not(#news_archive) + .level2,
+.reskin-layout-top.reskin-style-cesnet:is(.reskin-pageid-cs-variants-news, .reskin-pageid-en-variants-news) .reskin-page > h2:not(#archiv_novinek):not(#news_archive) + .level2 {
   background: #ffffff;
   border: 1px solid var(--reskin-border);
   border-top: none;
@@ -449,19 +452,23 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
-.reskin-layout-top.reskin-style-cesnet:is(.reskin-pageid-cs-variants-news, .reskin-pageid-en-variants-news) .reskin-page .section_highlight_wrapper > h2:not(#archiv_novinek):not(#news_archive) + .level2 p:last-child {
+.reskin-layout-top.reskin-style-cesnet:is(.reskin-pageid-cs-variants-news, .reskin-pageid-en-variants-news) .reskin-page .section_highlight_wrapper > h2:not(#archiv_novinek):not(#news_archive) + .level2 p:last-child,
+.reskin-layout-top.reskin-style-cesnet:is(.reskin-pageid-cs-variants-news, .reskin-pageid-en-variants-news) .reskin-page > h2:not(#archiv_novinek):not(#news_archive) + .level2 p:last-child {
   border-top: 1px solid var(--reskin-border);
   padding-top: 1rem;
 }
 
 [data-theme="dark"] .reskin-layout-top.reskin-style-cesnet:is(.reskin-pageid-cs-variants-news, .reskin-pageid-en-variants-news) .reskin-page .section_highlight_wrapper > h2:not(#archiv_novinek):not(#news_archive),
-[data-theme="dark"] .reskin-layout-top.reskin-style-cesnet:is(.reskin-pageid-cs-variants-news, .reskin-pageid-en-variants-news) .reskin-page .section_highlight_wrapper > h2:not(#archiv_novinek):not(#news_archive) + .level2 {
+[data-theme="dark"] .reskin-layout-top.reskin-style-cesnet:is(.reskin-pageid-cs-variants-news, .reskin-pageid-en-variants-news) .reskin-page > h2:not(#archiv_novinek):not(#news_archive),
+[data-theme="dark"] .reskin-layout-top.reskin-style-cesnet:is(.reskin-pageid-cs-variants-news, .reskin-pageid-en-variants-news) .reskin-page .section_highlight_wrapper > h2:not(#archiv_novinek):not(#news_archive) + .level2,
+[data-theme="dark"] .reskin-layout-top.reskin-style-cesnet:is(.reskin-pageid-cs-variants-news, .reskin-pageid-en-variants-news) .reskin-page > h2:not(#archiv_novinek):not(#news_archive) + .level2 {
   background: #1e1e1e;
   border-color: #333333;
 }
 
 /* Outages (Odstávky) Variant Styles */
-.reskin-layout-top.reskin-style-cesnet:is(.reskin-pageid-cs-outages-start, .reskin-pageid-en-outages-start) .reskin-page .section_highlight_wrapper > h2 {
+.reskin-layout-top.reskin-style-cesnet:is(.reskin-pageid-cs-outages-start, .reskin-pageid-en-outages-start) .reskin-page .section_highlight_wrapper > h2,
+.reskin-layout-top.reskin-style-cesnet:is(.reskin-pageid-cs-outages-start, .reskin-pageid-en-outages-start) .reskin-page > h2 {
   background: #ffffff;
   border: 1px solid var(--reskin-border);
   border-bottom: none;
@@ -472,7 +479,8 @@
   position: relative;
 }
 
-.reskin-layout-top.reskin-style-cesnet:is(.reskin-pageid-cs-outages-start, .reskin-pageid-en-outages-start) .reskin-page .section_highlight_wrapper > h2::before {
+.reskin-layout-top.reskin-style-cesnet:is(.reskin-pageid-cs-outages-start, .reskin-pageid-en-outages-start) .reskin-page .section_highlight_wrapper > h2::before,
+.reskin-layout-top.reskin-style-cesnet:is(.reskin-pageid-cs-outages-start, .reskin-pageid-en-outages-start) .reskin-page > h2::before {
   content: "";
   position: absolute;
   top: -1px;
@@ -483,7 +491,8 @@
   border-radius: 4px 4px 0 0;
 }
 
-.reskin-layout-top.reskin-style-cesnet:is(.reskin-pageid-cs-outages-start, .reskin-pageid-en-outages-start) .reskin-page .section_highlight_wrapper > h2 + .level2 {
+.reskin-layout-top.reskin-style-cesnet:is(.reskin-pageid-cs-outages-start, .reskin-pageid-en-outages-start) .reskin-page .section_highlight_wrapper > h2 + .level2,
+.reskin-layout-top.reskin-style-cesnet:is(.reskin-pageid-cs-outages-start, .reskin-pageid-en-outages-start) .reskin-page > h2 + .level2 {
   background: #ffffff;
   border: 1px solid var(--reskin-border);
   border-top: none;
@@ -494,7 +503,9 @@
 }
 
 [data-theme="dark"] .reskin-layout-top.reskin-style-cesnet:is(.reskin-pageid-cs-outages-start, .reskin-pageid-en-outages-start) .reskin-page .section_highlight_wrapper > h2,
-[data-theme="dark"] .reskin-layout-top.reskin-style-cesnet:is(.reskin-pageid-cs-outages-start, .reskin-pageid-en-outages-start) .reskin-page .section_highlight_wrapper > h2 + .level2 {
+[data-theme="dark"] .reskin-layout-top.reskin-style-cesnet:is(.reskin-pageid-cs-outages-start, .reskin-pageid-en-outages-start) .reskin-page > h2,
+[data-theme="dark"] .reskin-layout-top.reskin-style-cesnet:is(.reskin-pageid-cs-outages-start, .reskin-pageid-en-outages-start) .reskin-page .section_highlight_wrapper > h2 + .level2,
+[data-theme="dark"] .reskin-layout-top.reskin-style-cesnet:is(.reskin-pageid-cs-outages-start, .reskin-pageid-en-outages-start) .reskin-page > h2 + .level2 {
   background: #1e1e1e;
   border-color: #333333;
 }

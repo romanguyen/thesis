@@ -38,6 +38,62 @@ $isHardwarePage = (preg_match('/^(cs|en):resources:hardware(?::start)?$/', (stri
 $reskinHardwareCatalogUrl = $isHardwarePage
     ? (DOKU_BASE . 'lib/exe/fetch.php?media=' . rawurlencode('hardware:catalog.json'))
     : '';
+$reskinCleanBreadcrumb = '';
+if ($reskinLayout === 'clean' && $ACT === 'show') {
+    $reskinOriginalYouAreHere = $conf['youarehere'];
+    $conf['youarehere'] = 1;
+    $reskinCleanBreadcrumb = tpl_youarehere(' / ', true);
+    $conf['youarehere'] = $reskinOriginalYouAreHere;
+    if (!is_string($reskinCleanBreadcrumb)) {
+        $reskinCleanBreadcrumb = '';
+    }
+
+    if ($reskinCleanBreadcrumb !== '') {
+        $reskinVariantParams = reskin_variant_url_params();
+        if (!empty($reskinVariantParams)) {
+            $reskinCleanBreadcrumb = preg_replace_callback(
+                '/href="([^"]+)"/',
+                static function (array $match) use ($reskinVariantParams): string {
+                    $href = html_entity_decode($match[1], ENT_QUOTES, 'UTF-8');
+                    if ($href === '' || $href[0] === '#' || preg_match('/^(mailto:|tel:|javascript:)/i', $href)) {
+                        return $match[0];
+                    }
+
+                    $parts = parse_url($href);
+                    if (!is_array($parts)) {
+                        return $match[0];
+                    }
+
+                    $query = [];
+                    if (!empty($parts['query'])) {
+                        parse_str($parts['query'], $query);
+                    }
+                    foreach ($reskinVariantParams as $key => $value) {
+                        $query[$key] = $value;
+                    }
+
+                    $rebuilt = '';
+                    if (isset($parts['scheme'])) $rebuilt .= $parts['scheme'] . '://';
+                    if (isset($parts['user'])) {
+                        $rebuilt .= $parts['user'];
+                        if (isset($parts['pass'])) $rebuilt .= ':' . $parts['pass'];
+                        $rebuilt .= '@';
+                    }
+                    if (isset($parts['host'])) $rebuilt .= $parts['host'];
+                    if (isset($parts['port'])) $rebuilt .= ':' . $parts['port'];
+                    if (isset($parts['path'])) $rebuilt .= $parts['path'];
+
+                    $queryString = http_build_query($query, '', '&');
+                    if ($queryString !== '') $rebuilt .= '?' . $queryString;
+                    if (!empty($parts['fragment'])) $rebuilt .= '#' . $parts['fragment'];
+
+                    return 'href="' . hsc($rebuilt) . '"';
+                },
+                $reskinCleanBreadcrumb
+            ) ?? $reskinCleanBreadcrumb;
+        }
+    }
+}
 $reskinPageIdClass = preg_replace('/[^a-z0-9_-]+/i', '-', strtolower((string) $ID));
 $reskinPageIdClass = trim((string) $reskinPageIdClass, '-');
 if ($reskinPageIdClass === '') {
@@ -303,6 +359,12 @@ $reskinPageIdClass = 'reskin-pageid-' . $reskinPageIdClass;
                     <?php endif; ?>
 
                     <div class="<?php echo $showSidebarAside ? 'col-12 col-lg-9' : 'col-12'; ?>">
+                        <?php if ($reskinCleanBreadcrumb !== '') : ?>
+                            <nav class="reskin-clean-breadcrumbs" aria-label="<?php echo hsc($lang['youarehere']); ?>">
+                                <?php echo $reskinCleanBreadcrumb; ?>
+                            </nav>
+                        <?php endif; ?>
+
                         <?php if ($showUpdatesInline) : ?>
                             <?php
                             $reskinInlineNewsItems = $reskinNewsItems ?? [];

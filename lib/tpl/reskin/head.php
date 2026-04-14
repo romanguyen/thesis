@@ -56,6 +56,9 @@ $reskinLangTargets = reskin_i18n_language_targets();
     if ($reskinVariant['layout'] === 'top' && $reskinVariant['style'] === 'cesnet') {
         $reskinCssFiles[] = 'top-cesnet.css';
     }
+    if ($reskinVariant['layout'] === 'clean') {
+        $reskinCssFiles[] = 'clean-minimal.css';
+    }
     $reskinCssVersion = 1;
     foreach ($reskinCssFiles as $reskinCssFile) {
         $mtime = @filemtime(__DIR__ . '/css/' . $reskinCssFile);
@@ -67,6 +70,9 @@ $reskinLangTargets = reskin_i18n_language_targets();
     <link rel="stylesheet" href="<?php echo tpl_basedir(); ?>css/reskin.css?v=<?php echo $reskinCssVersion ?: '1'; ?>" />
     <?php if ($reskinVariant['layout'] === 'top' && $reskinVariant['style'] === 'cesnet') : ?>
         <link rel="stylesheet" href="<?php echo tpl_basedir(); ?>css/top-cesnet.css?v=<?php echo $reskinCssVersion ?: '1'; ?>" />
+    <?php endif; ?>
+    <?php if ($reskinVariant['layout'] === 'clean') : ?>
+        <link rel="stylesheet" href="<?php echo tpl_basedir(); ?>css/clean-minimal.css?v=<?php echo $reskinCssVersion ?: '1'; ?>" />
     <?php endif; ?>
     <script>
       (function() {

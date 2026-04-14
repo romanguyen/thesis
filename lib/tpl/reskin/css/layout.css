@@ -98,11 +98,19 @@
 
 .reskin-page p,
 .reskin-page li,
-.reskin-page td,
-.reskin-page th,
 .reskin-page a {
   overflow-wrap: anywhere;
   word-break: break-word;
+}
+
+.reskin-page td,
+.reskin-page th {
+  overflow-wrap: break-word;
+  word-break: normal;
+}
+
+.reskin-layout-left .reskin-page th {
+  white-space: nowrap;
 }
 
 .reskin-page .table,

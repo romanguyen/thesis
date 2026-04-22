@@ -1,7 +1,0 @@
-====== Home metric highlights ======
-
-Format: `Number|Label`
-
-* 2,000+|users
-* 25+|international projects
-* 100+|industry projects

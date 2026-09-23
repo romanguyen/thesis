@@ -7,14 +7,9 @@ global $ID, $INPUT, $lang;
 
 $reskinLangTargets = reskin_i18n_language_targets();
 $reskinVariant = reskin_variant_context();
-$reskinTopStyle = ($reskinVariant['layout'] === 'top') ? $reskinVariant['style'] : 'cesnet';
-$reskinTopParams = ['layout' => 'top'];
-if ($reskinTopStyle !== 'reskin') {
-    $reskinTopParams['style'] = $reskinTopStyle;
-}
 $reskinCleanUrl = wl($ID, ['layout' => 'clean'], false, '&');
-$reskinLeftUrl = wl($ID, [], false, '&');
-$reskinTopUrl = wl($ID, $reskinTopParams, false, '&');
+$reskinLeftUrl = wl($ID, ['layout' => 'left'], false, '&');
+$reskinTopUrl = wl($ID, [], false, '&');
 ?>
 <header class="reskin-header">
     <a class="reskin-skip" href="#reskin-main"><?php echo hsc(reskin_i18n_t('skip_to_content')); ?></a>

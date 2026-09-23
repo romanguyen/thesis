@@ -62,7 +62,7 @@ function reskin_variant_context(): array
     $layout = strtolower(trim((string) $INPUT->str('layout')));
     $style = strtolower(trim((string) $INPUT->str('style')));
 
-    if (!in_array($layout, ['left', 'top', 'clean'], true)) $layout = 'left';
+    if (!in_array($layout, ['left', 'top', 'clean'], true)) $layout = 'top';
 
     // top layout always uses the CESNET style variant
     if ($layout === 'top') {
@@ -80,7 +80,7 @@ function reskin_variant_context(): array
 }
 
 /**
- * Merge current layout/style variant params into URL params
+ * Merge the current non-default layout into URL params
  *
  * @param array $params
  * @return array
@@ -90,11 +90,8 @@ function reskin_variant_url_params(array $params = []): array
     $variant = reskin_variant_context();
     $variantParams = [];
 
-    if ($variant['layout'] !== 'left') {
+    if ($variant['layout'] !== 'top') {
         $variantParams['layout'] = $variant['layout'];
-    }
-    if ($variant['style'] !== 'reskin') {
-        $variantParams['style'] = $variant['style'];
     }
 
     return array_merge($variantParams, $params);

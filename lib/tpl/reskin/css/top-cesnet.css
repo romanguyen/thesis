@@ -1,4 +1,5 @@
-.reskin-layout-top.reskin-style-cesnet {
+.reskin-layout-top.reskin-style-cesnet,
+.reskin-offcanvas--top-cesnet {
   --reskin-primary: #ff6600;
   --reskin-primary-dark: #e65c00;
   --reskin-primary-contrast: #ffffff;
@@ -33,7 +34,10 @@
 .reskin-layout-top.reskin-style-cesnet .reskin-metric-hex-label,
 .reskin-layout-top.reskin-style-cesnet input,
 .reskin-layout-top.reskin-style-cesnet button,
-.reskin-layout-top.reskin-style-cesnet a {
+.reskin-layout-top.reskin-style-cesnet a,
+.reskin-offcanvas--top-cesnet,
+.reskin-offcanvas--top-cesnet button,
+.reskin-offcanvas--top-cesnet a {
   font-family: var(--reskin-font-sans);
 }
 
@@ -52,6 +56,17 @@
   background: transparent;
   box-shadow: none;
   padding: 0;
+}
+
+@media (min-width: 1200px) {
+  .reskin-layout-top.reskin-style-cesnet .reskin-article-layout.has-toc .reskin-page-toc {
+    margin-top: 2rem;
+  }
+
+  .reskin-layout-top.reskin-style-cesnet:is(.reskin-pageid-cs-resources-hardware-start, .reskin-pageid-en-resources-hardware-start)
+    .reskin-article-layout.has-toc .reskin-page-toc {
+    margin-top: 0;
+  }
 }
 
 .reskin-layout-top.reskin-style-cesnet .reskin-page-info {
@@ -81,31 +96,42 @@
   padding: 0.5rem 0;
 }
 
-.reskin-layout-top.reskin-style-cesnet .reskin-lang-switcher {
+.reskin-layout-top.reskin-style-cesnet .reskin-header-meta .reskin-lang-switcher {
+  gap: 0;
+  background: var(--reskin-control-bg);
   border: 1px solid var(--reskin-control-border);
   border-radius: var(--reskin-radius);
-  overflow: hidden;
   box-shadow: none;
 }
 
-.reskin-layout-top.reskin-style-cesnet .reskin-lang-btn {
-  color: var(--reskin-fg);
-  border-right: 1px solid var(--reskin-control-border);
+.reskin-layout-top.reskin-style-cesnet .reskin-header-meta .reskin-lang-btn {
+  color: var(--reskin-control-text);
+  border: 0;
+  border-radius: 0;
   background: transparent;
-  font-weight: 700;
-  transition: all 0.2s ease;
+  box-shadow: none;
+  transition: color 0.2s ease, background-color 0.2s ease;
 }
 
-.reskin-layout-top.reskin-style-cesnet .reskin-lang-btn:hover,
-.reskin-layout-top.reskin-style-cesnet .reskin-lang-btn:focus {
-  color: var(--reskin-primary);
-  background: var(--reskin-muted);
+.reskin-layout-top.reskin-style-cesnet .reskin-header-meta .reskin-lang-btn + .reskin-lang-btn {
+  border-left: 1px solid var(--reskin-control-border);
 }
 
-.reskin-layout-top.reskin-style-cesnet .reskin-lang-btn.is-current {
-  background: var(--reskin-primary);
-  color: var(--reskin-primary-contrast);
-  border-right-color: var(--reskin-primary);
+.reskin-layout-top.reskin-style-cesnet .reskin-header-meta .reskin-lang-btn:hover,
+.reskin-layout-top.reskin-style-cesnet .reskin-header-meta .reskin-lang-btn:focus-visible {
+  color: var(--reskin-primary-dark);
+  background: var(--reskin-control-bg-hover);
+}
+
+.reskin-layout-top.reskin-style-cesnet .reskin-header-meta .reskin-lang-btn:focus-visible {
+  outline: 2px solid var(--reskin-primary);
+  outline-offset: 2px;
+}
+
+.reskin-layout-top.reskin-style-cesnet .reskin-header-meta .reskin-lang-btn.is-current {
+  color: var(--reskin-primary-dark);
+  background: var(--reskin-control-bg);
+  box-shadow: inset 0 -3px 0 var(--reskin-primary);
 }
 
 .reskin-layout-top.reskin-style-cesnet .reskin-header-actions .reskin-nav-link,
@@ -220,6 +246,120 @@
 .reskin-layout-top.reskin-style-cesnet .reskin-topnav-subitem.is-active {
   color: var(--reskin-primary);
   background: #fff5ee;
+}
+
+.reskin-layout-top.reskin-style-cesnet .reskin-sidebar-fab {
+  min-height: 44px;
+  padding: 0.6rem 0.85rem;
+  border: 1px solid var(--reskin-control-border);
+  border-bottom: 3px solid var(--reskin-primary);
+  border-radius: var(--reskin-radius);
+  background: var(--reskin-control-bg);
+  color: var(--reskin-control-text);
+  font-size: 0.84rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.reskin-layout-top.reskin-style-cesnet .reskin-sidebar-fab i {
+  color: var(--reskin-primary-dark);
+}
+
+.reskin-layout-top.reskin-style-cesnet .reskin-sidebar-fab:hover,
+.reskin-layout-top.reskin-style-cesnet .reskin-sidebar-fab:focus-visible {
+  border-color: var(--reskin-primary);
+  background: var(--reskin-control-bg-hover);
+  color: var(--reskin-primary-dark);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.reskin-layout-top.reskin-style-cesnet .reskin-sidebar-fab:focus-visible {
+  outline: 2px solid var(--reskin-primary);
+  outline-offset: 2px;
+}
+
+.reskin-offcanvas--top-cesnet {
+  --bs-offcanvas-width: min(24rem, 92vw);
+  background: var(--reskin-bg);
+  color: var(--reskin-fg);
+  border-right: 1px solid var(--reskin-border);
+}
+
+.reskin-offcanvas--top-cesnet .offcanvas-header {
+  padding: 1.1rem 1.25rem;
+  border-bottom: 1px solid var(--reskin-border);
+}
+
+.reskin-offcanvas--top-cesnet .offcanvas-title {
+  color: var(--reskin-fg);
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.reskin-offcanvas--top-cesnet .btn-close:focus-visible {
+  outline: 2px solid var(--reskin-primary);
+  outline-offset: 2px;
+  box-shadow: none;
+}
+
+.reskin-offcanvas--top-cesnet .offcanvas-body {
+  padding: 0.75rem 1.25rem 1.5rem;
+}
+
+.reskin-offcanvas--top-cesnet .reskin-nav-tree li a {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0.55rem 0.75rem;
+  border-radius: 0;
+  background: transparent;
+  color: var(--reskin-control-text);
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.reskin-offcanvas--top-cesnet .reskin-nav-tree li a:hover,
+.reskin-offcanvas--top-cesnet .reskin-nav-tree li a:focus-visible {
+  background: var(--reskin-control-bg-hover);
+  color: var(--reskin-primary-dark);
+}
+
+.reskin-offcanvas--top-cesnet .reskin-nav-tree li a:focus-visible,
+.reskin-offcanvas--top-cesnet .reskin-nav-tree .reskin-nav-toggle:focus-visible {
+  outline: 2px solid var(--reskin-primary);
+  outline-offset: 2px;
+}
+
+.reskin-offcanvas--top-cesnet .reskin-nav-tree li a.is-active,
+.reskin-offcanvas--top-cesnet .reskin-nav-tree li.is-active > .reskin-nav-item > a,
+.reskin-offcanvas--top-cesnet .reskin-nav-tree li.is-active-parent > .reskin-nav-item > a {
+  background: transparent;
+  color: var(--reskin-primary-dark);
+  box-shadow: inset 3px 0 0 var(--reskin-primary);
+}
+
+.reskin-offcanvas--top-cesnet .reskin-nav-tree li > ul {
+  margin: 0.25rem 0 0.5rem 0.75rem;
+  padding-left: 0.75rem;
+  border-left: 1px solid var(--reskin-border);
+}
+
+.reskin-offcanvas--top-cesnet .reskin-nav-tree li > ul a {
+  color: var(--reskin-control-text);
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.reskin-offcanvas--top-cesnet .reskin-nav-tree .reskin-nav-toggle {
+  color: var(--reskin-control-text);
+  opacity: 1;
+}
+
+.reskin-offcanvas--top-cesnet .reskin-nav-tree .reskin-nav-toggle:hover,
+.reskin-offcanvas--top-cesnet .reskin-nav-tree .reskin-nav-toggle:focus-visible {
+  background: var(--reskin-control-bg-hover);
+  color: var(--reskin-primary-dark);
 }
 
 .reskin-layout-top.reskin-style-cesnet .reskin-hero {
@@ -369,7 +509,8 @@
 }
 
 /* Dark Mode Overrides */
-[data-theme="dark"] .reskin-layout-top.reskin-style-cesnet {
+[data-theme="dark"] .reskin-layout-top.reskin-style-cesnet,
+[data-theme="dark"] .reskin-offcanvas--top-cesnet {
   --reskin-primary: #ff8533;
   --reskin-primary-dark: #ffad70;
   --reskin-bg: #1a1a1a;
@@ -395,6 +536,18 @@
 
 [data-theme="dark"] .reskin-layout-top.reskin-style-cesnet .reskin-topnav-link {
   color: #ffffff;
+}
+
+[data-theme="dark"] .reskin-offcanvas--top-cesnet .btn-close {
+  filter: invert(1) grayscale(100%) brightness(200%);
+}
+
+[data-theme="dark"] .reskin-offcanvas--top-cesnet .reskin-nav-tree li a.is-active,
+[data-theme="dark"] .reskin-offcanvas--top-cesnet .reskin-nav-tree li.is-active > .reskin-nav-item > a,
+[data-theme="dark"] .reskin-offcanvas--top-cesnet .reskin-nav-tree li.is-active-parent > .reskin-nav-item > a,
+[data-theme="dark"] .reskin-offcanvas--top-cesnet .reskin-nav-tree li a:hover,
+[data-theme="dark"] .reskin-offcanvas--top-cesnet .reskin-nav-tree li a:focus-visible {
+  color: var(--reskin-primary-dark);
 }
 
 [data-theme="dark"]
@@ -462,20 +615,16 @@
 
 [data-theme="dark"]
   .reskin-layout-top.reskin-style-cesnet
-  .reskin-page
+  .reskin-page-toc
   #dw__toc {
   background: transparent;
   border: none;
   box-shadow: none;
 }
 
-[data-theme="dark"]
-  .reskin-layout-top.reskin-style-cesnet
-  .reskin-page
-  #dw__toc
-  .dw__tocheader {
+[data-theme="dark"] .reskin-layout-top.reskin-style-cesnet .reskin-page-toc {
   background: transparent;
-  border: none;
+  border-color: var(--reskin-border);
 }
 
 /* News (Novinky) Variant Styles */

@@ -546,33 +546,52 @@ $reskinPageIdClass = 'reskin-pageid-' . $reskinPageIdClass;
                             </div>
                         <?php endif; ?>
 
-                        <div class="reskin-page">
-                            <?php tpl_includeFile('pageheader.html'); ?>
-                            <?php
-                            ob_start();
-                            tpl_content();
-                            $reskinContentHtml = (string) ob_get_clean();
-                            $reskinTocLabel = hsc(reskin_i18n_t('toc'));
+                        <?php
+                        ob_start();
+                        tpl_content($ACT !== 'show');
+                        $reskinContentHtml = (string) ob_get_clean();
+                        $reskinTocHtml = '';
+                        if ($ACT === 'show' && !preg_match('/^(?:cs|en):(?:variants:news|outages:start)$/', (string) $ID)) {
+                            $reskinTocHtml = tpl_toc(true);
+                            $reskinTocHtml = preg_replace(
+                                '/<h3 class="toggle">.*?<\/h3>/su',
+                                '<p class="reskin-toc-title">' . hsc(reskin_i18n_t('page_toc')) . '</p>',
+                                $reskinTocHtml,
+                                1
+                            ) ?? $reskinTocHtml;
+                        } elseif ($ACT !== 'show') {
                             $reskinContentHtml = preg_replace(
                                 '/(<div[^>]*id="dw__toc"[^>]*>\s*<h3[^>]*class="toggle"[^>]*>)(.*?)(<\/h3>)/su',
-                                '$1' . $reskinTocLabel . '$3',
+                                '$1' . hsc(reskin_i18n_t('toc')) . '$3',
                                 $reskinContentHtml,
                                 1
                             ) ?? $reskinContentHtml;
-                            echo $reskinContentHtml;
-                            ?>
-                            <?php tpl_includeFile('pagefooter.html'); ?>
-                        </div>
+                        }
+                        ?>
+                        <div class="reskin-article-layout<?php echo $reskinTocHtml !== '' ? ' has-toc' : ''; ?>">
+                            <?php if ($reskinTocHtml !== '') : ?>
+                                <aside class="reskin-page-toc" aria-label="<?php echo hsc(reskin_i18n_t('page_toc')); ?>">
+                                    <?php echo $reskinTocHtml; ?>
+                                </aside>
+                            <?php endif; ?>
+                            <div class="reskin-article">
+                                <div class="reskin-page">
+                                    <?php tpl_includeFile('pageheader.html'); ?>
+                                    <?php echo $reskinContentHtml; ?>
+                                    <?php tpl_includeFile('pagefooter.html'); ?>
+                                </div>
 
-                        <div class="reskin-page-info">
-                            <?php tpl_pageinfo(); ?>
-                        </div>
+                                <div class="reskin-page-info">
+                                    <?php tpl_pageinfo(); ?>
+                                </div>
 
-                        <nav class="reskin-pagetools" aria-label="Page tools">
-                            <ul class="list-inline mb-0">
-                                <?php echo (new \dokuwiki\Menu\PageMenu())->getListItems(); ?>
-                            </ul>
-                        </nav>
+                                <nav class="reskin-pagetools" aria-label="Page tools">
+                                    <ul class="list-inline mb-0">
+                                        <?php echo (new \dokuwiki\Menu\PageMenu())->getListItems(); ?>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -585,7 +604,7 @@ $reskinPageIdClass = 'reskin-pageid-' . $reskinPageIdClass;
     <div id="screen__mode" class="no"></div>
 
     <?php if ($showSidebarOffcanvas) : ?>
-        <div class="offcanvas offcanvas-start reskin-offcanvas" tabindex="-1" id="reskinSidebar" aria-labelledby="reskinSidebarLabel">
+        <div class="offcanvas offcanvas-start reskin-offcanvas<?php echo $reskinLayout === 'top' && $reskinStyle === 'cesnet' ? ' reskin-offcanvas--top-cesnet' : ''; ?>" tabindex="-1" id="reskinSidebar" aria-labelledby="reskinSidebarLabel">
             <div class="offcanvas-header">
                 <h5 class="offcanvas-title" id="reskinSidebarLabel"><?php echo hsc(reskin_i18n_t('navigation')); ?></h5>
                 <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="<?php echo hsc(reskin_i18n_t('close')); ?>"></button>
@@ -607,6 +626,9 @@ $reskinPageIdClass = 'reskin-pageid-' . $reskinPageIdClass;
         'theme.js',
         'search.js',
     ];
+    if ($reskinTocHtml !== '') {
+        $reskinJsFiles[] = 'page-toc.js';
+    }
     if ($showTopNavigation) {
         $reskinJsFiles[] = 'topnav-overflow.js';
     }

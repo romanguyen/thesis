@@ -8,6 +8,9 @@ $reskinLangTargets = reskin_i18n_language_targets();
     <meta charset="utf-8" />
     <?php
     $reskinTitle = reskin_page_title();
+    if (!empty($reskinNewsArticle)) {
+        $reskinTitle = $reskinNewsArticle['title'] . ' · ' . $reskinTitle;
+    }
     ?>
     <title><?php echo hsc($reskinTitle); ?></title>
     <meta name="viewport" content="width=device-width,initial-scale=1" />

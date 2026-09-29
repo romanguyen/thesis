@@ -386,7 +386,7 @@ function reskin_i18n_include_page(string $page, bool $print = true, bool $propag
  * @param string $base
  * @param int $limit
  * @param string|null $preferredLang
- * @return array<int, array{title:string,url:string}>
+ * @return array<int, array{title:string,url:string,date:string,date_iso:string}>
  */
 function reskin_i18n_recent_headings(string $base, int $limit = 3, ?string $preferredLang = null): array
 {
@@ -399,7 +399,7 @@ function reskin_i18n_recent_headings(string $base, int $limit = 3, ?string $pref
     $raw = trim((string) rawWiki($resolved['id']));
     if ($raw === '') return [];
 
-    if (!preg_match_all('/^(={2,6})\s*(.+?)\s*\1\s*$/mu', $raw, $matches, PREG_SET_ORDER)) {
+    if (!preg_match_all('/^(={2,6})\s*(.+?)\s*\1\s*$/mu', $raw, $matches, PREG_SET_ORDER | PREG_OFFSET_CAPTURE)) {
         return [];
     }
 
@@ -407,8 +407,8 @@ function reskin_i18n_recent_headings(string $base, int $limit = 3, ?string $pref
     $items = [];
     $skipTitle = true;
 
-    foreach ($matches as $match) {
-        $title = trim((string) ($match[2] ?? ''));
+    foreach ($matches as $index => $match) {
+        $title = trim((string) ($match[2][0] ?? ''));
         if ($title === '') continue;
 
         $anchor = sectionID($title, $anchors);
@@ -417,9 +417,18 @@ function reskin_i18n_recent_headings(string $base, int $limit = 3, ?string $pref
             continue;
         }
 
+        $sectionStart = $match[0][1] + strlen($match[0][0]);
+        $sectionEnd = $matches[$index + 1][0][1] ?? strlen($raw);
+        $section = substr($raw, $sectionStart, $sectionEnd - $sectionStart);
+        $dateIso = reskin_i18n_heading_date($section, $base, $resolved['lang']);
+
         $items[] = [
             'title' => trim((string) preg_replace('/\s+/u', ' ', $title)),
-            'url' => wl($resolved['id'], reskin_variant_url_params(), false, '&') . '#' . $anchor,
+            'url' => $base === 'news:start'
+                ? wl($resolved['id'], reskin_variant_url_params(['article' => $anchor]), false, '&')
+                : wl($resolved['id'], reskin_variant_url_params(), false, '&') . '#' . $anchor,
+            'date_iso' => $dateIso,
+            'date' => reskin_i18n_format_update_date($dateIso, $preferred),
         ];
 
         if (count($items) >= $limit) break;
@@ -429,11 +438,152 @@ function reskin_i18n_recent_headings(string $base, int $limit = 3, ?string $pref
 }
 
 /**
+ * Read localized news entries without copying their content out of the wiki.
+ *
+ * @return array<int, array{index:int,anchor:string,title:string,date:string,date_iso:string,author:string,body:string,permalink:string,external_url:string,external_title:string}>
+ */
+function reskin_i18n_news_articles(string $pageId, string $lang): array
+{
+    $raw = (string) rawWiki($pageId);
+    if (!preg_match_all('/^(={2,6})\s*(.+?)\s*\1\s*$/mu', $raw, $matches, PREG_SET_ORDER | PREG_OFFSET_CAPTURE)) {
+        return [];
+    }
+
+    $anchors = [];
+    $articles = [];
+    foreach ($matches as $index => $match) {
+        $title = trim($match[2][0]);
+        $anchor = sectionID($title, $anchors);
+        if ($index === 0) continue;
+
+        $sectionStart = $match[0][1] + strlen($match[0][0]);
+        $sectionEnd = $matches[$index + 1][0][1] ?? strlen($raw);
+        $body = trim(substr($raw, $sectionStart, $sectionEnd - $sectionStart));
+        $dateIso = reskin_i18n_heading_date($body, 'news:start', $lang);
+        $author = '';
+        $permalink = '';
+
+        // The imported archive appends an optional permalink, author and timestamp.
+        $byline = '/^\s*\[\[(https?:\/\/[^\]|]+)\|permalink\]\]\s*\/\/([^\/\r\n]+)\/\/,\s*[^\r\n]*$/mi';
+        if (preg_match($byline, $body, $meta)) {
+            if (filter_var($meta[1], FILTER_VALIDATE_URL)) $permalink = $meta[1];
+            $author = trim($meta[2]);
+            $body = trim((string) preg_replace($byline, '', $body, 1));
+        }
+
+        $externalUrl = '';
+        $externalTitle = '';
+        if (preg_match('/(?:Více informací|More (?:info|information))[^\r\n]*?\[\[(https?:\/\/[^\]|]+)(?:\|([^\]]+))?\]\]/iu', $body, $link)) {
+            if (filter_var($link[1], FILTER_VALIDATE_URL)) {
+                $externalUrl = $link[1];
+                $externalTitle = trim($link[2] ?? '') ?: $externalUrl;
+            }
+        }
+
+        $articles[] = [
+            'index' => $index,
+            'anchor' => $anchor,
+            'title' => $title,
+            'date' => reskin_i18n_format_update_date($dateIso, $lang),
+            'date_iso' => $dateIso,
+            'author' => $author,
+            'body' => $body,
+            'permalink' => $permalink,
+            'external_url' => $externalUrl,
+            'external_title' => $externalTitle,
+        ];
+    }
+
+    return $articles;
+}
+
+/** Return null for missing or unrecognized heading IDs. */
+function reskin_i18n_news_article(string $pageId, string $articleId, string $lang): ?array
+{
+    if ($articleId === '' || strlen($articleId) > 200) return null;
+
+    foreach (reskin_i18n_news_articles($pageId, $lang) as $article) {
+        if ($article['anchor'] === $articleId) return $article;
+    }
+
+    return null;
+}
+
+/** Find the corresponding heading when switching languages on a news article. */
+function reskin_i18n_news_anchor_at_index(string $pageId, int $index): string
+{
+    if ($index < 1 || !preg_match_all('/^(={2,6})\s*(.+?)\s*\1\s*$/mu', (string) rawWiki($pageId), $matches, PREG_SET_ORDER)) {
+        return '';
+    }
+
+    if (!isset($matches[$index])) return '';
+
+    $anchors = [];
+    foreach ($matches as $position => $match) {
+        $anchor = sectionID(trim($match[2]), $anchors);
+        if ($position === $index) return $anchor;
+    }
+
+    return '';
+}
+
+/** Extract a published news date or scheduled outage date from its wiki section. */
+function reskin_i18n_heading_date(string $section, string $base, string $sourceLang): string
+{
+    $year = $month = $day = 0;
+
+    if ($base === 'news:start') {
+        if (!preg_match('/\b(?:Mon|Tue|Wed|Thu|Fri|Sat|Sun)\s+(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s+(\d{1,2})\s+\d{2}:\d{2}:\d{2}\s+[A-Z]+\s+(\d{4})\b/', $section, $match)) {
+            return '';
+        }
+
+        $months = ['Jan' => 1, 'Feb' => 2, 'Mar' => 3, 'Apr' => 4, 'May' => 5, 'Jun' => 6,
+            'Jul' => 7, 'Aug' => 8, 'Sep' => 9, 'Oct' => 10, 'Nov' => 11, 'Dec' => 12];
+        $month = $months[$match[1]];
+        $day = (int) $match[2];
+        $year = (int) $match[3];
+    } elseif ($base === 'outages:start' && $sourceLang === 'cs') {
+        if (!preg_match('/\*\*Term[ií]n:\*\*[^\r\n]*?(\d{1,2})\.\s*(\d{1,2})\.\s*(\d{4})/ui', $section, $match)) {
+            return '';
+        }
+        $day = (int) $match[1];
+        $month = (int) $match[2];
+        $year = (int) $match[3];
+    } elseif ($base === 'outages:start') {
+        if (!preg_match('/\*\*Window:\*\*\s*(?:[A-Za-z]{3}\s+)?(\d{4})-(\d{2})-(\d{2})/', $section, $match)) {
+            return '';
+        }
+        $year = (int) $match[1];
+        $month = (int) $match[2];
+        $day = (int) $match[3];
+    }
+
+    return checkdate($month, $day, $year) ? sprintf('%04d-%02d-%02d', $year, $month, $day) : '';
+}
+
+/** Format a verified ISO date for the language of the current card. */
+function reskin_i18n_format_update_date(string $iso, string $lang): string
+{
+    if ($iso === '') return '';
+
+    $date = \DateTimeImmutable::createFromFormat('!Y-m-d', $iso);
+    if (!$date) return '';
+
+    if ($lang !== 'cs') return $date->format('j F Y');
+
+    $months = [1 => 'ledna', 'února', 'března', 'dubna', 'května', 'června',
+        'července', 'srpna', 'září', 'října', 'listopadu', 'prosince'];
+    return $date->format('j') . '. ' . $months[(int) $date->format('n')] . ' ' . $date->format('Y');
+}
+
+/**
  * @param string|null $id
  * @return array<string, array{label:string,url:string,url_abs:string,current:bool,available:bool,resolved_lang:string}>
  */
 function reskin_i18n_language_targets(?string $id = null): array
 {
+    global $INPUT;
+
     $parsed = reskin_i18n_parse_id($id);
     $targets = [];
     $variantParams = reskin_variant_url_params();
@@ -450,6 +600,24 @@ function reskin_i18n_language_targets(?string $id = null): array
             'available' => $available,
             'resolved_lang' => $resolved['lang'],
         ];
+    }
+
+    if ($parsed['base'] === 'news:start' && page_exists($parsed['id']) && auth_quickaclcheck($parsed['id']) >= AUTH_READ) {
+        $article = reskin_i18n_news_article($parsed['id'], $INPUT->str('article'), $parsed['lang']);
+        if ($article !== null) {
+            foreach ($targets as $code => &$target) {
+                if (!$target['available']) continue;
+
+                $targetId = reskin_i18n_build_id('news:start', $code);
+                $anchor = reskin_i18n_news_anchor_at_index($targetId, $article['index']);
+                if ($anchor === '') continue;
+
+                $params = reskin_variant_url_params(['article' => $anchor]);
+                $target['url'] = wl($targetId, $params, false, '&');
+                $target['url_abs'] = wl($targetId, $params, true, '&');
+            }
+            unset($target);
+        }
     }
 
     return $targets;

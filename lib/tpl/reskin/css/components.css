@@ -319,6 +319,278 @@
   }
 }
 
+/* News archive entries and detail views share the original wiki prose. */
+.reskin-page:has(.reskin-news-article) {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+[data-theme="dark"] .reskin-page:has(.reskin-news-article) {
+  background: transparent;
+}
+
+.reskin-page .reskin-news-article {
+  padding: clamp(1.5rem, 4vw, 4rem);
+  border: 1px solid #bcc6cf;
+  border-radius: 12px;
+  background: #fff;
+  color: var(--reskin-fg);
+}
+
+.reskin-page .reskin-news-archive-title {
+  margin: 0 0 1.4rem;
+  font-size: clamp(1.6rem, 2.5vw, 2rem);
+}
+
+.reskin-page .reskin-news-article--archive {
+  padding: clamp(1.4rem, 3vw, 2.75rem);
+}
+
+.reskin-news-article--archive + .reskin-news-article--archive {
+  margin-top: 1.25rem;
+}
+
+.reskin-site .reskin-page .reskin-news-article--archive h2 {
+  margin: 1rem 0 1.15rem;
+  font-size: clamp(1.4rem, 2.3vw, 2.1rem);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  overflow-wrap: anywhere;
+}
+
+.reskin-page .reskin-news-article--detail {
+  max-width: 52rem;
+  margin-inline: auto;
+  padding: clamp(0.6rem, 2vw, 1.5rem) 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+
+.reskin-news-article-header {
+  padding-bottom: clamp(1.5rem, 3vw, 2.5rem);
+  border-bottom: 1px solid #dce2e6;
+}
+
+.reskin-news-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  color: var(--reskin-primary-dark);
+  font-size: 0.84rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.reskin-news-eyebrow::before {
+  content: "";
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 50%;
+  background: var(--reskin-primary);
+}
+
+.reskin-site .reskin-page .reskin-news-article h1 {
+  margin: 1rem 0 1.15rem;
+  color: var(--reskin-fg);
+  font-size: clamp(1.9rem, 3.2vw, 3rem);
+  font-weight: 700;
+  line-height: 1.12;
+  letter-spacing: -0.025em;
+  overflow-wrap: anywhere;
+}
+
+.reskin-site .reskin-page .reskin-news-article--detail h1 {
+  font-size: clamp(1.75rem, 2.8vw, 2.65rem);
+}
+
+.reskin-news-meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  color: #737b81;
+  font-size: 0.9rem;
+}
+
+.reskin-news-meta > * + * {
+  padding-inline-start: 1rem;
+  border-inline-start: 1px solid #dce2e6;
+}
+
+.reskin-news-body {
+  padding-top: clamp(1.5rem, 3vw, 2.5rem);
+  color: #3c4448;
+  font-size: clamp(1rem, 1.4vw, 1.1rem);
+  line-height: 1.7;
+}
+
+.reskin-news-article--archive .reskin-news-article-header {
+  padding-bottom: 1.25rem;
+}
+
+.reskin-news-article--archive .reskin-news-body {
+  padding-top: 1.25rem;
+  font-size: 1rem;
+}
+
+.reskin-news-article--detail .reskin-news-body {
+  font-size: clamp(0.95rem, 1.25vw, 1.025rem);
+}
+
+.reskin-news-article--archive .reskin-news-footer {
+  margin-top: 1.5rem;
+}
+
+.reskin-news-body p,
+.reskin-news-body ul,
+.reskin-news-body ol {
+  margin: 0 0 1.15rem;
+}
+
+.reskin-news-body p:last-child,
+.reskin-news-body ul:last-child,
+.reskin-news-body ol:last-child {
+  margin-bottom: 0;
+}
+
+.reskin-page .reskin-news-external {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1.6rem;
+  padding: 1rem 1.25rem;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: #f4f5f6;
+  color: var(--reskin-fg);
+  text-decoration: none;
+}
+
+.reskin-news-external > i {
+  color: var(--reskin-primary-dark);
+  font-size: 1.3rem;
+}
+
+.reskin-news-external-label,
+.reskin-news-external-title {
+  display: block;
+}
+
+.reskin-news-external-label {
+  margin-bottom: 0.15rem;
+  color: #6a737a;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.reskin-news-external-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.reskin-page .reskin-news-external:hover,
+.reskin-page .reskin-news-external:focus-visible {
+  border-color: var(--reskin-primary);
+  background: #fff6f0;
+  color: var(--reskin-primary-dark);
+}
+
+.reskin-page .reskin-news-external:focus-visible,
+.reskin-page .reskin-news-footer a:focus-visible,
+.reskin-page .reskin-news-heading-link:focus-visible {
+  outline: 2px solid var(--reskin-primary);
+  outline-offset: 2px;
+}
+
+.reskin-news-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: clamp(1.7rem, 4vw, 3rem);
+  padding-top: 1.15rem;
+  border-top: 1px solid #dce2e6;
+}
+
+.reskin-page .reskin-news-permalink {
+  color: #737b81;
+  text-decoration: none;
+}
+
+.reskin-page .reskin-news-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-inline-start: auto;
+  color: var(--reskin-primary-dark);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.reskin-page .reskin-news-footer a:hover,
+.reskin-page .reskin-news-heading-link:hover {
+  color: var(--reskin-primary-dark);
+  text-decoration: underline;
+}
+
+.reskin-page .reskin-news-heading-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+[data-theme="dark"] .reskin-page .reskin-news-article {
+  border-color: #5a5146;
+  background: #1b1916;
+}
+
+[data-theme="dark"] .reskin-page .reskin-news-article--detail {
+  border: 0;
+  background: transparent;
+}
+
+[data-theme="dark"] .reskin-news-article-header,
+[data-theme="dark"] .reskin-news-footer,
+[data-theme="dark"] .reskin-news-meta > * + * {
+  border-color: #5a5146;
+}
+
+[data-theme="dark"] .reskin-news-body {
+  color: #e3ded8;
+}
+
+[data-theme="dark"] .reskin-news-meta,
+[data-theme="dark"] .reskin-page .reskin-news-permalink,
+[data-theme="dark"] .reskin-news-external-label {
+  color: #b6afa8;
+}
+
+[data-theme="dark"] .reskin-page .reskin-news-external {
+  background: #2b2723;
+  color: var(--reskin-fg);
+}
+
+[data-theme="dark"] .reskin-page .reskin-news-external:hover,
+[data-theme="dark"] .reskin-page .reskin-news-external:focus-visible {
+  background: #3c2c22;
+  color: #ffbe99;
+}
+
+@media (max-width: 575px) {
+  .reskin-news-meta > * + * {
+    padding-inline-start: 0.7rem;
+  }
+
+  .reskin-page .reskin-news-external {
+    padding: 0.85rem 1rem;
+  }
+}
+
 :is(.reskin-pageid-cs-resources-hardware-start, .reskin-pageid-en-resources-hardware-start) .reskin-page h1 {
   margin-top: 0;
   margin-bottom: 0.85rem;

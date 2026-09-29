@@ -404,7 +404,6 @@
   padding-top: 0.85rem;
 }
 
-.reskin-layout-top.reskin-style-cesnet .reskin-update-card,
 .reskin-layout-top.reskin-style-cesnet .reskin-metric-link,
 .reskin-layout-top.reskin-style-cesnet .reskin-metric-hex,
 .reskin-layout-top.reskin-style-cesnet .reskin-story-card {
@@ -422,26 +421,6 @@
   border-radius: 0;
   background: #fffaf6;
   box-shadow: 0 10px 22px rgba(18, 24, 30, 0.08);
-}
-
-.reskin-layout-top.reskin-style-cesnet .reskin-update-card::before {
-  background: var(--reskin-primary);
-  height: 4px;
-  border-radius: 4px 4px 0 0;
-}
-
-.reskin-layout-top.reskin-style-cesnet .reskin-update-list a {
-  background: var(--reskin-muted);
-  border: 1px solid transparent;
-  border-radius: var(--reskin-radius);
-  transition: all 0.2s ease;
-}
-
-.reskin-layout-top.reskin-style-cesnet .reskin-update-list a:hover,
-.reskin-layout-top.reskin-style-cesnet .reskin-update-list a:focus {
-  background: #ffffff;
-  border-color: var(--reskin-primary);
-  color: var(--reskin-primary);
 }
 
 .reskin-layout-top.reskin-style-cesnet .reskin-metrics::before {
@@ -583,7 +562,6 @@
   color: var(--reskin-primary);
 }
 
-[data-theme="dark"] .reskin-layout-top.reskin-style-cesnet .reskin-update-card,
 [data-theme="dark"] .reskin-layout-top.reskin-style-cesnet .reskin-metric-link,
 [data-theme="dark"] .reskin-layout-top.reskin-style-cesnet .reskin-metric-hex,
 [data-theme="dark"] .reskin-layout-top.reskin-style-cesnet .reskin-story-card {
@@ -598,13 +576,6 @@
   background: transparent;
   border: none;
   box-shadow: none;
-}
-
-[data-theme="dark"]
-  .reskin-layout-top.reskin-style-cesnet
-  .reskin-update-list
-  a {
-  background: #2a2a2a;
 }
 
 [data-theme="dark"]

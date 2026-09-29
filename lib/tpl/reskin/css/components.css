@@ -149,6 +149,176 @@
   transform: rotate(90deg);
 }
 
+/* Project records stay in wiki syntax; this styles only the rendered cards. */
+.reskin-page .reskin-project-card {
+  overflow: hidden;
+  margin: 1.65rem 0;
+  padding: clamp(1.35rem, 3vw, 2.5rem);
+  border: 1px solid #b9c3cd;
+  border-radius: 12px;
+  background: #fff;
+  color: #1c1a17;
+  box-shadow: 0 8px 24px rgba(19, 30, 40, 0.05);
+}
+
+.reskin-project-eyebrow {
+  display: block;
+  margin-bottom: 0.6rem;
+  color: var(--reskin-primary-dark);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.reskin-page .reskin-project-title {
+  margin: 0;
+  font-size: clamp(1.65rem, 2.6vw, 2.7rem);
+  font-weight: 600;
+  line-height: 1.17;
+  overflow-wrap: anywhere;
+}
+
+.reskin-project-period {
+  display: grid;
+  grid-template-columns: minmax(5rem, 7rem) minmax(0, 1fr);
+  gap: 0.8rem;
+  margin: 1.6rem 0;
+  padding: 0.85rem 0;
+  border-block: 1px solid #dce2e6;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.reskin-project-period span:first-child,
+.reskin-page .reskin-project-section h4 {
+  color: #505962;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+.reskin-project-period span:first-child {
+  align-self: center;
+}
+
+.reskin-page .reskin-project-section {
+  margin-top: 1.5rem;
+}
+
+.reskin-page .reskin-project-section h4 {
+  margin: 0 0 0.6rem;
+  text-transform: uppercase;
+}
+
+.reskin-project-section p,
+.reskin-project-section ul,
+.reskin-project-section ol {
+  margin: 0 0 0.85rem;
+  line-height: 1.65;
+}
+
+.reskin-project-section :last-child {
+  margin-bottom: 0;
+}
+
+.reskin-project-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin-top: 1.75rem;
+}
+
+.reskin-project-actions:has(> :only-child) {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.reskin-page .reskin-project-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  min-height: 3.2rem;
+  padding: 0.7rem 1rem;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  background: #f6f7f8;
+  color: var(--reskin-primary-dark);
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.reskin-project-action i {
+  flex: 0 0 auto;
+  font-size: 1.12rem;
+}
+
+.reskin-page .reskin-project-action:hover,
+.reskin-page .reskin-project-action:focus-visible {
+  border-color: var(--reskin-primary);
+  background: #fff4eb;
+  color: var(--reskin-primary-dark);
+}
+
+.reskin-page .reskin-project-action:focus-visible {
+  outline: 2px solid var(--reskin-primary);
+  outline-offset: 2px;
+}
+
+[data-theme="dark"] .reskin-page .reskin-project-card {
+  border-color: #635b54;
+  background: #211e1b;
+  color: var(--reskin-fg);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="dark"] .reskin-project-eyebrow,
+[data-theme="dark"] .reskin-page .reskin-project-action {
+  color: #ffab78;
+}
+
+[data-theme="dark"] .reskin-project-period {
+  border-color: #5c5248;
+}
+
+[data-theme="dark"] .reskin-project-period span:first-child,
+[data-theme="dark"] .reskin-page .reskin-project-section h4 {
+  color: #c5c1bb;
+}
+
+[data-theme="dark"] .reskin-page .reskin-project-action {
+  background: #302a25;
+}
+
+[data-theme="dark"] .reskin-page .reskin-project-action:hover,
+[data-theme="dark"] .reskin-page .reskin-project-action:focus-visible {
+  color: #ffbd94;
+  background: #3c2c22;
+}
+
+@media (max-width: 580px) {
+  .reskin-page .reskin-project-card {
+    padding: 1.25rem;
+  }
+
+  .reskin-project-period,
+  .reskin-project-actions {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .reskin-project-period {
+    gap: 0.2rem;
+  }
+}
+
+@media print {
+  .reskin-page .reskin-project-card {
+    break-inside: avoid;
+    box-shadow: none;
+  }
+}
+
 :is(.reskin-pageid-cs-resources-hardware-start, .reskin-pageid-en-resources-hardware-start) .reskin-page h1 {
   margin-top: 0;
   margin-bottom: 0.85rem;

@@ -48,14 +48,22 @@ function reskin_i18n_home_fragment_rows(string $base, int $columns, ?string $pre
     $cacheKey = $resolved['id'] . '|' . $columns;
     if (isset($cache[$cacheKey])) return $cache[$cacheKey];
 
-    $raw = (string) rawWiki($resolved['id']);
-    if (trim($raw) === '') {
-        $cache[$cacheKey] = [];
-        return [];
-    }
+    $cache[$cacheKey] = reskin_parse_home_fragment_rows((string) rawWiki($resolved['id']), $columns);
+    return $cache[$cacheKey];
+}
+
+/**
+ * Parse explicit fragment source; page resolution, ACL and request-local reuse stay in the reader.
+ * The final column retains additional pipes, and every required column must be non-empty.
+ * @return list<list<string>>
+ */
+function reskin_parse_home_fragment_rows(string $source, int $columns): array
+{
+    $columns = max(1, $columns);
+    if (trim($source) === '') return [];
 
     $rows = [];
-    $lines = preg_split('/\R/u', $raw) ?: [];
+    $lines = preg_split('/\R/u', $source) ?: [];
     foreach ($lines as $line) {
         $line = trim((string) $line);
         if ($line === '') continue;
@@ -81,7 +89,6 @@ function reskin_i18n_home_fragment_rows(string $base, int $columns, ?string $pre
         $rows[] = $parts;
     }
 
-    $cache[$cacheKey] = $rows;
     return $rows;
 }
 
@@ -91,63 +98,23 @@ function reskin_i18n_home_fragment_rows(string $base, int $columns, ?string $pre
  */
 function reskin_i18n_default_start_metric_cards(string $lang): array
 {
-    if ($lang === 'cs') {
-        return [
-            [
-                'title' => 'Superpocitace',
-                'url' => reskin_i18n_link('resources:hardware:start'),
-                'icon' => 'bi-diagram-3',
-            ],
-            [
-                'title' => 'Vyzkum',
-                'url' => reskin_i18n_link('projekty:start'),
-                'icon' => 'bi-search',
-            ],
-            [
-                'title' => 'Spoluprace s prumyslem',
-                'url' => reskin_i18n_link('sluzby:start'),
-                'icon' => 'bi-gear-wide-connected',
-            ],
-            [
-                'title' => 'Pro uzivatele',
-                'url' => reskin_i18n_link('vo:start'),
-                'icon' => 'bi-people-fill',
-            ],
-            [
-                'title' => 'Prave hledame',
-                'url' => reskin_i18n_link('about:start'),
-                'icon' => 'bi-briefcase-fill',
-            ],
+    $language = $lang === 'cs' ? 'cs' : 'en';
+    $definitions = [
+        ['title' => ['cs' => 'Superpocitace', 'en' => 'Supercomputers'], 'target' => 'resources:hardware:start', 'icon' => 'bi-diagram-3'],
+        ['title' => ['cs' => 'Vyzkum', 'en' => 'Research'], 'target' => 'projekty:start', 'icon' => 'bi-search'],
+        ['title' => ['cs' => 'Spoluprace s prumyslem', 'en' => 'Industry cooperation'], 'target' => 'sluzby:start', 'icon' => 'bi-gear-wide-connected'],
+        ['title' => ['cs' => 'Pro uzivatele', 'en' => 'For users'], 'target' => 'vo:start', 'icon' => 'bi-people-fill'],
+        ['title' => ['cs' => 'Prave hledame', 'en' => 'Open positions'], 'target' => 'about:start', 'icon' => 'bi-briefcase-fill'],
+    ];
+    $cards = [];
+    foreach ($definitions as $definition) {
+        $cards[] = [
+            'title' => $definition['title'][$language],
+            'url' => reskin_i18n_link($definition['target']),
+            'icon' => $definition['icon'],
         ];
     }
-
-    return [
-        [
-            'title' => 'Supercomputers',
-            'url' => reskin_i18n_link('resources:hardware:start'),
-            'icon' => 'bi-diagram-3',
-        ],
-        [
-            'title' => 'Research',
-            'url' => reskin_i18n_link('projekty:start'),
-            'icon' => 'bi-search',
-        ],
-        [
-            'title' => 'Industry cooperation',
-            'url' => reskin_i18n_link('sluzby:start'),
-            'icon' => 'bi-gear-wide-connected',
-        ],
-        [
-            'title' => 'For users',
-            'url' => reskin_i18n_link('vo:start'),
-            'icon' => 'bi-people-fill',
-        ],
-        [
-            'title' => 'Open positions',
-            'url' => reskin_i18n_link('about:start'),
-            'icon' => 'bi-briefcase-fill',
-        ],
-    ];
+    return $cards;
 }
 
 /**
@@ -156,18 +123,10 @@ function reskin_i18n_default_start_metric_cards(string $lang): array
  */
 function reskin_i18n_default_start_metric_highlights(string $lang): array
 {
-    if ($lang === 'cs') {
-        return [
-            ['number' => '2 000+', 'label' => 'uzivatelu'],
-            ['number' => '25+', 'label' => 'mezinarodnich projektu'],
-            ['number' => '100+', 'label' => 'projektu pro prumysl'],
-        ];
-    }
-
     return [
-        ['number' => '2,000+', 'label' => 'users'],
-        ['number' => '25+', 'label' => 'international projects'],
-        ['number' => '100+', 'label' => 'industry projects'],
+        ['number' => $lang === 'cs' ? '2 000+' : '2,000+', 'label' => $lang === 'cs' ? 'uzivatelu' : 'users'],
+        ['number' => '25+', 'label' => $lang === 'cs' ? 'mezinarodnich projektu' : 'international projects'],
+        ['number' => '100+', 'label' => $lang === 'cs' ? 'projektu pro prumysl' : 'industry projects'],
     ];
 }
 
@@ -177,97 +136,50 @@ function reskin_i18n_default_start_metric_highlights(string $lang): array
  */
 function reskin_i18n_default_start_story_cards(string $lang): array
 {
-    if ($lang === 'cs') {
-        return [
-            [
-                'date' => '08/04',
-                'year' => '2026',
-                'title' => 'Workshop AI Confidential',
-                'url' => reskin_i18n_link('news:start'),
-                'image' => 'https://www.metacentrum.cz/export/sites/metacentrum/images/EGI_history.png',
-            ],
-            [
-                'date' => '09/04',
-                'year' => '2026',
-                'title' => 'AdvanceMed 2026',
-                'url' => reskin_i18n_link('news:start'),
-                'image' => 'https://www.metacentrum.cz/export/sites/metacentrum/images/ceritsc.png_1995693183.png',
-            ],
-            [
-                'date' => '28/04',
-                'year' => '2026',
-                'title' => 'Superpocitace a kvantovy pocitac VLQ zblizka',
-                'url' => reskin_i18n_link('news:start'),
-                'image' => 'https://www.metacentrum.cz/export/sites/metacentrum/cs/devel/PBSMon/pbsmon1.png',
-            ],
-            [
-                'date' => '05/05',
-                'year' => '2026',
-                'title' => 'Skoleni: Jak pripravit GPU ulohy',
-                'url' => reskin_i18n_link('news:start'),
-                'image' => 'https://www.metacentrum.cz/export/sites/metacentrum/images/mapkaMC_2016_oranz.png_20180039.png',
-            ],
-            [
-                'date' => '13/05',
-                'year' => '2026',
-                'title' => 'Open Access Day pro vyzkumniky',
-                'url' => reskin_i18n_link('news:start'),
-                'image' => 'https://www.cesnet.cz/wp-content/uploads/2022/10/Foto-1035-1-scaled.jpg',
-            ],
-            [
-                'date' => '26/05',
-                'year' => '2026',
-                'title' => 'MetaCentrum community meetup',
-                'url' => reskin_i18n_link('news:start'),
-                'image' => 'https://www.metacentrum.cz/export/sites/metacentrum/en/devel/plan-based-scheduler/screenshot3.png',
-            ],
-        ];
-    }
-
-    return [
+    $language = $lang === 'cs' ? 'cs' : 'en';
+    $definitions = [
         [
             'date' => '08/04',
-            'year' => '2026',
-            'title' => 'Workshop AI Confidential',
-            'url' => reskin_i18n_link('news:start'),
+            'title' => ['cs' => 'Workshop AI Confidential', 'en' => 'Workshop AI Confidential'],
             'image' => 'https://www.metacentrum.cz/export/sites/metacentrum/images/EGI_history.png',
         ],
         [
             'date' => '09/04',
-            'year' => '2026',
-            'title' => 'AdvanceMed 2026',
-            'url' => reskin_i18n_link('news:start'),
+            'title' => ['cs' => 'AdvanceMed 2026', 'en' => 'AdvanceMed 2026'],
             'image' => 'https://www.metacentrum.cz/export/sites/metacentrum/images/ceritsc.png_1995693183.png',
         ],
         [
             'date' => '28/04',
-            'year' => '2026',
-            'title' => 'Supercomputers and VLQ quantum computing excursion',
-            'url' => reskin_i18n_link('news:start'),
+            'title' => ['cs' => 'Superpocitace a kvantovy pocitac VLQ zblizka', 'en' => 'Supercomputers and VLQ quantum computing excursion'],
             'image' => 'https://www.metacentrum.cz/export/sites/metacentrum/cs/devel/PBSMon/pbsmon1.png',
         ],
         [
             'date' => '05/05',
-            'year' => '2026',
-            'title' => 'Training: how to run GPU workloads',
-            'url' => reskin_i18n_link('news:start'),
+            'title' => ['cs' => 'Skoleni: Jak pripravit GPU ulohy', 'en' => 'Training: how to run GPU workloads'],
             'image' => 'https://www.metacentrum.cz/export/sites/metacentrum/images/mapkaMC_2016_oranz.png_20180039.png',
         ],
         [
             'date' => '13/05',
-            'year' => '2026',
-            'title' => 'Open Access Day for researchers',
-            'url' => reskin_i18n_link('news:start'),
+            'title' => ['cs' => 'Open Access Day pro vyzkumniky', 'en' => 'Open Access Day for researchers'],
             'image' => 'https://www.cesnet.cz/wp-content/uploads/2022/10/Foto-1035-1-scaled.jpg',
         ],
         [
             'date' => '26/05',
-            'year' => '2026',
-            'title' => 'MetaCentrum community meetup',
-            'url' => reskin_i18n_link('news:start'),
+            'title' => ['cs' => 'MetaCentrum community meetup', 'en' => 'MetaCentrum community meetup'],
             'image' => 'https://www.metacentrum.cz/export/sites/metacentrum/en/devel/plan-based-scheduler/screenshot3.png',
         ],
     ];
+    $cards = [];
+    foreach ($definitions as $definition) {
+        $cards[] = [
+            'date' => $definition['date'],
+            'year' => '2026',
+            'title' => $definition['title'][$language],
+            'url' => reskin_i18n_link('news:start'),
+            'image' => $definition['image'],
+        ];
+    }
+    return $cards;
 }
 
 /**

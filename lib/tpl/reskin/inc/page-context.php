@@ -20,7 +20,7 @@ function reskin_variant_context(): array
 
 /**
  * Named DokuWiki adapter; the rest of request preparation receives explicit inputs.
- * @return array{id:string,action:mixed,variant:array,article_id:string,fallback_from:string,start:string,sidebar:string}
+ * @return array{id:string,action:mixed,variant:array{layout:string,style:string},article_id:string,fallback_from:string,start:string,sidebar:string}
  */
 function reskin_request_state(): array
 {
@@ -93,20 +93,60 @@ function reskin_i18n_fallback_notice(): ?string
 }
 
 /**
+ * Pure visibility policy over explicit page/request inputs; sidebar authorization stays with the caller.
+ * @return array{
+ *   sidebar_aside:bool,top_navigation:bool,sidebar_mobile_trigger:bool,sidebar_offcanvas:bool,
+ *   hero:bool,updates_section:bool,updates_inline:bool,metrics_section:bool,stories_section:bool,
+ *   metrics_inline:bool,stories_inline:bool,start:bool
+ * }
+ */
+function reskin_page_visibility(string $base, string $startPage, string $layout, mixed $action, bool $hasSidebar): array
+{
+    $show = $action === 'show';
+    $sidebar = $hasSidebar && $show;
+    $start = $base === $startPage;
+    $leftInline = $show && $start && $layout === 'left';
+    return [
+        'sidebar_aside' => $sidebar && $layout === 'left',
+        'top_navigation' => $sidebar && $layout === 'top',
+        'sidebar_mobile_trigger' => $sidebar && in_array($layout, ['left', 'top'], true),
+        'sidebar_offcanvas' => $sidebar && in_array($layout, ['left', 'top'], true),
+        'hero' => $start && $show,
+        'updates_section' => $show && $start && !$leftInline,
+        'updates_inline' => $show && ($base === 'variants:news' || $leftInline),
+        'metrics_section' => $show && $start && !$leftInline,
+        'stories_section' => $show && $start && !$leftInline,
+        'metrics_inline' => $show && ($base === 'variants:it4i-elements' || $leftInline),
+        'stories_inline' => $show && ($base === 'variants:it4i-elements' || $leftInline),
+        'start' => $start,
+    ];
+}
+
+/**
  * Prepare one stable page model; native content/TOC rendering still happens later in main.
  * Language selection may use an article during edit/preview, but reading-view selection may not.
- * @return array{request:array,page:array,variant:array,show:array,news_entries:array,news_article:?array,language_targets:array,layout_links:array,fallback_notice:?string,hardware:bool,hardware_catalog_url:string,page_class:string,breadcrumb_html:string}
+ * @param array{id:string,action:mixed,variant:array{layout:string,style:string},article_id:string,fallback_from:string,start:string,sidebar:string} $request
+ * @return array{
+ *   request:array{id:string,action:mixed,variant:array{layout:string,style:string},article_id:string,fallback_from:string,start:string,sidebar:string},
+ *   page:array{lang:string,base:string,localized:bool,id:string},variant:array{layout:string,style:string},
+ *   show:array{
+ *     sidebar_aside:bool,top_navigation:bool,sidebar_mobile_trigger:bool,sidebar_offcanvas:bool,
+ *     hero:bool,updates_section:bool,updates_inline:bool,metrics_section:bool,stories_section:bool,
+ *     metrics_inline:bool,stories_inline:bool,start:bool
+ *   },
+ *   news_entries:list<array<string,mixed>>,news_article:array<string,mixed>|null,
+ *   language_targets:array<string,array{label:string,url:string,url_abs:string,current:bool,available:bool,resolved_lang:string}>,
+ *   layout_links:array{clean:string,left:string,top:string},fallback_notice:string|null,
+ *   hardware:bool,hardware_catalog_url:string,page_class:string,breadcrumb_html:string
+ * }
  */
 function reskin_page_context(array $request): array
 {
     $page = reskin_parse_page_id($request['id']);
     $show = $request['action'] === 'show';
     $variant = $request['variant'];
-    $sidebar = reskin_resolve_fragment($request['sidebar'], $page['lang'], $request['id'])['found'] && $show;
-    $start = $page['base'] === $request['start'];
-    $newsShowcase = $page['base'] === 'variants:news';
-    $elements = $page['base'] === 'variants:it4i-elements';
-    $leftInline = $show && $start && $variant['layout'] === 'left';
+    $hasSidebar = reskin_resolve_fragment($request['sidebar'], $page['lang'], $request['id'])['found'];
+    $visibility = reskin_page_visibility($page['base'], $request['start'], $variant['layout'], $request['action'], $hasSidebar);
     $entries = [];
     $selection = null;
     if ($page['base'] === 'news:start' && page_exists($request['id']) && auth_quickaclcheck($request['id']) >= AUTH_READ) {
@@ -122,20 +162,7 @@ function reskin_page_context(array $request): array
         : '';
     return [
         'request' => $request, 'page' => $page, 'variant' => $variant,
-        'show' => [
-            'sidebar_aside' => $sidebar && $variant['layout'] === 'left',
-            'top_navigation' => $sidebar && $variant['layout'] === 'top',
-            'sidebar_mobile_trigger' => $sidebar && in_array($variant['layout'], ['left', 'top'], true),
-            'sidebar_offcanvas' => $sidebar && in_array($variant['layout'], ['left', 'top'], true),
-            'hero' => $start && $show,
-            'updates_section' => $show && $start && !$leftInline,
-            'updates_inline' => $show && ($newsShowcase || $leftInline),
-            'metrics_section' => $show && $start && !$leftInline,
-            'stories_section' => $show && $start && !$leftInline,
-            'metrics_inline' => $show && ($elements || $leftInline),
-            'stories_inline' => $show && ($elements || $leftInline),
-            'start' => $start,
-        ],
+        'show' => $visibility,
         'news_entries' => $show ? $entries : [],
         'news_article' => $show ? $selection : null,
         'language_targets' => reskin_language_targets($page, $variant, $selection),

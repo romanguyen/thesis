@@ -52,3 +52,61 @@ function reskin_page_content_model(string $pageId, string $contentHtml, array $e
     }
     return $model;
 }
+
+/**
+ * Prepare header presentation at its native include stage, reusing context language/layout targets.
+ * This adapter owns the current DokuWiki auth/label/link boundary; header.php retains tpl_searchform().
+ * @param array{language_targets:array,layout_links:array{clean:string,left:string,top:string},variant:array{layout:string,style:string}} $context
+ * @return array{
+ *   brand_url:string,logo_url:string,labels:array{skip_to_content:string,language_switcher:string,close_search:string,open_search:string,toggle_theme:string,layout_switcher:string},
+ *   languages:list<array{code:string,label:string,url:string,class:string,title:string,current:bool}>,
+ *   layouts:list<array{label:string,url:string,icon:string,title:string,current:bool}>,logout:array{url:string,label:string}|null
+ * }
+ */
+function reskin_header_model(array $context): array
+{
+    global $ID, $INPUT, $lang;
+    $languages = [];
+    foreach ($context['language_targets'] as $code => $target) {
+        $classes = 'reskin-lang-btn';
+        if ($target['current']) $classes .= ' is-current';
+        if (!$target['available']) $classes .= ' is-unavailable';
+        $languages[] = [
+            'code' => $code,
+            'label' => strtoupper($code),
+            'url' => $target['url'],
+            'class' => $classes,
+            'title' => $target['available'] ? $target['label'] : reskin_i18n_t('translation_missing'),
+            'current' => $target['current'],
+        ];
+    }
+    $layouts = [];
+    foreach (['left' => 'bi-layout-sidebar', 'top' => 'bi-menu-button-wide', 'clean' => 'bi-border-all'] as $layout => $icon) {
+        $layouts[] = [
+            'label' => reskin_i18n_t('layout_' . $layout),
+            'url' => $context['layout_links'][$layout],
+            'icon' => $icon,
+            'title' => reskin_i18n_t('layout_' . $layout . '_hint'),
+            'current' => $context['variant']['layout'] === $layout,
+        ];
+    }
+    $labels = [];
+    foreach (['skip_to_content', 'language_switcher', 'close_search', 'open_search', 'toggle_theme', 'layout_switcher'] as $key) {
+        $labels[$key] = reskin_i18n_t($key);
+    }
+    $logout = null;
+    if ($INPUT->server->str('REMOTE_USER')) {
+        $logout = [
+            'url' => wl($ID, reskin_url_variant_params($context['variant'], ['do' => 'logout', 'sectok' => getSecurityToken()]), true, '&'),
+            'label' => $lang['btn_logout'] ?? 'Logout',
+        ];
+    }
+    return [
+        'brand_url' => reskin_i18n_link('start'),
+        'logo_url' => tpl_basedir() . 'img/metacentrum_RGB.svg',
+        'labels' => $labels,
+        'languages' => $languages,
+        'layouts' => $layouts,
+        'logout' => $logout,
+    ];
+}

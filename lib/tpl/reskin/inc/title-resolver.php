@@ -9,11 +9,7 @@ if (!defined('DOKU_INC')) die();
  */
 function reskin_title_normalize_id(string $pageId): string
 {
-    $normalized = trim(cleanID($pageId), ':');
-    if (substr($normalized, -6) === ':start') {
-        $normalized = substr($normalized, 0, -6);
-    }
-    return $normalized;
+    return reskin_navigation_title_id($pageId);
 }
 
 /**
@@ -24,38 +20,8 @@ function reskin_title_normalize_id(string $pageId): string
  */
 function reskin_title_from_sidebar(string $id): ?string
 {
-    global $conf;
-
-    $sidebarHtml = reskin_i18n_include_page($conf['sidebar'], false, true);
-    if (!is_string($sidebarHtml) || trim($sidebarHtml) === '') {
-        return null;
-    }
-
-    $currentBaseId = reskin_title_normalize_id($id);
-
-    $doc = new DOMDocument();
-    libxml_use_internal_errors(true);
-    $doc->loadHTML('<?xml encoding="utf-8"?>' . $sidebarHtml, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
-    libxml_clear_errors();
-
-    $xpath = new DOMXPath($doc);
-    $links = $xpath->query('//a[@data-wiki-id]');
-
-    foreach ($links as $link) {
-        if (!($link instanceof DOMElement)) continue;
-
-        $wikiId = trim((string) $link->getAttribute('data-wiki-id'));
-        if ($wikiId === '') continue;
-
-        if (reskin_title_normalize_id($wikiId) !== $currentBaseId) continue;
-
-        $title = trim((string) preg_replace('/\s+/u', ' ', (string) $link->textContent));
-        if ($title !== '') {
-            return $title;
-        }
-    }
-
-    return null;
+    // Explicit lookup IDs still use the current request's resolved sidebar scope.
+    return reskin_navigation_label(reskin_current_navigation(), $id);
 }
 
 /**

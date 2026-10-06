@@ -1,15 +1,16 @@
 <?php
 if (!defined('DOKU_INC')) die();
 
-require_once __DIR__ . '/i18n.php';
+require_once __DIR__ . '/inc/bootstrap.php';
 
 global $ID, $INPUT, $lang;
 
-$reskinLangTargets = reskin_i18n_language_targets();
-$reskinVariant = reskin_variant_context();
-$reskinCleanUrl = wl($ID, ['layout' => 'clean'], false, '&');
-$reskinLeftUrl = wl($ID, ['layout' => 'left'], false, '&');
-$reskinTopUrl = wl($ID, [], false, '&');
+/** @var array $reskinContext Prepared once by main; shared with head.php. */
+$reskinLangTargets = $reskinContext['language_targets'];
+$reskinVariant = $reskinContext['variant'];
+$reskinCleanUrl = $reskinContext['layout_links']['clean'];
+$reskinLeftUrl = $reskinContext['layout_links']['left'];
+$reskinTopUrl = $reskinContext['layout_links']['top'];
 ?>
 <header class="reskin-header">
     <a class="reskin-skip" href="#reskin-main"><?php echo hsc(reskin_i18n_t('skip_to_content')); ?></a>

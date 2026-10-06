@@ -1,3 +1,23 @@
+/* Clean layout. Shared component geometry is loaded before this file. */
+.reskin-layout-clean {
+  --reskin-content-width: min(1320px, 100%);
+}
+
+.reskin-layout-clean .reskin-main {
+  background: var(--reskin-bg);
+}
+
+.reskin-layout-clean .reskin-content {
+  padding-top: 1.5rem;
+}
+
+@media (min-width: 1200px) {
+  .reskin-layout-clean .reskin-article-layout.has-toc .reskin-page-toc {
+    margin-top: calc(2.85rem + 1px);
+  }
+}
+
+body[data-reskin-layout="clean"],
 .reskin-layout-clean {
   --reskin-bg: #f7f9fc;
   --reskin-fg: #1f2731;
@@ -11,10 +31,15 @@
   --reskin-control-bg-hover: #f2f7fc;
   --reskin-control-border: #c5cfdb;
   --reskin-control-text: #344354;
+  --reskin-control-surface: rgba(255, 255, 255, 0.1);
   --reskin-shadow: none;
   --reskin-radius: 8px;
   --reskin-font-sans: "Open Sans", "Source Sans 3", "Segoe UI", Arial, sans-serif;
-  font-family: var(--reskin-font-sans);
+  --reskin-page-surface: #ffffff;
+  --reskin-page-border: 1px solid var(--reskin-border);
+  --reskin-page-radius: 8px;
+  --reskin-page-padding: 1.45rem 1.55rem;
+  --reskin-page-shadow: none;
 }
 
 .reskin-layout-clean,
@@ -828,6 +853,7 @@
   outline-offset: 2px;
 }
 
+[data-theme="dark"] body[data-reskin-layout="clean"],
 [data-theme="dark"] .reskin-layout-clean {
   --reskin-bg: #0f151d;
   --reskin-fg: #e7edf4;
@@ -838,6 +864,8 @@
   --reskin-control-bg-hover: #202b39;
   --reskin-control-border: #3d4b5d;
   --reskin-control-text: #d2dbe6;
+  --reskin-page-surface: #15202b;
+  --reskin-dark-control-surface: rgba(255, 255, 255, 0.1);
 }
 
 [data-theme="dark"] .reskin-layout-clean .reskin-brand-logo--header {

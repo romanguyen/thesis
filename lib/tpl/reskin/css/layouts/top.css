@@ -1,3 +1,25 @@
+/* Top/CESNET layout. Shared component geometry is loaded before this file. */
+.reskin-layout-top {
+  --reskin-content-width: min(1320px, 100%);
+}
+
+.reskin-layout-top .reskin-content {
+  padding-top: 2rem;
+}
+
+@media (min-width: 768px) {
+  .reskin-layout-top .reskin-sidebar-mobile {
+    display: none !important;
+  }
+}
+
+@media (max-width: 767px) {
+  .reskin-layout-top .reskin-topnav {
+    display: none;
+  }
+}
+
+body[data-reskin-layout="top"],
 .reskin-layout-top.reskin-style-cesnet,
 .reskin-offcanvas--top-cesnet {
   --reskin-primary: #ff6600;
@@ -5,19 +27,25 @@
   --reskin-primary-contrast: #ffffff;
   --reskin-bg: #ffffff;
   --reskin-muted: #f8f9fa;
+  --reskin-muted-strong: #e6ded5;
   --reskin-fg: #333333;
   --reskin-border: #dee2e6;
   --reskin-control-bg: #ffffff;
   --reskin-control-bg-hover: #f8f9fa;
   --reskin-control-border: #ced4da;
   --reskin-control-text: #495057;
+  --reskin-control-surface: var(--reskin-control-bg);
   --reskin-radius: 4px;
   --reskin-shadow:
     0 1px 3px rgba(0, 0, 0, 0.08), 0 4px 12px rgba(0, 0, 0, 0.05);
   --reskin-font-sans:
     "Open Sans", "Source Sans 3", "Inter", -apple-system, BlinkMacSystemFont,
     "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  font-family: var(--reskin-font-sans);
+  --reskin-page-surface: transparent;
+  --reskin-page-border: none;
+  --reskin-page-radius: 0;
+  --reskin-page-padding: 0;
+  --reskin-page-shadow: none;
 }
 
 .reskin-layout-top.reskin-style-cesnet,
@@ -488,18 +516,21 @@
 }
 
 /* Dark Mode Overrides */
+[data-theme="dark"] body[data-reskin-layout="top"],
 [data-theme="dark"] .reskin-layout-top.reskin-style-cesnet,
 [data-theme="dark"] .reskin-offcanvas--top-cesnet {
   --reskin-primary: #ff8533;
   --reskin-primary-dark: #ffad70;
   --reskin-bg: #1a1a1a;
   --reskin-muted: #262626;
+  --reskin-muted-strong: #26231f;
   --reskin-fg: #e0e0e0;
   --reskin-border: #333333;
   --reskin-control-bg: #2d2d2d;
   --reskin-control-bg-hover: #363636;
   --reskin-control-border: #444444;
   --reskin-control-text: #cccccc;
+  --reskin-dark-control-surface: linear-gradient(180deg, #23201d 0%, #1b1816 100%);
 }
 
 [data-theme="dark"] .reskin-layout-top.reskin-style-cesnet .reskin-main {

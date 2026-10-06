@@ -336,3 +336,110 @@ function reskin_i18n_start_story_cards(?string $lang = null): array
     if (!empty($cards)) return $cards;
     return reskin_i18n_default_start_story_cards($lang);
 }
+
+/**
+ * Existing demonstration datasets, shared by showcase and empty inline feeds.
+ * @param 'news'|'outages' $kind
+ * @return array<int,array{title:string,url:string,date:string,date_iso:string}>
+ */
+function reskin_home_default_update_items(string $kind, string $lang): array
+{
+    if ($kind === 'news') {
+        $base = 'news:start';
+        $rows = $lang === 'cs' ? [
+            ['EGI.eu vyhlašuje výběrové řízení na nového ředitele', '2013-11-14'],
+            ['EGI Inspired Newsletter – Léto 2012', '2012-09-06'],
+            ['EGI Inspired Newsletter – Jaro 2012', '2012-05-24'],
+        ] : [
+            ['EGI.eu is now seeking to employ a Director', '2013-11-14'],
+            ['EGI Inspired Newsletter - Summer 2012', '2012-09-06'],
+            ['EGI Inspired Newsletter - Spring 2012', '2012-05-24'],
+        ];
+    } else {
+        $base = 'outages:start';
+        $rows = $lang === 'cs' ? [
+            ['Plánovaná odstávka: frontendy a scheduler', '2026-04-14'],
+            ['Údržba úložišť: metadata scratch', '2026-04-16'],
+            ['Kde sledovat aktuální stav', ''],
+        ] : [
+            ['Planned outage: frontends and scheduler', '2026-04-14'],
+            ['Storage maintenance: metadata scratch', '2026-04-16'],
+            ['Where to track current status', ''],
+        ];
+    }
+    $items = [];
+    foreach ($rows as [$title, $dateIso]) {
+        $items[] = [
+            'title' => $title,
+            'url' => reskin_i18n_link($base),
+            'date_iso' => $dateIso,
+            'date' => reskin_i18n_format_update_date($dateIso, $lang),
+        ];
+    }
+    return $items;
+}
+
+/**
+ * Prepare both update cards with their current distinct content policies.
+ *
+ * @param bool $readRecent Homepage paths read live headings; the standalone showcase does not.
+ * @param bool $allowDemo Empty inline feeds use demos; full-width homepage feeds stay empty.
+ * @return array{label:string,cards:array<int,array{title:string,icon:string,archive_url:string,archive_label:string,empty_label:string,items:array}>}
+ */
+function reskin_home_updates_model(string $lang, bool $readRecent, bool $allowDemo): array
+{
+    $items = $readRecent ? [
+        'news' => reskin_i18n_recent_headings('news:start', 3, $lang),
+        'outages' => reskin_i18n_recent_headings('outages:start', 3, $lang),
+    ] : ['news' => [], 'outages' => []];
+    $groups = [
+        'news' => ['base' => 'news:start', 'icon' => 'bi-journal-text'],
+        'outages' => ['base' => 'outages:start', 'icon' => 'bi-exclamation-triangle'],
+    ];
+    $cards = [];
+    foreach ($groups as $kind => $group) {
+        if ($items[$kind] === [] && $allowDemo) {
+            $items[$kind] = reskin_home_default_update_items($kind, $lang);
+        }
+        $cards[] = [
+            'title' => reskin_i18n_t('updates_' . $kind . '_title', [], $lang),
+            'icon' => $group['icon'],
+            'archive_url' => reskin_i18n_link($group['base']),
+            'archive_label' => reskin_i18n_t('updates_' . $kind . '_archive', [], $lang),
+            'empty_label' => reskin_i18n_t('updates_empty', [], $lang),
+            'items' => array_map(static function (array $item): array {
+                return $item + ['date' => '', 'date_iso' => ''];
+            }, $items[$kind]),
+        ];
+    }
+    return ['label' => reskin_i18n_t('updates_block', [], $lang), 'cards' => $cards];
+}
+
+/**
+ * Prepare data once for the shared metrics and stories presentations.
+ * @return array{metrics:array{title:string,description:string,cards:array,highlights:array},stories:array{title:string,description:string,archive_url:string,archive_label:string,cta_label:string,prev_label:string,next_label:string,cards:array}}
+ */
+function reskin_home_feature_models(string $lang): array
+{
+    $cards = reskin_i18n_start_metric_cards($lang);
+    $highlights = reskin_i18n_start_metric_highlights($lang);
+    $stories = reskin_i18n_start_story_cards($lang);
+    return [
+        'metrics' => [
+            'title' => reskin_i18n_t('quick_tiles_block', [], $lang),
+            'description' => reskin_i18n_t('quick_tiles_desc', [], $lang),
+            'cards' => $cards,
+            'highlights' => $highlights,
+        ],
+        'stories' => [
+            'title' => reskin_i18n_t('stories_block', [], $lang),
+            'description' => reskin_i18n_t('stories_desc', [], $lang),
+            'archive_url' => reskin_i18n_link('news:start'),
+            'archive_label' => reskin_i18n_t('stories_all_news', [], $lang),
+            'cta_label' => reskin_i18n_t('stories_cta', [], $lang),
+            'prev_label' => reskin_i18n_t('stories_prev', [], $lang),
+            'next_label' => reskin_i18n_t('stories_next', [], $lang),
+            'cards' => $stories,
+        ],
+    ];
+}

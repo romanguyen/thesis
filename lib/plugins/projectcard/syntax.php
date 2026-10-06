@@ -39,47 +39,29 @@ class syntax_plugin_projectcard extends SyntaxPlugin
         if ($format !== 'xhtml') return false;
 
         global $ID;
-        $english = strpos((string) $ID, 'en:') === 0;
-        $label = static function ($cs, $en) use ($english) {
-            return $english ? $en : $cs;
-        };
+        $labels = $this->labelsForPage((string) $ID);
 
         switch ($data[0]) {
             case 'PROJECT':
-                $title = trim($data[1]);
-                $anchor = 'project-' . substr(sha1($title), 0, 12);
-                $renderer->doc .= '<article class="reskin-project-card" aria-labelledby="' . $anchor . '">';
-                $renderer->doc .= '<header class="reskin-project-header">';
-                $renderer->doc .= '<span class="reskin-project-eyebrow">' . hsc($label('Projekt', 'Project')) . '</span>';
-                $renderer->doc .= '<h3 class="reskin-project-title" id="' . $anchor . '">' . hsc($title) . '</h3>';
-                $renderer->doc .= '</header>';
+                $renderer->doc .= $this->renderHeader(trim($data[1]), $labels);
                 break;
             case 'PERIOD':
-                $renderer->doc .= '<div class="reskin-project-period"><span>' . hsc($label('Období', 'Period')) . '</span><span>' . hsc(trim($data[1])) . '</span></div>';
+                $renderer->doc .= '<div class="reskin-project-period"><span>' . hsc($labels['period']) . '</span><span>' . hsc(trim($data[1])) . '</span></div>';
                 break;
             case 'GOAL':
-                $renderer->doc .= '<section class="reskin-project-section"><h4>' . hsc($label('Cíl projektu', 'Project goal')) . '</h4>';
+                $renderer->doc .= $this->renderSection($labels['goal']);
                 break;
             case 'ENDGOAL':
                 $renderer->doc .= '</section>';
                 break;
             case 'TASKS':
-                $renderer->doc .= '<section class="reskin-project-section"><h4>' . hsc($label('Úkoly MetaCentra', 'MetaCentrum tasks')) . '</h4>';
+                $renderer->doc .= $this->renderSection($labels['tasks']);
                 break;
             case 'ENDTASKS':
                 $renderer->doc .= '</section>';
                 break;
             case 'LINKS':
-                $urls = array_pad(explode('|', $data[1], 2), 2, '');
-                $links = [];
-                foreach ($urls as $index => $url) {
-                    $url = trim($url);
-                    if (!filter_var($url, FILTER_VALIDATE_URL) || !preg_match('~^https?://~i', $url)) continue;
-                    $text = $index === 0 ? 'Info' : $label('Výsledky', 'Results');
-                    $icon = $index === 0 ? 'bi-box-arrow-up-right' : 'bi-file-earmark-check';
-                    $links[] = '<a class="reskin-project-action" href="' . hsc($url) . '"><i class="bi ' . $icon . '" aria-hidden="true"></i><span>' . hsc($text) . '</span></a>';
-                }
-                if ($links) $renderer->doc .= '<nav class="reskin-project-actions" aria-label="' . hsc($label('Odkazy projektu', 'Project links')) . '">' . implode('', $links) . '</nav>';
+                $renderer->doc .= $this->renderActions($data[1], $labels);
                 break;
             case 'ENDPROJECT':
                 $renderer->doc .= '</article>';
@@ -87,5 +69,42 @@ class syntax_plugin_projectcard extends SyntaxPlugin
         }
 
         return true;
+    }
+
+    /** Labels follow the wiki page namespace, not the site's configured UI language. */
+    private function labelsForPage(string $pageId): array
+    {
+        return strpos($pageId, 'en:') === 0
+            ? ['project' => 'Project', 'period' => 'Period', 'goal' => 'Project goal', 'tasks' => 'MetaCentrum tasks', 'results' => 'Results', 'links' => 'Project links']
+            : ['project' => 'Projekt', 'period' => 'Období', 'goal' => 'Cíl projektu', 'tasks' => 'Úkoly MetaCentra', 'results' => 'Výsledky', 'links' => 'Odkazy projektu'];
+    }
+
+    private function renderHeader(string $title, array $labels): string
+    {
+        $anchor = 'project-' . substr(sha1($title), 0, 12);
+        return '<article class="reskin-project-card" aria-labelledby="' . $anchor . '">'
+            . '<header class="reskin-project-header">'
+            . '<span class="reskin-project-eyebrow">' . hsc($labels['project']) . '</span>'
+            . '<h3 class="reskin-project-title" id="' . $anchor . '">' . hsc($title) . '</h3>'
+            . '</header>';
+    }
+
+    private function renderSection(string $label): string
+    {
+        return '<section class="reskin-project-section"><h4>' . hsc($label) . '</h4>';
+    }
+
+    /** Keep the original two-slot order, optional empties, and HTTP(S)-only contract. */
+    private function renderActions(string $value, array $labels): string
+    {
+        $links = [];
+        foreach (array_pad(explode('|', $value, 2), 2, '') as $index => $url) {
+            $url = trim($url);
+            if (!filter_var($url, FILTER_VALIDATE_URL) || !preg_match('~^https?://~i', $url)) continue;
+            $text = $index === 0 ? 'Info' : $labels['results'];
+            $icon = $index === 0 ? 'bi-box-arrow-up-right' : 'bi-file-earmark-check';
+            $links[] = '<a class="reskin-project-action" href="' . hsc($url) . '"><i class="bi ' . $icon . '" aria-hidden="true"></i><span>' . hsc($text) . '</span></a>';
+        }
+        return $links ? '<nav class="reskin-project-actions" aria-label="' . hsc($labels['links']) . '">' . implode('', $links) . '</nav>' : '';
     }
 }

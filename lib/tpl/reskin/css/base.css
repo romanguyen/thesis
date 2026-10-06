@@ -1,53 +1,31 @@
 :root {
-  --reskin-bg: #f7f4ef;
-  --reskin-fg: #1c1a17;
-  --reskin-muted: #f1ebe4;
-  --reskin-muted-strong: #e6ded5;
-  --reskin-border: #e2d7cb;
-  --reskin-primary: #f0642c;
-  --reskin-primary-dark: #a93a10;
-  --reskin-primary-contrast: #ffffff;
+  /* Shared outer canvas/brand contracts; layout palettes live in layouts/*.css. */
+  --reskin-canvas-bg: #f7f4ef;
+  --reskin-canvas-fg: #1c1a17;
+  --reskin-canvas-font: "Space Grotesk", "Segoe UI", sans-serif;
   --reskin-cesnet-blue: #0f3f78;
   --reskin-cesnet-blue-soft: #1f5f9f;
   --reskin-cesnet-blue-deep: #0a2b52;
   --reskin-cesnet-ink: #153252;
   --reskin-accent: #ffdfcf;
-  --reskin-shadow: 0 16px 48px rgba(25, 15, 10, 0.12);
   --reskin-control-height: 40px;
-  --reskin-control-bg: #f3eee6;
-  --reskin-control-bg-hover: #fff8f1;
-  --reskin-control-border: #d7cbc0;
-  --reskin-control-text: #3f3a34;
-  --reskin-radius: 14px;
-  --reskin-font-sans: "Space Grotesk", "Segoe UI", sans-serif;
   --reskin-font-mono: "IBM Plex Mono", "SFMono-Regular", monospace;
 }
 
 [data-theme="dark"] {
-  --reskin-bg: #11100f;
-  --reskin-fg: #f4f1ec;
-  --reskin-muted: #1b1916;
-  --reskin-muted-strong: #26231f;
-  --reskin-border: #5a5146;
-  --reskin-primary: #ff7a45;
-  --reskin-primary-dark: #e76435;
-  --reskin-primary-contrast: #1b140f;
+  --reskin-canvas-bg: #11100f;
+  --reskin-canvas-fg: #f4f1ec;
   --reskin-cesnet-blue: #5da5f1;
   --reskin-cesnet-blue-soft: #82bcf8;
   --reskin-cesnet-blue-deep: #204f86;
   --reskin-cesnet-ink: #dcecff;
   --reskin-accent: #3a2418;
-  --reskin-shadow: 0 16px 48px rgba(0, 0, 0, 0.4);
-  --reskin-control-bg: rgba(255, 255, 255, 0.04);
-  --reskin-control-bg-hover: rgba(255, 122, 69, 0.15);
-  --reskin-control-border: #63594e;
-  --reskin-control-text: rgba(244, 241, 236, 0.9);
 }
 
 .reskin-body {
-  font-family: var(--reskin-font-sans);
-  background: var(--reskin-bg);
-  color: var(--reskin-fg);
+  font-family: var(--reskin-canvas-font);
+  background: var(--reskin-canvas-bg);
+  color: var(--reskin-canvas-fg);
 }
 
 .reskin-body code,
@@ -57,6 +35,7 @@
 }
 
 .reskin-site {
+  font-family: var(--reskin-font-sans);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -198,7 +177,7 @@
   padding: 2px;
   height: var(--reskin-control-height);
   border-color: var(--reskin-control-border);
-  background: linear-gradient(180deg, #f8f2e9 0%, #f0e7dc 100%);
+  background: var(--reskin-control-surface);
   border-radius: var(--reskin-radius);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.65);
 }
@@ -250,7 +229,7 @@
 
 [data-theme="dark"] .reskin-header-meta .reskin-lang-switcher,
 [data-theme="dark"] .reskin-header-actions .reskin-nav-link {
-  background: linear-gradient(180deg, #23201d 0%, #1b1816 100%);
+  background: var(--reskin-dark-control-surface);
   box-shadow: none;
 }
 
@@ -470,7 +449,7 @@
   height: var(--reskin-control-height);
   border: 1px solid var(--reskin-control-border);
   border-radius: var(--reskin-radius);
-  background: linear-gradient(180deg, #f8f2e9 0%, #f0e7dc 100%);
+  background: var(--reskin-control-surface);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.65);
 }
 
@@ -557,7 +536,7 @@
 }
 
 [data-theme="dark"] .reskin-layout-switcher {
-  background: linear-gradient(180deg, #23201d 0%, #1b1816 100%);
+  background: var(--reskin-control-surface);
   box-shadow: none;
 }
 

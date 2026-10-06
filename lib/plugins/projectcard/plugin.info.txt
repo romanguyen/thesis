@@ -1,0 +1,5 @@
+base   projectcard
+author MetaCentrum
+date   2026-09-28
+name   Project Cards
+desc   Renders structured project cards while keeping project descriptions in wiki syntax

@@ -1,15 +1,16 @@
 <?php
 if (!defined('DOKU_INC')) die();
 
-require_once __DIR__ . '/i18n.php';
-$reskinLangTargets = reskin_i18n_language_targets();
+require_once __DIR__ . '/inc/bootstrap.php';
+/** @var array $reskinContext Prepared once by main; shared with header.php. */
+$reskinLangTargets = $reskinContext['language_targets'];
 ?>
 <head>
     <meta charset="utf-8" />
     <?php
     $reskinTitle = reskin_page_title();
-    if (!empty($reskinNewsArticle)) {
-        $reskinTitle = $reskinNewsArticle['title'] . ' · ' . $reskinTitle;
+    if ($reskinContext['news_article'] !== null) {
+        $reskinTitle = $reskinContext['news_article']['title'] . ' · ' . $reskinTitle;
     }
     ?>
     <title><?php echo hsc($reskinTitle); ?></title>
@@ -28,55 +29,12 @@ $reskinLangTargets = reskin_i18n_language_targets();
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;600&family=Source+Sans+3:wght@400;500;600;700&family=Open+Sans:wght@400;500;600;700&display=swap"
-        rel="stylesheet"
-    />
-
-    <link
-        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-        rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
-        crossorigin="anonymous"
-    />
-    <link
-        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
-        rel="stylesheet"
-        integrity="sha384-XGjxtQfXaH2tnPFa9x+ruJTuLE3Aa6LhHSWRr1XeTyhezb4abCG4ccI5AkVDxqC+"
-        crossorigin="anonymous"
-    />
-
-    <?php
-    $reskinCssFiles = [
-        'reskin.css',
-        'base.css',
-        'home.css',
-        'components.css',
-        'layout.css',
-        'responsive.css',
-    ];
-    $reskinVariant = reskin_variant_context();
-    if ($reskinVariant['layout'] === 'top' && $reskinVariant['style'] === 'cesnet') {
-        $reskinCssFiles[] = 'top-cesnet.css';
-    }
-    if ($reskinVariant['layout'] === 'clean') {
-        $reskinCssFiles[] = 'clean-minimal.css';
-    }
-    $reskinCssVersion = 1;
-    foreach ($reskinCssFiles as $reskinCssFile) {
-        $mtime = @filemtime(__DIR__ . '/css/' . $reskinCssFile);
-        if ($mtime && $mtime > $reskinCssVersion) {
-            $reskinCssVersion = $mtime;
-        }
-    }
-    ?>
-    <link rel="stylesheet" href="<?php echo tpl_basedir(); ?>css/reskin.css?v=<?php echo $reskinCssVersion ?: '1'; ?>" />
-    <?php if ($reskinVariant['layout'] === 'top' && $reskinVariant['style'] === 'cesnet') : ?>
-        <link rel="stylesheet" href="<?php echo tpl_basedir(); ?>css/top-cesnet.css?v=<?php echo $reskinCssVersion ?: '1'; ?>" />
-    <?php endif; ?>
-    <?php if ($reskinVariant['layout'] === 'clean') : ?>
-        <link rel="stylesheet" href="<?php echo tpl_basedir(); ?>css/clean-minimal.css?v=<?php echo $reskinCssVersion ?: '1'; ?>" />
-    <?php endif; ?>
+    <?php foreach (reskin_stylesheet_assets($reskinContext['variant']) as $reskinAsset) : ?>
+        <link rel="stylesheet" href="<?php echo hsc($reskinAsset['url']); ?>"
+            <?php if (isset($reskinAsset['integrity'])) : ?>integrity="<?php echo hsc($reskinAsset['integrity']); ?>"<?php endif; ?>
+            <?php if (isset($reskinAsset['crossorigin'])) : ?>crossorigin="<?php echo hsc($reskinAsset['crossorigin']); ?>"<?php endif; ?>
+        />
+    <?php endforeach; ?>
     <script>
       (function() {
         var host = window.location.hostname;

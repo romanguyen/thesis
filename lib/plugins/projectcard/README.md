@@ -16,3 +16,5 @@ MetaCentrum's contribution.
 ```
 
 The two `LINKS` slots are Info and Results, in that order. Leave a slot empty if there is no destination: `~~LINKS:|https://example.org/results~~`. Only HTTP(S) URLs are accepted. Period and section markers are optional. Always close each opened section and card. Keep markers on their own lines and leave a blank line before and after wiki lists.
+
+Rendering helpers keep labels, header/section markup and action filtering separate. Labels follow the page's `en:` prefix (other pages retain Czech labels), independently of the site's UI language. Existing title-derived card anchors and all marker/parser contracts remain unchanged.

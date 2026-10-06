@@ -188,14 +188,6 @@
     overscroll-behavior: contain;
   }
 
-  .reskin-layout-clean .reskin-article-layout.has-toc .reskin-page-toc {
-    margin-top: calc(2.85rem + 1px);
-  }
-
-  .reskin-layout-left:is(.reskin-pageid-cs-resources-hardware-start, .reskin-pageid-en-resources-hardware-start)
-    .reskin-article-layout.has-toc .reskin-page-toc {
-    margin-top: calc(2rem + 1px);
-  }
 }
 
 @media print {
@@ -209,15 +201,11 @@
 }
 
 .reskin-page {
-  background: #ffffff;
-  border: 1px solid var(--reskin-border);
-  border-radius: var(--reskin-radius);
-  padding: 2rem;
-  box-shadow: var(--reskin-shadow);
-}
-
-[data-theme="dark"] .reskin-page {
-  background: #1b1916;
+  background: var(--reskin-page-surface);
+  border: var(--reskin-page-border);
+  border-radius: var(--reskin-page-radius);
+  padding: var(--reskin-page-padding);
+  box-shadow: var(--reskin-page-shadow);
 }
 
 .reskin-page h1,
@@ -242,10 +230,6 @@
 .reskin-page th {
   overflow-wrap: break-word;
   word-break: normal;
-}
-
-.reskin-layout-left .reskin-page th {
-  white-space: nowrap;
 }
 
 .reskin-page .table,
@@ -494,26 +478,6 @@
   font-weight: 700;
   letter-spacing: 0.04em;
   text-transform: uppercase;
-}
-
-.reskin-layout-top {
-  --reskin-content-width: min(1320px, 100%);
-}
-
-.reskin-layout-clean {
-  --reskin-content-width: min(1320px, 100%);
-}
-
-.reskin-layout-clean .reskin-main {
-  background: var(--reskin-bg);
-}
-
-.reskin-layout-clean .reskin-content {
-  padding-top: 1.5rem;
-}
-
-.reskin-layout-top .reskin-content {
-  padding-top: 2rem;
 }
 
 [data-theme="dark"] .reskin-topnav {

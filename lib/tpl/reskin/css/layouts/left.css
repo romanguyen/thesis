@@ -1,0 +1,72 @@
+/* Left/sidebar palette. Body scope gives sibling overlays the same tokens;
+   structural selectors stay on the site to avoid changing overlay geometry. */
+body[data-reskin-layout="left"],
+.reskin-layout-left {
+  --reskin-bg: #f7f4ef;
+  --reskin-fg: #1c1a17;
+  --reskin-muted: #f1ebe4;
+  --reskin-muted-strong: #e6ded5;
+  --reskin-border: #e2d7cb;
+  --reskin-primary: #f0642c;
+  --reskin-primary-dark: #a93a10;
+  --reskin-primary-contrast: #ffffff;
+  --reskin-shadow: 0 16px 48px rgba(25, 15, 10, 0.12);
+  --reskin-control-bg: #f3eee6;
+  --reskin-control-bg-hover: #fff8f1;
+  --reskin-control-border: #d7cbc0;
+  --reskin-control-text: #3f3a34;
+  --reskin-control-surface: linear-gradient(180deg, #f8f2e9 0%, #f0e7dc 100%);
+  --reskin-radius: 14px;
+  --reskin-font-sans: "Space Grotesk", "Segoe UI", sans-serif;
+  --reskin-page-surface: #ffffff;
+  --reskin-page-border: 1px solid var(--reskin-border);
+  --reskin-page-radius: var(--reskin-radius);
+  --reskin-page-padding: 2rem;
+  --reskin-page-shadow: var(--reskin-shadow);
+}
+
+[data-theme="dark"] body[data-reskin-layout="left"],
+[data-theme="dark"] .reskin-layout-left {
+  --reskin-bg: #11100f;
+  --reskin-fg: #f4f1ec;
+  --reskin-muted: #1b1916;
+  --reskin-muted-strong: #26231f;
+  --reskin-border: #5a5146;
+  --reskin-primary: #ff7a45;
+  --reskin-primary-dark: #e76435;
+  --reskin-primary-contrast: #1b140f;
+  --reskin-shadow: 0 16px 48px rgba(0, 0, 0, 0.4);
+  --reskin-control-bg: rgba(255, 255, 255, 0.04);
+  --reskin-control-bg-hover: rgba(255, 122, 69, 0.15);
+  --reskin-control-border: #63594e;
+  --reskin-control-text: rgba(244, 241, 236, 0.9);
+  --reskin-control-surface: linear-gradient(180deg, #23201d 0%, #1b1816 100%);
+  --reskin-dark-control-surface: linear-gradient(180deg, #23201d 0%, #1b1816 100%);
+  --reskin-page-surface: #1b1916;
+}
+
+/* The desktop panel exists only in the left layout; tree behavior stays shared. */
+.reskin-sidebar {
+  background: var(--reskin-muted);
+  border: 1px solid var(--reskin-border);
+  border-radius: var(--reskin-radius);
+  padding: 1.5rem;
+  max-height: calc(100vh - 24px - 1rem);
+  overflow-y: auto;
+  z-index: 200;
+}
+
+.reskin-sidebar.sticky-top {
+  top: 1rem;
+}
+
+.reskin-layout-left .reskin-page th {
+  white-space: nowrap;
+}
+
+@media (min-width: 1200px) {
+  .reskin-layout-left:is(.reskin-pageid-cs-resources-hardware-start, .reskin-pageid-en-resources-hardware-start)
+    .reskin-article-layout.has-toc .reskin-page-toc {
+    margin-top: calc(2rem + 1px);
+  }
+}

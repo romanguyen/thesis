@@ -46,7 +46,9 @@ $reskinPageIdClass = $reskinContext['page_class'];
         class="reskin-site <?php echo tpl_classes(); ?> <?php echo hsc($reskinPageIdClass); ?> <?php echo $showSidebarAside ? 'has-sidebar' : ''; ?> <?php echo hsc('reskin-layout-' . $reskinLayout); ?> <?php echo hsc('reskin-style-' . $reskinStyle); ?>"
         <?php if ($isHardwarePage) : ?>data-hw-catalog-url="<?php echo hsc($reskinHardwareCatalogUrl); ?>"<?php endif; ?>
     >
+        <?php if ($reskinLayout === 'top') : ?><div class="reskin-header-shell" data-header-shell><?php endif; ?>
         <?php require __DIR__ . '/header.php'; ?>
+        <?php if ($reskinLayout === 'top') : ?></div><?php endif; ?>
         <?php if ($showTopNavigation) : ?>
             <?php require __DIR__ . '/topnav.php'; ?>
         <?php endif; ?>
@@ -81,7 +83,7 @@ $reskinPageIdClass = $reskinContext['page_class'];
                 <?php reskin_render_partial('stories', $reskinHomeModels['stories'], ['track_id' => 'reskinStoryTrack']); ?>
             <?php endif; ?>
 
-            <?php if ($showSidebarMobileTrigger) : ?>
+            <?php if ($showSidebarMobileTrigger && $reskinLayout !== 'top') : ?>
                 <div class="d-lg-none reskin-sidebar-mobile">
                     <button
                         class="btn reskin-sidebar-fab"
@@ -218,6 +220,7 @@ $reskinPageIdClass = $reskinContext['page_class'];
             <div class="offcanvas-body">
                 <?php $reskinSidebarInstance = 'offcanvas'; ?>
                 <?php require __DIR__ . '/sidebar.php'; ?>
+                <?php if ($reskinLayout === 'top') : ?><div class="reskin-mobile-preferences" data-header-preferences-mobile></div><?php endif; ?>
             </div>
         </div>
     <?php endif; ?>

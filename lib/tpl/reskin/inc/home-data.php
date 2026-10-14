@@ -103,8 +103,8 @@ function reskin_i18n_default_start_metric_cards(string $lang): array
         ['title' => ['cs' => 'Superpocitace', 'en' => 'Supercomputers'], 'target' => 'resources:hardware:start', 'icon' => 'bi-diagram-3'],
         ['title' => ['cs' => 'Vyzkum', 'en' => 'Research'], 'target' => 'projekty:start', 'icon' => 'bi-search'],
         ['title' => ['cs' => 'Spoluprace s prumyslem', 'en' => 'Industry cooperation'], 'target' => 'sluzby:start', 'icon' => 'bi-gear-wide-connected'],
-        ['title' => ['cs' => 'Pro uzivatele', 'en' => 'For users'], 'target' => 'vo:start', 'icon' => 'bi-people-fill'],
-        ['title' => ['cs' => 'Prave hledame', 'en' => 'Open positions'], 'target' => 'about:start', 'icon' => 'bi-briefcase-fill'],
+        ['title' => ['cs' => 'Pro uzivatele', 'en' => 'For users'], 'target' => 'vo:start', 'icon' => 'bi-people'],
+        ['title' => ['cs' => 'Prave hledame', 'en' => 'Open positions'], 'target' => 'about:start', 'icon' => 'bi-briefcase'],
     ];
     $cards = [];
     foreach ($definitions as $definition) {
@@ -141,32 +141,32 @@ function reskin_i18n_default_start_story_cards(string $lang): array
         [
             'date' => '08/04',
             'title' => ['cs' => 'Workshop AI Confidential', 'en' => 'Workshop AI Confidential'],
-            'image' => 'https://www.metacentrum.cz/export/sites/metacentrum/images/EGI_history.png',
+            'image' => 'lib/tpl/reskin/img/stories/ai.svg',
         ],
         [
             'date' => '09/04',
             'title' => ['cs' => 'AdvanceMed 2026', 'en' => 'AdvanceMed 2026'],
-            'image' => 'https://www.metacentrum.cz/export/sites/metacentrum/images/ceritsc.png_1995693183.png',
+            'image' => 'lib/tpl/reskin/img/stories/medicine.svg',
         ],
         [
             'date' => '28/04',
             'title' => ['cs' => 'Superpocitace a kvantovy pocitac VLQ zblizka', 'en' => 'Supercomputers and VLQ quantum computing excursion'],
-            'image' => 'https://www.metacentrum.cz/export/sites/metacentrum/cs/devel/PBSMon/pbsmon1.png',
+            'image' => 'lib/tpl/reskin/img/stories/quantum.svg',
         ],
         [
             'date' => '05/05',
             'title' => ['cs' => 'Skoleni: Jak pripravit GPU ulohy', 'en' => 'Training: how to run GPU workloads'],
-            'image' => 'https://www.metacentrum.cz/export/sites/metacentrum/images/mapkaMC_2016_oranz.png_20180039.png',
+            'image' => 'lib/tpl/reskin/img/stories/gpu.svg',
         ],
         [
             'date' => '13/05',
             'title' => ['cs' => 'Open Access Day pro vyzkumniky', 'en' => 'Open Access Day for researchers'],
-            'image' => 'https://www.cesnet.cz/wp-content/uploads/2022/10/Foto-1035-1-scaled.jpg',
+            'image' => 'lib/tpl/reskin/img/stories/open-access.svg',
         ],
         [
             'date' => '26/05',
             'title' => ['cs' => 'MetaCentrum community meetup', 'en' => 'MetaCentrum community meetup'],
-            'image' => 'https://www.metacentrum.cz/export/sites/metacentrum/en/devel/plan-based-scheduler/screenshot3.png',
+            'image' => 'lib/tpl/reskin/img/stories/community.svg',
         ],
     ];
     $cards = [];
@@ -176,7 +176,7 @@ function reskin_i18n_default_start_story_cards(string $lang): array
             'year' => '2026',
             'title' => $definition['title'][$language],
             'url' => reskin_i18n_link('news:start'),
-            'image' => $definition['image'],
+            'image' => reskin_home_story_image_url($definition['image']),
         ];
     }
     return $cards;
@@ -225,6 +225,12 @@ function reskin_i18n_start_metric_highlights(?string $lang = null): array
     return reskin_i18n_default_start_metric_highlights($lang);
 }
 
+/** Installation-base boundary for project-relative illustration paths; external URLs remain untouched. */
+function reskin_home_story_image_url(string $image): string
+{
+    return str_starts_with($image, 'lib/tpl/reskin/img/') ? DOKU_BASE . $image : $image;
+}
+
 /**
  * @param string|null $lang
  * @return array<int, array{date:string,year:string,title:string,url:string,image:string}>
@@ -241,7 +247,7 @@ function reskin_i18n_start_story_cards(?string $lang = null): array
             'year' => $row[1],
             'title' => $row[2],
             'url' => reskin_i18n_home_link($row[3]),
-            'image' => $row[4],
+            'image' => reskin_home_story_image_url($row[4]),
         ];
     }
 

@@ -58,7 +58,7 @@ function reskin_page_content_model(string $pageId, string $contentHtml, array $e
  * This adapter owns the current DokuWiki auth/label/link boundary; header.php retains tpl_searchform().
  * @param array{language_targets:array,layout_links:array{clean:string,left:string,top:string},variant:array{layout:string,style:string}} $context
  * @return array{
- *   brand_url:string,logo_url:string,labels:array{skip_to_content:string,language_switcher:string,close_search:string,open_search:string,toggle_theme:string,layout_switcher:string},
+ *   brand_url:string,logo_url:string,top_layout:bool,mobile_navigation:bool,labels:array<string,string>,
  *   languages:list<array{code:string,label:string,url:string,class:string,title:string,current:bool}>,
  *   layouts:list<array{label:string,url:string,icon:string,title:string,current:bool}>,logout:array{url:string,label:string}|null
  * }
@@ -91,7 +91,7 @@ function reskin_header_model(array $context): array
         ];
     }
     $labels = [];
-    foreach (['skip_to_content', 'language_switcher', 'close_search', 'open_search', 'toggle_theme', 'layout_switcher'] as $key) {
+    foreach (['skip_to_content', 'language_switcher', 'close_search', 'open_search', 'toggle_theme', 'layout_switcher', 'preferences', 'menu', 'appearance', 'dark_theme', 'preference_language', 'preference_layout'] as $key) {
         $labels[$key] = reskin_i18n_t($key);
     }
     $logout = null;
@@ -104,6 +104,8 @@ function reskin_header_model(array $context): array
     return [
         'brand_url' => reskin_i18n_link('start'),
         'logo_url' => tpl_basedir() . 'img/metacentrum_RGB.svg',
+        'top_layout' => $context['variant']['layout'] === 'top',
+        'mobile_navigation' => $context['show']['sidebar_offcanvas'],
         'labels' => $labels,
         'languages' => $languages,
         'layouts' => $layouts,

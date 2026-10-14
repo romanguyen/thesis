@@ -119,29 +119,44 @@
     display: inline-flex;
   }
 
+  /* A blurred ancestor makes fixed descendants use the header as their viewport. */
+  .reskin-search-open .reskin-header-bar {
+    backdrop-filter: none;
+  }
+
   .reskin-search.is-open {
     display: flex;
     position: fixed;
     inset: 0;
-    align-items: center;
+    width: auto;
+    min-width: 0;
+    max-width: none;
+    flex: none;
+    margin: 0;
+    align-items: flex-start;
     justify-content: center;
     flex-direction: row;
     gap: 0.75rem;
-    padding: 1.5rem;
+    padding: 1rem;
     z-index: 2000;
+    isolation: isolate;
   }
 
   .reskin-search.is-open::before {
     content: "";
-    position: fixed;
+    position: absolute;
     inset: 0;
+    z-index: -1;
     background: rgba(17, 16, 15, 0.45);
     backdrop-filter: blur(2px);
   }
 
-  .reskin-search.is-open form.search {
-    width: min(520px, 100%);
-    flex: 1 1 auto;
+  .reskin-search-open .reskin-search.is-open form.search {
+    width: 100%;
+    max-width: 520px;
+    height: auto;
+    min-height: 60px;
+    flex: 1 1 520px;
     min-width: 0;
     background: var(--reskin-bg);
     box-shadow: var(--reskin-shadow);
@@ -149,14 +164,43 @@
     z-index: 1;
   }
 
+  .reskin-search.is-open form.search .no {
+    min-width: 0;
+  }
+
+  .reskin-search.is-open form.search input.edit {
+    width: 0;
+    min-width: 0;
+    height: 44px;
+    flex: 1 1 0%;
+    font-size: 1rem;
+    color: var(--reskin-fg);
+  }
+
+  .reskin-search.is-open form.search input.edit::placeholder {
+    color: var(--reskin-fg);
+    opacity: 0.6;
+  }
+
+  .reskin-search.is-open form.search button {
+    width: 44px;
+    height: 44px;
+    flex: 0 0 44px;
+  }
+
   .reskin-search.is-open #qsearch__out {
     max-height: 50vh;
+    max-height: min(50dvh, calc(100dvh - 7rem));
   }
 
   .reskin-search.is-open .reskin-search-close {
     display: inline-flex;
-    position: static;
-    align-self: center;
+    position: relative;
+    width: 44px;
+    height: 44px;
+    flex: 0 0 44px;
+    align-self: flex-start;
+    margin-top: 0.5rem;
     z-index: 1;
   }
 

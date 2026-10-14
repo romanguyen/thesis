@@ -30,18 +30,19 @@ if ($topModel['items'] === []) return;
                     if ($isActive) $itemClasses .= ' is-active';
                     ?>
                     <?php if ($hasChildren) : ?>
-                        <li class="nav-item dropdown reskin-topnav-item<?php echo $isActive ? ' is-active' : ''; ?>" data-topnav-item>
+                        <li class="nav-item dropdown reskin-topnav-item<?php echo $isActive ? ' is-active' : ''; ?>" data-topnav-item data-topnav-hover>
                             <a
                                 class="<?php echo hsc($itemClasses); ?> dropdown-toggle"
                                 href="<?php echo hsc($item['href']); ?>"
-                                role="button"
-                                data-bs-toggle="dropdown"
+                                data-topnav-parent
                                 aria-expanded="false"
+                                aria-controls="reskinTopnavChildren<?php echo $idx; ?>"
                                 id="reskinTopnavDropdown<?php echo $idx; ?>"
+                                <?php if ($item['is_current']) echo 'aria-current="page"'; ?>
                             >
                                 <?php echo hsc($item['title']); ?>
                             </a>
-                            <ul class="dropdown-menu reskin-topnav-dropdown" aria-labelledby="reskinTopnavDropdown<?php echo $idx; ?>">
+                            <ul class="dropdown-menu reskin-topnav-dropdown" id="reskinTopnavChildren<?php echo $idx; ?>" aria-labelledby="reskinTopnavDropdown<?php echo $idx; ?>">
                                 <?php foreach ($item['children'] as $child) : ?>
                                     <?php $childClasses = 'dropdown-item reskin-topnav-subitem'; ?>
                                     <?php if ($child['is_current']) $childClasses .= ' is-active'; ?>

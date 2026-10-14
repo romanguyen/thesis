@@ -6,12 +6,12 @@ require_once __DIR__ . '/inc/bootstrap.php';
 /** @var array $reskinContext Prepared once by main; shared with head.php. */
 $reskinHeader = reskin_header_model($reskinContext);
 ?>
-<header class="reskin-header">
+<header class="reskin-header<?php echo $reskinHeader['top_layout'] ? ' reskin-header--top' : ''; ?>">
     <a class="reskin-skip" href="#reskin-main"><?php echo hsc($reskinHeader['labels']['skip_to_content']); ?></a>
 
     <div class="reskin-header-bar">
         <div class="container-xl">
-            <div class="d-flex align-items-center justify-content-between gap-3 py-3">
+            <div class="d-flex align-items-center justify-content-between gap-3 py-3 reskin-header-row">
                 <a class="reskin-brand d-flex align-items-center text-decoration-none" href="<?php echo hsc($reskinHeader['brand_url']); ?>">
                     <img class="reskin-brand-logo reskin-brand-logo--header" src="<?php echo hsc($reskinHeader['logo_url']); ?>" alt="MetaCentrum logo">
                 </a>
@@ -39,13 +39,13 @@ $reskinHeader = reskin_header_model($reskinContext);
                         <?php endif; ?>
                     </div>
 
-                    <div class="reskin-search" data-search-modal>
+                    <div class="reskin-search" id="reskinSearchDialog" data-search-modal tabindex="-1">
                         <?php tpl_searchform(); ?>
                         <button class="btn reskin-search-close" type="button" data-search-close aria-label="<?php echo hsc($reskinHeader['labels']['close_search']); ?>">
                             <i class="bi bi-x-lg" aria-hidden="true"></i>
                         </button>
                     </div>
-                    <button class="btn reskin-search-toggle reskin-control-icon" type="button" data-search-open aria-label="<?php echo hsc($reskinHeader['labels']['open_search']); ?>">
+                    <button class="btn reskin-search-toggle reskin-control-icon" type="button" data-search-open aria-controls="reskinSearchDialog" aria-expanded="false" aria-label="<?php echo hsc($reskinHeader['labels']['open_search']); ?>">
                         <i class="bi bi-search" aria-hidden="true"></i>
                     </button>
                     <button
@@ -64,6 +64,17 @@ $reskinHeader = reskin_header_model($reskinContext);
                         <span class="visually-hidden"><?php echo hsc($reskinHeader['labels']['toggle_theme']); ?></span>
                     </button>
 
+                    <?php if ($reskinHeader['top_layout']) : ?>
+                        <div class="reskin-preferences-home" data-header-preferences-home>
+                            <?php reskin_render_partial('header-preferences', $reskinHeader); ?>
+                        </div>
+                        <?php if ($reskinHeader['mobile_navigation']) : ?>
+                            <button class="btn reskin-header-menu" type="button" data-bs-toggle="offcanvas" data-bs-target="#reskinSidebar" aria-controls="reskinSidebar" aria-expanded="false" aria-label="<?php echo hsc($reskinHeader['labels']['menu']); ?>" data-header-menu>
+                                <i class="bi bi-list" aria-hidden="true"></i>
+                                <span><?php echo hsc($reskinHeader['labels']['menu']); ?></span>
+                            </button>
+                        <?php endif; ?>
+                    <?php else : ?>
                     <div class="reskin-layout-switcher" role="group" aria-label="<?php echo hsc($reskinHeader['labels']['layout_switcher']); ?>">
                         <?php foreach ($reskinHeader['layouts'] as $layoutLink) : ?>
                             <a
@@ -77,6 +88,7 @@ $reskinHeader = reskin_header_model($reskinContext);
                             </a>
                         <?php endforeach; ?>
                     </div>
+                    <?php endif; ?>
 
                     <a class="reskin-nav-link d-none d-sm-inline-flex" href="https://www.cesnet.cz" target="_blank" rel="noopener">CESNET</a>
                 </div>

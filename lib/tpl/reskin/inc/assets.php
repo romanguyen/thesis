@@ -36,6 +36,7 @@ function reskin_stylesheet_assets(array $variant): array
 function reskin_script_paths(array $context, bool $hasToc): array
 {
     $paths = ['js/theme.js', 'js/search.js'];
+    if ($context['variant']['layout'] === 'top') $paths[] = 'js/header.js';
     if ($hasToc) $paths[] = 'js/page-toc.js';
     if ($context['show']['top_navigation']) $paths[] = 'js/topnav-overflow.js';
     if ($context['show']['hero'] || $context['show']['stories_inline']) $paths[] = 'js/story-slider.js';

@@ -10,7 +10,7 @@
   top: 1rem;
   padding: 0.5rem 1rem;
   background: var(--bs-primary);
-  color: var(--mc-color-base-white);
+  color: var(--mc-color-on-brand);
   border-radius: 999px;
 }
 
@@ -1670,7 +1670,7 @@
 .reskin-topnav-link.is-active,
 .reskin-topnav-link:hover,
 .reskin-topnav-link:focus-visible {
-  color: var(--bs-primary);
+  color: var(--bs-link-color);
   background: transparent;
 }
 
@@ -1720,8 +1720,8 @@
 .reskin-topnav-subitem:hover,
 .reskin-topnav-subitem:focus,
 .reskin-topnav-subitem.is-active {
-  color: var(--bs-primary);
-  background: var(--mc-color-brand-50);
+  color: var(--bs-link-color);
+  background: var(--bs-primary-bg-subtle);
 }
 
 .reskin-offcanvas--top-cesnet {

@@ -138,7 +138,8 @@ $reskinPageIdClass = $reskinContext['page_class'];
                             $reskinContentHtml = reskin_missing_page_html(); // native text asks visitors to create the page
                         }
                         $reskinTocHtml = '';
-                        if ($ACT === 'show' && !preg_match('/^(?:cs|en):(?:variants:news|outages:start)$/', (string) $ID)) {
+                        // The homepage TOC would list only the wiki text below the home sections, so it has none.
+                        if ($ACT === 'show' && !$isStart && !preg_match('/^(?:cs|en):(?:variants:news|outages:start)$/', (string) $ID)) {
                             $reskinTocHtml = tpl_toc(true);
                             $reskinTocHtml = preg_replace(
                                 '/<h3 class="toggle">.*?<\/h3>/su',

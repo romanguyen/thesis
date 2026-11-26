@@ -29,9 +29,14 @@ function reskin_title_from_sidebar(string $id): ?string
 /** Browser tab title: the page title, then the wiki title setting (`$conf['title']`) when it is set. */
 function reskin_document_title(): string
 {
-    global $conf;
+    global $conf, $ACT, $INFO, $INPUT;
     $site = trim(strip_tags((string) ($conf['title'] ?? '')));
-    return reskin_page_title() . ($site !== '' ? ' – ' . $site : '');
+    // Visitors of a missing page get the not-found text (main.php), so the tab says so too.
+    $missing = $ACT === 'show' && empty($INFO['exists']) && $INPUT->server->str('REMOTE_USER') === '';
+    $title = $missing ? reskin_i18n_t('missing_title') : reskin_page_title();
+    // Native action titles ("Page - Old revisions") join with a hyphen; use the same dash as the site suffix.
+    if ($ACT !== 'show') $title = str_replace(' - ', ' – ', $title);
+    return $title . ($site !== '' ? ' – ' . $site : '');
 }
 
 /**

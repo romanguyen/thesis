@@ -75,6 +75,22 @@ function reskin_news_body_html(string $source): string
     return html_secedit($html, false);
 }
 
+/**
+ * Native page-menu items as list items (PageMenu::getListItems() markup). Content comes from Git, so anonymous
+ * visitors do not get the always-empty revisions, the backlinks or the page source; the actions stay reachable.
+ */
+function reskin_page_tools_html(): string
+{
+    global $INPUT;
+    $anonymous = $INPUT->server->str('REMOTE_USER') === '';
+    $html = '';
+    foreach ((new \dokuwiki\Menu\PageMenu())->getItems() as $item) {
+        if ($anonymous && in_array($item->getType(), ['revs', 'backlink', 'source'], true)) continue;
+        $html .= '<li class="' . hsc($item->getType()) . '">' . $item->asHtmlLink(false) . '</li>';
+    }
+    return $html;
+}
+
 /** Heading HTML is trusted native output or escaped template-owned news markup. */
 function reskin_page_header_html(string $headingHtml, array $breadcrumbs, string $contentHtml = ''): string
 {

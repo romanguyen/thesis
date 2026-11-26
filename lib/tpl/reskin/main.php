@@ -175,9 +175,9 @@ $reskinPageIdClass = $reskinContext['page_class'];
                                     <?php tpl_pageinfo(); ?>
                                 </div>
 
-                                <nav class="reskin-pagetools" aria-label="Page tools">
+                                <nav class="reskin-pagetools" aria-label="<?php echo hsc(reskin_i18n_t('page_tools')); ?>">
                                     <ul class="list-inline mb-0">
-                                        <?php echo (new \dokuwiki\Menu\PageMenu())->getListItems(); ?>
+                                        <?php echo reskin_page_tools_html(); ?>
                                     </ul>
                                 </nav>
                             </div>

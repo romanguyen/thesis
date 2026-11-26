@@ -102,11 +102,11 @@ function reskin_i18n_default_start_metric_cards(string $lang): array
 {
     $language = $lang === 'cs' ? 'cs' : 'en';
     $definitions = [
-        ['title' => ['cs' => 'Superpocitace', 'en' => 'Supercomputers'], 'target' => 'resources:hardware:start', 'icon' => 'bi-diagram-3'],
-        ['title' => ['cs' => 'Vyzkum', 'en' => 'Research'], 'target' => 'projekty:start', 'icon' => 'bi-search'],
-        ['title' => ['cs' => 'Spoluprace s prumyslem', 'en' => 'Industry cooperation'], 'target' => 'sluzby:start', 'icon' => 'bi-gear-wide-connected'],
-        ['title' => ['cs' => 'Pro uzivatele', 'en' => 'For users'], 'target' => 'vo:start', 'icon' => 'bi-people'],
-        ['title' => ['cs' => 'Prave hledame', 'en' => 'Open positions'], 'target' => 'about:start', 'icon' => 'bi-briefcase'],
+        ['title' => ['cs' => 'Superpočítače', 'en' => 'Supercomputers'], 'target' => 'resources:hardware:start', 'icon' => 'bi-diagram-3'],
+        ['title' => ['cs' => 'Výzkum', 'en' => 'Research'], 'target' => 'projekty:start', 'icon' => 'bi-search'],
+        ['title' => ['cs' => 'Spolupráce s průmyslem', 'en' => 'Industry cooperation'], 'target' => 'sluzby:start', 'icon' => 'bi-gear-wide-connected'],
+        ['title' => ['cs' => 'Pro uživatele', 'en' => 'For users'], 'target' => 'vo:start', 'icon' => 'bi-people'],
+        ['title' => ['cs' => 'Právě hledáme', 'en' => 'Open positions'], 'target' => 'about:start', 'icon' => 'bi-briefcase'],
     ];
     $cards = [];
     foreach ($definitions as $definition) {
@@ -126,9 +126,9 @@ function reskin_i18n_default_start_metric_cards(string $lang): array
 function reskin_i18n_default_start_metric_highlights(string $lang): array
 {
     return [
-        ['number' => $lang === 'cs' ? '2 000+' : '2,000+', 'label' => $lang === 'cs' ? 'uzivatelu' : 'users'],
-        ['number' => '25+', 'label' => $lang === 'cs' ? 'mezinarodnich projektu' : 'international projects'],
-        ['number' => '100+', 'label' => $lang === 'cs' ? 'projektu pro prumysl' : 'industry projects'],
+        ['number' => $lang === 'cs' ? '2 000+' : '2,000+', 'label' => $lang === 'cs' ? 'uživatelů' : 'users'],
+        ['number' => '25+', 'label' => $lang === 'cs' ? 'mezinárodních projektů' : 'international projects'],
+        ['number' => '100+', 'label' => $lang === 'cs' ? 'projektů pro průmysl' : 'industry projects'],
     ];
 }
 
@@ -152,17 +152,17 @@ function reskin_i18n_default_start_story_cards(string $lang): array
         ],
         [
             'date' => '28/04',
-            'title' => ['cs' => 'Superpocitace a kvantovy pocitac VLQ zblizka', 'en' => 'Supercomputers and VLQ quantum computing excursion'],
+            'title' => ['cs' => 'Superpočítače a kvantový počítač VLQ zblízka', 'en' => 'Supercomputers and VLQ quantum computing excursion'],
             'image' => 'lib/tpl/reskin/img/stories/quantum.svg',
         ],
         [
             'date' => '05/05',
-            'title' => ['cs' => 'Skoleni: Jak pripravit GPU ulohy', 'en' => 'Training: how to run GPU workloads'],
+            'title' => ['cs' => 'Školení: Jak připravit GPU úlohy', 'en' => 'Training: how to run GPU workloads'],
             'image' => 'lib/tpl/reskin/img/stories/gpu.svg',
         ],
         [
             'date' => '13/05',
-            'title' => ['cs' => 'Open Access Day pro vyzkumniky', 'en' => 'Open Access Day for researchers'],
+            'title' => ['cs' => 'Open Access Day pro výzkumníky', 'en' => 'Open Access Day for researchers'],
             'image' => 'lib/tpl/reskin/img/stories/open-access.svg',
         ],
         [

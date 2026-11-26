@@ -177,8 +177,9 @@ function reskin_top_navigation_model(array $source, string $pageId, array $varia
 
 function reskin_current_top_navigation(): array
 {
-    global $ID;
-    return reskin_top_navigation_model(reskin_current_navigation(), (string) $ID, reskin_variant_context(), reskin_i18n_current_lang());
+    global $ACT, $ID;
+    // Search, login or editing is not the linked page, so no item is current there.
+    return reskin_top_navigation_model(reskin_current_navigation(), $ACT === 'show' ? (string) $ID : '', reskin_variant_context(), reskin_i18n_current_lang());
 }
 
 function reskin_navigation_add_class(DOMElement $node, string $class): void

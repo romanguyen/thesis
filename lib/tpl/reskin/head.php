@@ -7,14 +7,13 @@ $reskinLangTargets = $reskinContext['language_targets'];
 ?>
 <head>
     <meta charset="utf-8" />
-    <?php
-    $reskinTitle = reskin_page_title();
-    if ($reskinContext['news_article'] !== null) {
-        $reskinTitle = $reskinContext['news_article']['title'] . ' · ' . $reskinTitle;
-    }
-    ?>
-    <title><?php echo hsc($reskinTitle); ?></title>
+    <title><?php echo hsc(reskin_page_title()); ?></title>
     <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="referrer" content="no-referrer" />
+    <?php if ($reskinContext['variant']['style'] !== 'metacentrum') : ?>
+        <?php // Stored colour mode before first paint; js/theme.js runs after the body and only handles the toggle. ?>
+        <script>try{var t=localStorage.getItem("reskin-theme");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-bs-theme",t)}catch(e){}</script>
+    <?php endif; ?>
     <?php tpl_metaheaders() ?>
     <?php echo tpl_favicon(['favicon', 'mobile']) ?>
     <link rel="icon" type="image/svg+xml" href="<?php echo tpl_basedir(); ?>img/favicon.svg" />
@@ -27,33 +26,20 @@ $reskinLangTargets = $reskinContext['language_targets'];
     <?php endforeach; ?>
     <link rel="alternate" hreflang="x-default" href="<?php echo hsc(reskin_i18n_link('start', [], true, RESKIN_I18N_PRIMARY_LANG)); ?>" />
 
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <?php if ($reskinContext['variant']['style'] !== 'metacentrum') : ?><link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin /><?php endif; ?>
+
     <?php foreach (reskin_stylesheet_assets($reskinContext['variant']) as $reskinAsset) : ?>
         <link rel="stylesheet" href="<?php echo hsc($reskinAsset['url']); ?>"
             <?php if (isset($reskinAsset['integrity'])) : ?>integrity="<?php echo hsc($reskinAsset['integrity']); ?>"<?php endif; ?>
             <?php if (isset($reskinAsset['crossorigin'])) : ?>crossorigin="<?php echo hsc($reskinAsset['crossorigin']); ?>"<?php endif; ?>
         />
     <?php endforeach; ?>
-    <script>
-      (function() {
-        var host = window.location.hostname;
-        if (host === 'localhost' || host === '127.0.0.1') return;
-
-        var _paq = window._paq = window._paq || [];
-        _paq.push(['trackPageView']);
-        _paq.push(['enableLinkTracking']);
-
-        var u = 'https://metacentrum-matomo.duckdns.org/';
-        _paq.push(['setTrackerUrl', u + 'matomo.php']);
-        _paq.push(['setSiteId', '1']);
-
-        var d = document;
-        var g = d.createElement('script');
-        var s = d.getElementsByTagName('script')[0];
-        g.async = true;
-        g.src = u + 'matomo.js';
-        s.parentNode.insertBefore(g, s);
-      })();
-    </script>
+    <?php if ($reskinContext['variant']['style'] === 'metacentrum') : ?>
+        <?php // Paint the sidebar shell first instead of the native fallback; a failed load only unblocks rendering. ?>
+        <script type="module" blocking="render" src="<?php echo hsc(reskin_local_asset('vendor/metacentrum/mc-elements.js')['url']); ?>"></script>
+    <?php endif; ?>
+    <?php if ($ACT === 'show' && empty($_SERVER['REMOTE_USER'])) : ?>
+        <script defer src="<?php echo hsc(reskin_local_asset('js/analytics.js')['url']); ?>"></script>
+    <?php endif; ?>
 </head>

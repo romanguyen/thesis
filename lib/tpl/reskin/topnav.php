@@ -4,11 +4,15 @@ if (!defined('DOKU_INC')) die();
 require_once __DIR__ . '/inc/bootstrap.php';
 $topModel = reskin_current_top_navigation();
 if ($topModel['items'] === []) return;
+if (reskin_variant_context()['style'] === 'metacentrum') {
+    reskin_render_partial('design-topnav', $topModel);
+    return;
+}
 ?>
-<nav class="reskin-topnav navbar navbar-expand-md" data-topnav-overflow aria-label="<?php echo hsc($topModel['labels']['navigation']); ?>">
+<nav class="reskin-topnav p-0 navbar navbar-expand-md d-none d-md-flex" data-topnav-overflow aria-label="<?php echo hsc($topModel['labels']['navigation']); ?>">
     <div class="container-xl">
         <button
-            class="navbar-toggler reskin-topnav-toggler"
+            class="navbar-toggler reskin-topnav-toggler align-items-center fw-bold text-uppercase"
             type="button"
             data-bs-toggle="collapse"
             data-bs-target="#reskinTopnavMenu"
@@ -21,12 +25,12 @@ if ($topModel['items'] === []) return;
         </button>
 
         <div class="collapse navbar-collapse" id="reskinTopnavMenu" data-topnav-collapse>
-            <ul class="navbar-nav reskin-topnav-list" data-topnav-list>
+            <ul class="navbar-nav reskin-topnav-list w-100 justify-content-start gap-4" data-topnav-list>
                 <?php foreach ($topModel['items'] as $idx => $item) : ?>
                     <?php
                     $hasChildren = !empty($item['children']);
                     $isActive = $item['is_active'];
-                    $itemClasses = 'nav-link reskin-topnav-link';
+                    $itemClasses = 'nav-link reskin-topnav-link d-inline-flex align-items-center fw-semibold';
                     if ($isActive) $itemClasses .= ' is-active';
                     ?>
                     <?php if ($hasChildren) : ?>
@@ -42,7 +46,8 @@ if ($topModel['items'] === []) return;
                             >
                                 <?php echo hsc($item['title']); ?>
                             </a>
-                            <ul class="dropdown-menu reskin-topnav-dropdown" id="reskinTopnavChildren<?php echo $idx; ?>" aria-labelledby="reskinTopnavDropdown<?php echo $idx; ?>">
+                            <?php // Native hover/link menus are not Bootstrap dropdown instances. ?>
+                            <ul class="reskin-topnav-dropdown" id="reskinTopnavChildren<?php echo $idx; ?>" aria-labelledby="reskinTopnavDropdown<?php echo $idx; ?>">
                                 <?php foreach ($item['children'] as $child) : ?>
                                     <?php $childClasses = 'dropdown-item reskin-topnav-subitem'; ?>
                                     <?php if ($child['is_current']) $childClasses .= ' is-active'; ?>
@@ -73,7 +78,7 @@ if ($topModel['items'] === []) return;
 
                 <li class="nav-item dropdown reskin-topnav-more d-none" data-topnav-more>
                     <a
-                        class="nav-link reskin-topnav-link dropdown-toggle"
+                        class="nav-link reskin-topnav-link d-inline-flex align-items-center fw-semibold dropdown-toggle"
                         href="#"
                         role="button"
                         data-bs-toggle="dropdown"

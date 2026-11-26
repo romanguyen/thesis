@@ -1,0 +1,13 @@
+.table-non-fluid {
+    /*no-cell wrap*/
+    width: max-content !important;
+}
+.table-container-cs {
+    /* to allow mx-auto to work */
+    width: 100%;
+    margin-bottom: 1rem;
+}
+/*fighting dokuwiki css*/
+.table>:not(caption)>*>*{
+    padding:0.5rem .5rem!important;
+}

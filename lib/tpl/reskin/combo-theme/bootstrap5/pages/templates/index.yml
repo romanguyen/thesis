@@ -1,0 +1,3 @@
+# No slots: the frame is static (bootstrap5-page.hbs). Without main-header the page keeps its own H1 in the content;
+# combo v1.25.5 header capture crashes on an external image right after the H1 (MediaMarkup::$fetcher).
+elements: []

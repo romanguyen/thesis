@@ -63,9 +63,9 @@ function reskin_i18n_is_excluded_base(string $base): bool
 
 /**
  * ACL-aware DokuWiki page lookup with an explicit language preference.
- * @return array{id:string,lang:string,base:string,found:bool,fallback:bool,legacy:bool}
+ * @return array{id:string,lang:string,base:string,found:bool,fallback:bool}
  */
-function reskin_resolve_page(string $base, string $preferred, bool $allowLegacy = true, bool $useacl = true): array
+function reskin_resolve_page(string $base, string $preferred, bool $useacl = true): array
 {
     if (!isset(RESKIN_I18N_LANGS[$preferred])) $preferred = RESKIN_I18N_PRIMARY_LANG;
     $base = trim(cleanID($base), ':');
@@ -74,23 +74,17 @@ function reskin_resolve_page(string $base, string $preferred, bool $allowLegacy 
     foreach ($langs as $lang) {
         foreach (reskin_i18n_id_variants($base, $lang) as $candidate) {
             if (page_exists($candidate) && (!$useacl || auth_quickaclcheck($candidate) >= AUTH_READ)) {
-                return ['id' => $candidate, 'lang' => $lang, 'base' => $base, 'found' => true, 'fallback' => $lang !== $preferred, 'legacy' => false];
+                return ['id' => $candidate, 'lang' => $lang, 'base' => $base, 'found' => true, 'fallback' => $lang !== $preferred];
             }
         }
     }
-    if ($allowLegacy) {
-        $legacy = cleanID($base);
-        if (page_exists($legacy) && (!$useacl || auth_quickaclcheck($legacy) >= AUTH_READ)) {
-            return ['id' => $legacy, 'lang' => RESKIN_I18N_FALLBACK_LANG, 'base' => $base, 'found' => true, 'fallback' => true, 'legacy' => true];
-        }
-    }
-    return ['id' => reskin_i18n_build_id($base, $preferred), 'lang' => $preferred, 'base' => $base, 'found' => false, 'fallback' => true, 'legacy' => false];
+    return ['id' => reskin_i18n_build_id($base, $preferred), 'lang' => $preferred, 'base' => $base, 'found' => false, 'fallback' => true];
 }
 
 /** Compatibility adapter: omitted preference follows the current page. */
-function reskin_i18n_resolve_exact(string $base, ?string $preferredLang = null, bool $allowLegacy = true, bool $useacl = true): array
+function reskin_i18n_resolve_exact(string $base, ?string $preferredLang = null, bool $useacl = true): array
 {
-    return reskin_resolve_page($base, $preferredLang ?: reskin_i18n_current_lang(), $allowLegacy, $useacl);
+    return reskin_resolve_page($base, $preferredLang ?: reskin_i18n_current_lang(), $useacl);
 }
 
 /** @return string[] */
@@ -107,6 +101,7 @@ function reskin_parent_namespaces(string $pageId): array
     return $namespaces;
 }
 
+/** Retained current-ID compatibility API; external callers cannot be ruled out. */
 function reskin_i18n_parent_namespaces(?string $id = null): array
 {
     global $ID;
@@ -126,6 +121,7 @@ function reskin_find_fragment_in_lang(string $fragment, string $lang, string $pa
     return null;
 }
 
+/** Retained current-ID/ACL compatibility API; prefer explicit page IDs internally. */
 function reskin_i18n_find_fragment_in_lang(string $fragment, string $lang, bool $useacl = true): ?string
 {
     global $ID;
@@ -184,7 +180,7 @@ function reskin_include_page(string $page, string $preferred, string $pageId, bo
 {
     $resolved = $propagate
         ? reskin_resolve_fragment($page, $preferred, $pageId, $useacl)
-        : reskin_resolve_page($page, $preferred, true, $useacl);
+        : reskin_resolve_page($page, $preferred, $useacl);
     if (!$resolved['found'] || $resolved['id'] === '') return false;
     if ($resolved['fallback']) reskin_i18n_log_missing($page, $preferred, $resolved['lang'], 'include');
     return tpl_include_page($resolved['id'], $print, false, $useacl);

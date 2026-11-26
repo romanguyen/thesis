@@ -1,0 +1,128 @@
+/* Bootstrap 5.3 component values that its build compiles as literals, so --bs-primary alone does not reach them.
+   Only variables and colours from tokens.css; component geometry stays Bootstrap's. */
+:root {
+  --bs-focus-ring-color: rgba(var(--bs-primary-rgb), 0.25);
+}
+
+/* The design's roles: on-brand label (white on the orange is 2.8:1), hover brand-500, pressed brand-300. */
+.btn-primary {
+  --bs-btn-color: var(--mc-color-on-brand);
+  --bs-btn-bg: var(--bs-primary);
+  --bs-btn-border-color: var(--bs-primary);
+  --bs-btn-hover-color: var(--mc-color-on-brand);
+  --bs-btn-hover-bg: var(--mc-color-brand-500);
+  --bs-btn-hover-border-color: var(--mc-color-brand-500);
+  --bs-btn-active-color: var(--mc-color-on-brand);
+  --bs-btn-active-bg: var(--mc-color-brand-300);
+  --bs-btn-active-border-color: var(--mc-color-brand-300);
+  --bs-btn-disabled-color: var(--mc-color-on-brand);
+  --bs-btn-disabled-bg: var(--bs-primary);
+  --bs-btn-disabled-border-color: var(--bs-primary);
+  --bs-btn-focus-shadow-rgb: var(--bs-primary-rgb);
+}
+
+/* ComboStrap inlines white text on its primary buttons. */
+.btn-primary[style] {
+  color: var(--mc-color-on-brand) !important;
+}
+
+.btn-outline-primary {
+  --bs-btn-color: var(--bs-link-color);
+  --bs-btn-border-color: var(--bs-primary);
+  --bs-btn-hover-color: var(--mc-color-on-brand);
+  --bs-btn-hover-bg: var(--bs-primary);
+  --bs-btn-hover-border-color: var(--bs-primary);
+  --bs-btn-active-color: var(--mc-color-on-brand);
+  --bs-btn-active-bg: var(--bs-primary);
+  --bs-btn-active-border-color: var(--bs-primary);
+  --bs-btn-disabled-color: var(--bs-link-color);
+  --bs-btn-disabled-border-color: var(--bs-primary);
+  --bs-btn-focus-shadow-rgb: var(--bs-primary-rgb);
+}
+
+/* Bootstrap keeps its grey in dark mode, where it is 3.6:1 as a label. */
+.btn-outline-secondary {
+  --bs-btn-color: var(--bs-body-color);
+  --bs-btn-border-color: var(--mc-color-focus);
+}
+
+.btn-link {
+  --bs-btn-focus-shadow-rgb: var(--bs-primary-rgb);
+}
+
+.form-control,
+.form-select {
+  border-color: var(--mc-field-border);
+}
+
+[data-bs-theme="dark"] :is(.form-control, .form-select) {
+  border-color: var(--bs-border-color);
+}
+
+.form-control:focus,
+.form-select:focus,
+.form-check-input:focus {
+  border-color: var(--mc-color-focus);
+  box-shadow: 0 0 0 1px var(--mc-color-focus);
+}
+
+.form-check-input {
+  border-color: var(--mc-color-focus);
+}
+
+.form-check-input:checked,
+.form-check-input[type="checkbox"]:indeterminate {
+  background-color: var(--mc-color-brand-500);
+  border-color: var(--mc-color-brand-500);
+}
+
+.dropdown-menu {
+  --bs-dropdown-link-active-color: var(--mc-color-on-brand);
+  --bs-dropdown-link-active-bg: var(--bs-primary);
+}
+
+.nav-link:focus-visible {
+  box-shadow: 0 0 0 0.25rem var(--bs-focus-ring-color);
+}
+
+.nav-pills {
+  --bs-nav-pills-link-active-color: var(--mc-color-on-brand);
+  --bs-nav-pills-link-active-bg: var(--bs-primary);
+}
+
+.nav-underline {
+  --bs-nav-underline-link-active-color: var(--bs-link-color);
+}
+
+.accordion {
+  --bs-accordion-btn-focus-box-shadow: 0 0 0 0.25rem var(--bs-focus-ring-color);
+}
+
+.pagination {
+  --bs-pagination-focus-box-shadow: 0 0 0 0.25rem var(--bs-focus-ring-color);
+  --bs-pagination-active-color: var(--mc-color-on-brand);
+  --bs-pagination-active-bg: var(--bs-primary);
+  --bs-pagination-active-border-color: var(--bs-primary);
+}
+
+.progress,
+.progress-stacked {
+  --bs-progress-bar-color: var(--mc-color-on-brand);
+  --bs-progress-bar-bg: var(--bs-primary);
+}
+
+.list-group {
+  --bs-list-group-active-color: var(--mc-color-on-brand);
+  --bs-list-group-active-bg: var(--bs-primary);
+  --bs-list-group-active-border-color: var(--bs-primary);
+}
+
+.btn-close {
+  --bs-btn-close-focus-shadow: 0 0 0 0.25rem var(--bs-focus-ring-color);
+}
+
+.card {
+  --bs-card-bg: var(--mc-card-background);
+  --bs-card-border-color: var(--mc-card-border);
+  --bs-card-border-radius: var(--bs-border-radius-lg);
+}

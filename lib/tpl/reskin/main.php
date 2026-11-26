@@ -8,6 +8,8 @@ if (!defined('DOKU_INC')) die();
 global $ID, $ACT, $conf, $lang, $INPUT;
 
 require_once __DIR__ . '/inc/bootstrap.php';
+reskin_register_combo_guards();
+reskin_register_translation_guards();
 $reskinRequest = reskin_request_state();
 reskin_handle_request($reskinRequest);
 $reskinContext = reskin_page_context($reskinRequest);
@@ -15,8 +17,11 @@ $reskinContext = reskin_page_context($reskinRequest);
 $reskinCurrentLang = $reskinContext['page']['lang'];
 $reskinFallbackNotice = $reskinContext['fallback_notice'];
 $reskinVariant = $reskinContext['variant'];
-$reskinLayout = $reskinVariant['layout'];
-$reskinStyle = $reskinVariant['style'];
+// Rendered frame (top|left|clean) and look; Bootstrap 5 reaches this shell only as the CESNET fallback.
+$reskinLayout = reskin_variant_frame($reskinVariant);
+$reskinStyle = $reskinLayout === 'clean' ? 'metacentrum' : 'cesnet';
+$reskinDesign = $reskinStyle === 'metacentrum';
+if (!$reskinDesign) reskin_register_form_classes();
 $showSidebarAside = $reskinContext['show']['sidebar_aside'];
 $showTopNavigation = $reskinContext['show']['top_navigation'];
 $showSidebarMobileTrigger = $reskinContext['show']['sidebar_mobile_trigger'];
@@ -29,34 +34,35 @@ $showMetricsSection = $reskinContext['show']['metrics_section'];
 $showStoriesSection = $reskinContext['show']['stories_section'];
 $showMetricsInline = $reskinContext['show']['metrics_inline'];
 $showStoriesInline = $reskinContext['show']['stories_inline'];
-$reskinNewsArticle = $reskinContext['news_article'];
 $reskinNewsEntries = $reskinContext['news_entries'];
 $isHardwarePage = $reskinContext['hardware'];
 $reskinHardwareCatalogUrl = $reskinContext['hardware_catalog_url'];
-$reskinCleanBreadcrumb = $reskinContext['breadcrumb_html'];
 $reskinPageIdClass = $reskinContext['page_class'];
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo hsc($reskinCurrentLang); ?>" dir="<?php echo hsc($lang['direction']); ?>" class="no-js">
 <?php require __DIR__ . '/head.php'; ?>
 
-<body class="reskin-body" data-reskin-layout="<?php echo hsc($reskinLayout); ?>" data-reskin-style="<?php echo hsc($reskinStyle); ?>">
+<body class="reskin-body<?php if ($reskinDesign) echo ' cds--white'; ?>" data-reskin-layout="<?php echo hsc($reskinLayout); ?>" data-reskin-style="<?php echo hsc($reskinStyle); ?>">
     <div
         id="dokuwiki__site"
         class="reskin-site <?php echo tpl_classes(); ?> <?php echo hsc($reskinPageIdClass); ?> <?php echo $showSidebarAside ? 'has-sidebar' : ''; ?> <?php echo hsc('reskin-layout-' . $reskinLayout); ?> <?php echo hsc('reskin-style-' . $reskinStyle); ?>"
         <?php if ($isHardwarePage) : ?>data-hw-catalog-url="<?php echo hsc($reskinHardwareCatalogUrl); ?>"<?php endif; ?>
     >
-        <?php if ($reskinLayout === 'top') : ?><div class="reskin-header-shell" data-header-shell><?php endif; ?>
+        <div class="reskin-header-shell" data-header-shell>
         <?php require __DIR__ . '/header.php'; ?>
-        <?php if ($reskinLayout === 'top') : ?></div><?php endif; ?>
+        </div>
         <?php if ($showTopNavigation) : ?>
             <?php require __DIR__ . '/topnav.php'; ?>
         <?php endif; ?>
 
-        <main id="reskin-main" class="reskin-main">
+        <main id="reskin-main" class="reskin-main" tabindex="-1"><?php if ($reskinDesign) echo '<div class="mc-page-container">'; ?>
+
             <?php if ($showHeroSection) : ?>
-                <?php reskin_render_partial('hero', [
-                    'content_html' => (string) reskin_i18n_include_page('hero', false, true),
+                <?php
+                $reskinHeroHtml = (string) reskin_i18n_include_page('hero', false, true);
+                reskin_render_partial($reskinDesign ? 'design-hero' : 'hero', [
+                    'content_html' => $reskinHeroHtml,
                     'image_url' => 'https://www.cesnet.cz/gimg/default/2/8/4/284-580-326.jpg',
                     'image_alt' => 'MetaCentrum infrastructure',
                 ]); ?>
@@ -70,36 +76,20 @@ $reskinPageIdClass = $reskinContext['page_class'];
                 ?>
             <?php endif; ?>
             <?php if ($showUpdatesSection) : ?>
-                <?php reskin_render_partial('updates', $reskinUpdatesModel); ?>
+                <?php reskin_render_partial($reskinDesign ? 'design-updates' : 'updates', $reskinUpdatesModel); ?>
             <?php endif; ?>
 
             <?php if ($showMetricsSection || $showStoriesSection || $showMetricsInline || $showStoriesInline) : ?>
                 <?php $reskinHomeModels = reskin_home_feature_models($reskinCurrentLang); ?>
             <?php endif; ?>
             <?php if ($showMetricsSection) : ?>
-                <?php reskin_render_partial('metrics', $reskinHomeModels['metrics']); ?>
+                <?php reskin_render_partial($reskinDesign ? 'design-metrics' : 'metrics', $reskinHomeModels['metrics']); ?>
             <?php endif; ?>
             <?php if ($showStoriesSection) : ?>
-                <?php reskin_render_partial('stories', $reskinHomeModels['stories'], ['track_id' => 'reskinStoryTrack']); ?>
+                <?php reskin_render_partial($reskinDesign ? 'design-stories' : 'stories', $reskinHomeModels['stories'], ['track_id' => 'reskinStoryTrack']); ?>
             <?php endif; ?>
 
-            <?php if ($showSidebarMobileTrigger && $reskinLayout !== 'top') : ?>
-                <div class="d-lg-none reskin-sidebar-mobile">
-                    <button
-                        class="btn reskin-sidebar-fab"
-                        type="button"
-                        data-bs-toggle="offcanvas"
-                        data-bs-target="#reskinSidebar"
-                        aria-controls="reskinSidebar"
-                        aria-label="<?php echo hsc(reskin_i18n_t('browse_sections')); ?>"
-                    >
-                        <i class="bi bi-layout-text-sidebar-reverse" aria-hidden="true"></i>
-                        <span class="reskin-sidebar-fab-label"><?php echo hsc(reskin_i18n_t('browse_sections')); ?></span>
-                    </button>
-                </div>
-            <?php endif; ?>
-
-            <div class="container-xl reskin-content">
+            <div class="<?php if (!$reskinDesign) echo 'container-xl '; ?>reskin-content">
                 <div class="row g-4">
                     <?php if ($showSidebarAside) : ?>
                         <aside class="col-lg-3 d-none d-lg-block">
@@ -111,47 +101,41 @@ $reskinPageIdClass = $reskinContext['page_class'];
                     <?php endif; ?>
 
                     <div class="<?php echo $showSidebarAside ? 'col-12 col-lg-9' : 'col-12'; ?>">
-                        <?php if ($reskinCleanBreadcrumb !== '') : ?>
-                            <nav class="reskin-clean-breadcrumbs" aria-label="<?php echo hsc($lang['youarehere']); ?>">
-                                <?php echo $reskinCleanBreadcrumb; ?>
-                            </nav>
-                        <?php endif; ?>
-
                         <?php if ($showUpdatesInline) : ?>
-                            <?php reskin_render_partial('updates', $reskinUpdatesModel, [
+                            <?php reskin_render_partial($reskinDesign ? 'design-updates' : 'updates', $reskinUpdatesModel, [
                                 'inline' => true,
                                 'stacked' => $reskinLayout === 'left',
                             ]); ?>
                         <?php endif; ?>
 
                         <?php if ($showMetricsInline) : ?>
-                            <?php reskin_render_partial('metrics', $reskinHomeModels['metrics'], ['inline' => true]); ?>
+                            <?php reskin_render_partial($reskinDesign ? 'design-metrics' : 'metrics', $reskinHomeModels['metrics'], ['inline' => true]); ?>
                         <?php endif; ?>
 
                         <?php if ($showStoriesInline) : ?>
-                            <?php reskin_render_partial('stories', $reskinHomeModels['stories'], [
+                            <?php reskin_render_partial($reskinDesign ? 'design-stories' : 'stories', $reskinHomeModels['stories'], [
                                 'inline' => true,
                                 'track_id' => 'reskinStoryTrackInline',
                             ]); ?>
                         <?php endif; ?>
 
                         <?php html_msgarea(); ?>
+                        <?php echo $reskinContext['outdated_notice']; // trusted plugin HTML (inc/translation.php) ?>
 
-                        <?php if ($reskinFallbackNotice) : ?>
+                        <?php if ($reskinFallbackNotice && $reskinDesign) : ?>
+                            <?php reskin_render_partial('design-alert', ['title' => $reskinFallbackNotice]); ?>
+                        <?php elseif ($reskinFallbackNotice) : ?>
                             <div class="alert alert-warning reskin-i18n-fallback" role="status">
                                 <?php echo hsc($reskinFallbackNotice); ?>
                             </div>
                         <?php endif; ?>
 
                         <?php
-                        $reskinContentHtml = '';
-                        if ($reskinNewsEntries === []) {
-                            ob_start();
-                            tpl_content($ACT !== 'show');
-                            $reskinContentHtml = (string) ob_get_clean();
-                        }
+                        ob_start();
+                        tpl_content($ACT !== 'show');
+                        $reskinContentHtml = (string) ob_get_clean();
                         $reskinTocHtml = '';
-                        if ($ACT === 'show' && $reskinNewsArticle === null && !preg_match('/^(?:cs|en):(?:variants:news|outages:start)$/', (string) $ID)) {
+                        if ($ACT === 'show' && !preg_match('/^(?:cs|en):(?:variants:news|outages:start)$/', (string) $ID)) {
                             $reskinTocHtml = tpl_toc(true);
                             $reskinTocHtml = preg_replace(
                                 '/<h3 class="toggle">.*?<\/h3>/su',
@@ -181,29 +165,27 @@ $reskinPageIdClass = $reskinContext['page_class'];
                                         (string) $ID,
                                         $reskinContentHtml,
                                         $reskinNewsEntries,
-                                        $reskinNewsArticle,
-                                        $reskinContext['variant']
+                                        $reskinContext['variant'],
+                                        isset($reskinHeroHtml) && str_contains($reskinHeroHtml, '<h1')
                                     )); ?>
                                     <?php tpl_includeFile('pagefooter.html'); ?>
                                 </div>
 
-                                <?php if ($reskinNewsArticle === null) : ?>
-                                    <div class="reskin-page-info">
-                                        <?php tpl_pageinfo(); ?>
-                                    </div>
+                                <div class="reskin-page-info">
+                                    <?php tpl_pageinfo(); ?>
+                                </div>
 
-                                    <nav class="reskin-pagetools" aria-label="Page tools">
-                                        <ul class="list-inline mb-0">
-                                            <?php echo (new \dokuwiki\Menu\PageMenu())->getListItems(); ?>
-                                        </ul>
-                                    </nav>
-                                <?php endif; ?>
+                                <nav class="reskin-pagetools" aria-label="Page tools">
+                                    <ul class="list-inline mb-0">
+                                        <?php echo (new \dokuwiki\Menu\PageMenu())->getListItems(); ?>
+                                    </ul>
+                                </nav>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </main>
+        <?php if ($reskinDesign) echo '</div>'; ?></main>
 
         <?php require __DIR__ . '/footer.php'; ?>
     </div>
@@ -212,7 +194,7 @@ $reskinPageIdClass = $reskinContext['page_class'];
     <div id="screen__mode" class="no"></div>
 
     <?php if ($showSidebarOffcanvas) : ?>
-        <div class="offcanvas offcanvas-start reskin-offcanvas<?php echo $reskinLayout === 'top' && $reskinStyle === 'cesnet' ? ' reskin-offcanvas--top-cesnet' : ''; ?>" tabindex="-1" id="reskinSidebar" aria-labelledby="reskinSidebarLabel">
+        <div class="offcanvas offcanvas-start reskin-offcanvas<?php echo ' reskin-offcanvas--' . ($reskinLayout === 'left' ? 'top' : $reskinLayout) . '-cesnet'; ?>" tabindex="-1" id="reskinSidebar" aria-labelledby="reskinSidebarLabel">
             <div class="offcanvas-header">
                 <h5 class="offcanvas-title" id="reskinSidebarLabel"><?php echo hsc(reskin_i18n_t('navigation')); ?></h5>
                 <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="<?php echo hsc(reskin_i18n_t('close')); ?>"></button>
@@ -220,7 +202,7 @@ $reskinPageIdClass = $reskinContext['page_class'];
             <div class="offcanvas-body">
                 <?php $reskinSidebarInstance = 'offcanvas'; ?>
                 <?php require __DIR__ . '/sidebar.php'; ?>
-                <?php if ($reskinLayout === 'top') : ?><div class="reskin-mobile-preferences" data-header-preferences-mobile></div><?php endif; ?>
+                <div class="reskin-mobile-preferences" data-header-preferences-mobile></div>
             </div>
         </div>
     <?php endif; ?>

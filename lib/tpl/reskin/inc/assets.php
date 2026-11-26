@@ -6,16 +6,22 @@ function reskin_external_stylesheets(): array
 {
     return [
         ['url' => 'https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;600&family=Source+Sans+3:wght@400;500;600;700&family=Open+Sans:wght@400;500;600;700&display=swap'],
-        ['url' => 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css', 'integrity' => 'sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH', 'crossorigin' => 'anonymous'],
+        ['url' => 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css', 'integrity' => 'sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB', 'crossorigin' => 'anonymous'],
         ['url' => 'https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css', 'integrity' => 'sha384-XGjxtQfXaH2tnPFa9x+ruJTuLE3Aa6LhHSWRr1XeTyhezb4abCG4ccI5AkVDxqC+', 'crossorigin' => 'anonymous'],
     ];
 }
 
-/** Shared order matches the former import umbrella; exactly one layout follows it. */
-function reskin_css_paths(string $layout): array
+/**
+ * CESNET: brand tokens and Bootstrap overrides, wiki content, components, home sections; Left adds its sidebar frame.
+ * MetaCentrum (frame `clean`) loads none of them: the design's tokens, Carbon reset and components,
+ * then its own layout/native adapter.
+ * @param string $frame top|left|clean (reskin_variant_frame(); clean = MetaCentrum style)
+ */
+function reskin_css_paths(string $frame): array
 {
-    $layout = reskin_layout_variant($layout)['layout'];
-    return ['css/base.css', 'css/home.css', 'css/components.css', 'css/layout.css', 'css/responsive.css', 'css/layouts/' . $layout . '.css'];
+    if ($frame === 'clean') return ['vendor/metacentrum/tokens.css', 'vendor/metacentrum/foundation.css', 'vendor/metacentrum/components.css', 'css/layouts/clean.css'];
+    $paths = ['css/tokens.css', 'css/bootstrap-overrides.css', 'css/dokuwiki.css', 'css/components.css', 'css/home.css'];
+    return $frame === 'left' ? array_merge($paths, ['css/frames/left.css']) : $paths;
 }
 
 /** Named file/URL boundary; root and URL base may be supplied for portable checks. */
@@ -29,17 +35,24 @@ function reskin_local_asset(string $path, ?string $base = null, ?string $root = 
 
 function reskin_stylesheet_assets(array $variant): array
 {
-    return array_merge(reskin_external_stylesheets(), array_map('reskin_local_asset', reskin_css_paths($variant['layout'])));
+    $frame = reskin_variant_frame($variant);
+    $external = reskin_external_stylesheets();
+    // MetaCentrum keeps Bootstrap for grid and behaviour; its font and icons are the design's.
+    if ($frame === 'clean') $external = [$external[1]];
+    return array_merge($external, array_map('reskin_local_asset', reskin_css_paths($frame)));
 }
 
 /** Preserve the existing feature applicability, including hardware on non-show actions. */
 function reskin_script_paths(array $context, bool $hasToc): array
 {
-    $paths = ['js/theme.js', 'js/search.js'];
-    if ($context['variant']['layout'] === 'top') $paths[] = 'js/header.js';
+    // MetaCentrum is light only (no theme script), lists every navigation item and shows stories as plain cards.
+    $design = $context['variant']['style'] === 'metacentrum';
+    $paths = $design
+        ? ['js/variant-links.js', 'js/search.js', 'js/header.js', 'js/design-header.js', 'js/forms.js']
+        : ['js/theme.js', 'js/variant-links.js', 'js/search.js', 'js/header.js'];
     if ($hasToc) $paths[] = 'js/page-toc.js';
-    if ($context['show']['top_navigation']) $paths[] = 'js/topnav-overflow.js';
-    if ($context['show']['hero'] || $context['show']['stories_inline']) $paths[] = 'js/story-slider.js';
+    if (!$design && $context['show']['top_navigation']) $paths[] = 'js/topnav-overflow.js';
+    if (!$design && ($context['show']['hero'] || $context['show']['stories_inline'])) $paths[] = 'js/story-slider.js';
     if ($context['hardware']) $paths[] = 'js/hardware-drawer.js';
     return $paths;
 }
@@ -48,6 +61,6 @@ function reskin_script_paths(array $context, bool $hasToc): array
 function reskin_script_assets(array $context, bool $hasToc): array
 {
     return array_merge([
-        ['url' => 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js', 'integrity' => 'sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz', 'crossorigin' => 'anonymous'],
+        ['url' => 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js', 'integrity' => 'sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI', 'crossorigin' => 'anonymous'],
     ], array_map('reskin_local_asset', reskin_script_paths($context, $hasToc)));
 }

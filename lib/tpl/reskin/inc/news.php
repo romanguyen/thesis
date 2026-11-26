@@ -1,79 +1,46 @@
 <?php
 if (!defined('DOKU_INC')) die();
 
-/** Pure presentation-independent extraction from prepared sections. @return array<int,array<string,mixed>> */
-function reskin_news_articles_from_sections(array $sections, string $lang): array
+/**
+ * News articles of one language, newest first: the readable pages directly in `<lang>:news:` except its start page.
+ * An article is the page `news:YYYY-MM-DD-name` in each language, so the same name pairs the translations like any
+ * other page, and the date sorts and displays without reading the source.
+ * @return list<array{id:string,title:string,date_iso:string,date:string,url:string}>
+ */
+function reskin_news_articles(string $lang, array $variant, int $limit = 0): array
 {
+    global $conf;
+    $found = [];
+    search($found, $conf['datadir'], 'search_allpages', [], $lang . '/news'); // checks read access per page
     $articles = [];
-    foreach ($sections as $section) {
-        if ($section['index'] === 0) continue;
-        $body = trim($section['body']);
-        $dateIso = reskin_i18n_heading_date($body, 'news:start', $lang);
-        $author = $permalink = '';
-        $byline = '/^\s*\[\[(https?:\/\/[^\]|]+)\|permalink\]\]\s*\/\/([^\/\r\n]+)\/\/,\s*[^\r\n]*$/mi';
-        if (preg_match($byline, $body, $meta)) {
-            if (filter_var($meta[1], FILTER_VALIDATE_URL)) $permalink = $meta[1];
-            $author = trim($meta[2]);
-            $body = trim((string) preg_replace($byline, '', $body, 1));
-        }
-        $externalUrl = $externalTitle = '';
-        if (preg_match('/(?:Více informací|More (?:info|information))[^\r\n]*?\[\[(https?:\/\/[^\]|]+)(?:\|([^\]]+))?\]\]/iu', $body, $link)) {
-            if (filter_var($link[1], FILTER_VALIDATE_URL)) {
-                $externalUrl = $link[1];
-                $externalTitle = trim($link[2] ?? '') ?: $externalUrl;
-            }
-        }
+    foreach ($found as $item) {
+        if (getNS($item['id']) !== $lang . ':news' || noNS($item['id']) === $conf['start']) continue;
+        $date = preg_match('/^(\d{4})-(\d{2})-(\d{2})-/', noNS($item['id']), $day) && checkdate((int) $day[2], (int) $day[3], (int) $day[1])
+            ? "{$day[1]}-{$day[2]}-{$day[3]}" : '';
         $articles[] = [
-            'index' => $section['index'], 'anchor' => $section['anchor'], 'title' => $section['title'],
-            'date' => reskin_i18n_format_update_date($dateIso, $lang), 'date_iso' => $dateIso,
-            'author' => $author, 'body' => $body, 'permalink' => $permalink,
-            'external_url' => $externalUrl, 'external_title' => $externalTitle,
+            'id' => $item['id'],
+            'title' => (string) (p_get_first_heading($item['id'], METADATA_RENDER_UNLIMITED) ?: noNS($item['id'])), // a list is short; a missing title must not depend on the per-request render limit
+            'date_iso' => $date,
+            'date' => reskin_i18n_format_update_date($date, $lang),
+            'url' => wl($item['id'], reskin_url_variant_params($variant), false, '&'),
         ];
     }
-    return $articles;
+    usort($articles, static fn(array $a, array $b): int => [$b['date_iso'], $b['id']] <=> [$a['date_iso'], $a['id']]);
+    return $limit > 0 ? array_slice($articles, 0, $limit) : $articles;
 }
 
-/** Authorized native read for new request-context callers. */
-function reskin_news_articles(string $pageId, string $lang): array
+/** Homepage update rows: the newest news of the preferred language, else of the other one. */
+function reskin_news_update_items(string $preferred, int $limit): array
 {
-    return reskin_news_articles_from_sections(reskin_read_wiki_sections($pageId), $lang);
-}
-
-/** Compatibility API: its original contract requires the caller to authorize the page. */
-function reskin_i18n_news_articles(string $pageId, string $lang): array
-{
-    return reskin_news_articles_from_sections(reskin_read_wiki_sections($pageId, false, false, false), $lang);
-}
-
-/** Select from already prepared data; missing/overlong IDs retain archive fallback. */
-function reskin_select_news_article(array $articles, string $articleId): ?array
-{
-    if ($articleId === '' || strlen($articleId) > 200) return null;
-    foreach ($articles as $article) {
-        if ($article['anchor'] === $articleId) return $article;
+    $articles = [];
+    foreach (array_unique([$preferred, RESKIN_I18N_FALLBACK_LANG, RESKIN_I18N_PRIMARY_LANG]) as $lang) {
+        $articles = reskin_news_articles($lang, reskin_variant_context(), $limit);
+        if ($articles !== []) break;
     }
-    return null;
-}
-
-function reskin_i18n_news_article(string $pageId, string $articleId, string $lang): ?array
-{
-    if ($articleId === '' || strlen($articleId) > 200) return null;
-    return reskin_select_news_article(reskin_i18n_news_articles($pageId, $lang), $articleId);
-}
-
-function reskin_section_anchor_at_index(array $sections, int $index): string
-{
-    if ($index < 1) return '';
-    foreach ($sections as $section) {
-        if ($section['index'] === $index) return $section['anchor'];
-    }
-    return '';
-}
-
-function reskin_i18n_news_anchor_at_index(string $pageId, int $index): string
-{
-    if ($index < 1) return '';
-    return reskin_section_anchor_at_index(reskin_read_wiki_sections($pageId, false, false, false), $index);
+    return array_map(static fn(array $article): array => [
+        'title' => $article['title'],
+        'url' => $article['url'],
+    ] + reskin_update_item_dates($article['date_iso'], '', $preferred), $articles);
 }
 
 /** Recent-update adapter: preserve source trimming, empty-title policy and display-language dates. */
@@ -81,7 +48,7 @@ function reskin_i18n_recent_headings(string $base, int $limit = 3, ?string $pref
 {
     $limit = max(1, $limit);
     $preferred = $preferredLang ?: reskin_i18n_current_lang();
-    $resolved = reskin_resolve_page($base, $preferred, true, true);
+    $resolved = reskin_resolve_page($base, $preferred);
     if (!$resolved['found'] || $resolved['id'] === '') return [];
     $sections = reskin_read_wiki_sections($resolved['id'], true, true);
     $items = [];
@@ -91,41 +58,88 @@ function reskin_i18n_recent_headings(string $base, int $limit = 3, ?string $pref
             $skipTitle = false;
             continue;
         }
-        $dateIso = reskin_i18n_heading_date($section['body'], $base, $resolved['lang']);
+        $dates = reskin_i18n_heading_date_range($section['body'], $base, $resolved['lang']);
         $items[] = [
             'title' => trim((string) preg_replace('/\s+/u', ' ', $section['title'])),
-            'url' => reskin_update_link($resolved['id'], $base, $section['anchor'], reskin_variant_context()),
-            'date_iso' => $dateIso, 'date' => reskin_i18n_format_update_date($dateIso, $preferred),
-        ];
+            'url' => reskin_update_link($resolved['id'], $section['anchor'], reskin_variant_context()),
+        ] + reskin_update_item_dates($dates['start'], $dates['end'], $preferred);
         if (count($items) >= $limit) break;
     }
     return $items;
 }
 
-/** Existing imported publication/outage date formats; no new interpretation. */
+/** Existing imported outage date formats; start date only. */
 function reskin_i18n_heading_date(string $section, string $base, string $sourceLang): string
 {
-    $year = $month = $day = 0;
-    if ($base === 'news:start') {
-        if (!preg_match('/\b(?:Mon|Tue|Wed|Thu|Fri|Sat|Sun)\s+(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s+(\d{1,2})\s+\d{2}:\d{2}:\d{2}\s+[A-Z]+\s+(\d{4})\b/', $section, $match)) return '';
-        $months = ['Jan' => 1, 'Feb' => 2, 'Mar' => 3, 'Apr' => 4, 'May' => 5, 'Jun' => 6, 'Jul' => 7, 'Aug' => 8, 'Sep' => 9, 'Oct' => 10, 'Nov' => 11, 'Dec' => 12];
-        $month = $months[$match[1]];
-        $day = (int) $match[2];
-        $year = (int) $match[3];
-    } elseif ($base === 'outages:start' && $sourceLang === 'cs') {
-        if (!preg_match('/\*\*Term[ií]n:\*\*[^\r\n]*?(\d{1,2})\.\s*(\d{1,2})\.\s*(\d{4})/ui', $section, $match)) return '';
-        $day = (int) $match[1];
-        $month = (int) $match[2];
-        $year = (int) $match[3];
-    } elseif ($base === 'outages:start') {
-        if (!preg_match('/\*\*Window:\*\*\s*(?:[A-Za-z]{3}\s+)?(\d{4})-(\d{2})-(\d{2})/', $section, $match)) return '';
-        $year = (int) $match[1];
-        $month = (int) $match[2];
-        $day = (int) $match[3];
-    }
-    return checkdate($month, $day, $year) ? sprintf('%04d-%02d-%02d', $year, $month, $day) : '';
+    return reskin_i18n_heading_date_range($section, $base, $sourceLang)['start'];
 }
 
+/**
+ * Outage start plus an optional explicit end date; other pages have none.
+ *
+ * Outage ranges are recognized only directly after the field label:
+ * English `2026-04-28 08:00 – 2026-05-02 16:00` (or `to`), Czech
+ * `28. 4. 2026 08:00 – 2. 5. 2026`, `9.–12. 10. 2026` and `26. 6.–29. 6. 2026`.
+ * A time-only range (`07:00–11:00`) is a single-day window. An invalid end,
+ * or one not after the start, is dropped; the start is kept.
+ *
+ * @return array{start:string,end:string}
+ */
+function reskin_i18n_heading_date_range(string $section, string $base, string $sourceLang): array
+{
+    $none = ['start' => '', 'end' => ''];
+    $iso = static function (int $year, int $month, int $day): string {
+        return checkdate($month, $day, $year) ? sprintf('%04d-%02d-%02d', $year, $month, $day) : '';
+    };
+    $range = static function (string $start, string $end): array {
+        if ($start === '') return ['start' => '', 'end' => ''];
+        return ['start' => $start, 'end' => ($end !== '' && $end > $start) ? $end : ''];
+    };
+    $time = '(?:,?\s*\d{1,2}:\d{2})?';
+    $dash = '\s*(?:[-–—]|to)\s*';
+
+    if ($base !== 'outages:start') return $none;
+
+    if ($sourceLang === 'cs') {
+        // Start month/year may be omitted when shared with the end date.
+        if (preg_match('/\*\*Term[ií]n:\*\*[^\r\n\d]*(\d{1,2})\.?(?:\s*(\d{1,2})\.)?(?:\s*(\d{4}))?' . $time . $dash . '(\d{1,2})\.\s*(\d{1,2})\.\s*(\d{4})/u', $section, $match)) {
+            $endYear = (int) $match[6];
+            $endMonth = (int) $match[5];
+            $startMonth = $match[2] !== '' ? (int) $match[2] : $endMonth;
+            $startYear = $match[3] !== '' ? (int) $match[3] : $endYear;
+            return $range($iso($startYear, $startMonth, (int) $match[1]), $iso($endYear, $endMonth, (int) $match[4]));
+        }
+        if (!preg_match('/\*\*Term[ií]n:\*\*[^\r\n]*?(\d{1,2})\.\s*(\d{1,2})\.\s*(\d{4})/ui', $section, $match)) return $none;
+        return $range($iso((int) $match[3], (int) $match[2], (int) $match[1]), '');
+    }
+
+    $day = '(?:[A-Za-z]{3}\s+)?(\d{4})-(\d{2})-(\d{2})';
+    if (!preg_match('/\*\*Window:\*\*\s*' . $day . '(?:' . $time . $dash . $day . ')?/u', $section, $match)) return $none;
+    $end = isset($match[4]) && $match[4] !== '' ? $iso((int) $match[4], (int) $match[5], (int) $match[6]) : '';
+    return $range($iso((int) $match[1], (int) $match[2], (int) $match[3]), $end);
+}
+
+/**
+ * Update-card row date fields, numeric (see reskin_i18n_format_update_range).
+ * Range rows add `date_range_start`, `end_date` and the dash between them.
+ *
+ * @return array{date:string,date_iso:string,end_date:string,end_date_iso:string,date_range_start:string,date_range_separator:string}
+ */
+function reskin_update_item_dates(string $startIso, string $endIso, string $lang): array
+{
+    $range = reskin_i18n_format_update_range($startIso, $endIso, $lang);
+    $hasEnd = $range['end'] !== '';
+    return [
+        'date' => reskin_i18n_format_card_date($startIso, $lang),
+        'date_iso' => $startIso,
+        'end_date' => $range['end'],
+        'end_date_iso' => $hasEnd ? $endIso : '',
+        'date_range_start' => $hasEnd ? $range['start'] : '',
+        'date_range_separator' => $range['separator'],
+    ];
+}
+
+/** Long article date: `1 January 2026`, `1. ledna 2026`. */
 function reskin_i18n_format_update_date(string $iso, string $lang): string
 {
     if ($iso === '') return '';
@@ -134,4 +148,34 @@ function reskin_i18n_format_update_date(string $iso, string $lang): string
     if ($lang !== 'cs') return $date->format('j F Y');
     $months = [1 => 'ledna', 'února', 'března', 'dubna', 'května', 'června', 'července', 'srpna', 'září', 'října', 'listopadu', 'prosince'];
     return $date->format('j') . '. ' . $months[(int) $date->format('n')] . ' ' . $date->format('Y');
+}
+
+/** Numeric card date: ISO `2026-04-14` in English, `14. 4. 2026` in Czech. */
+function reskin_i18n_format_card_date(string $iso, string $lang): string
+{
+    if ($iso === '') return '';
+    $date = \DateTimeImmutable::createFromFormat('!Y-m-d', $iso);
+    if (!$date) return '';
+    return $lang === 'cs' ? $date->format('j. n. Y') : $date->format('Y-m-d');
+}
+
+/**
+ * Numeric card range labels. Czech shares trailing parts with the end:
+ * `16.–17. 4. 2026`, `28. 4. – 2. 5. 2026`; English stays full ISO:
+ * `2026-04-28 – 2026-05-02`. Without a valid later end, only `start` is set.
+ *
+ * @return array{start:string,end:string,separator:string}
+ */
+function reskin_i18n_format_update_range(string $startIso, string $endIso, string $lang): array
+{
+    $full = reskin_i18n_format_card_date($startIso, $lang);
+    $start = \DateTimeImmutable::createFromFormat('!Y-m-d', $startIso);
+    $end = \DateTimeImmutable::createFromFormat('!Y-m-d', $endIso);
+    if ($full === '' || !$start || !$end || $end <= $start) return ['start' => $full, 'end' => '', 'separator' => ''];
+
+    $endLabel = reskin_i18n_format_card_date($endIso, $lang);
+    if ($lang !== 'cs') return ['start' => $full, 'end' => $endLabel, 'separator' => ' – '];
+    if ($start->format('Y-n') === $end->format('Y-n')) return ['start' => $start->format('j.'), 'end' => $endLabel, 'separator' => '–'];
+    $label = $start->format('Y') === $end->format('Y') ? $start->format('j. n.') : $full;
+    return ['start' => $label, 'end' => $endLabel, 'separator' => ' – '];
 }

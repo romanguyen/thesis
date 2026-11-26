@@ -1,0 +1,62 @@
+/*
+ * Bootstrap 5 style: brand values are Bootstrap 5.3 CSS variables in css/tokens.css, shared with the CESNET style
+ * (no reskin component stylesheet). Components, grid, spacing and colour modes are Bootstrap's own.
+ * Imported here, not linked from the page template: combo caches whole pages, which would miss a new link.
+ */
+@import url("../../css/tokens.css");
+
+:root,
+[data-bs-theme="light"] {
+  --bs-heading-color: var(--bs-body-color);
+}
+
+[data-bs-theme="dark"] {
+  --bs-heading-color: #fff;
+}
+
+/* White text on the brand orange is below 4.5:1. Combo's button skin inlines color:#fff, hence !important. */
+.btn-primary {
+  --bs-btn-color: #000;
+  --bs-btn-hover-color: #000;
+  --bs-btn-active-color: #000;
+}
+
+.btn-primary[style] {
+  color: #000 !important;
+}
+
+/* Bootstrap compiles the dropdown highlight as its default blue. */
+.dropdown-menu {
+  --bs-dropdown-link-active-bg: var(--bs-primary);
+  --bs-dropdown-link-active-color: #000;
+}
+
+/* Combo's jumbotron inlines its light grey background; follow the colour mode instead. */
+[data-bs-theme="dark"] .jumbotron-cs {
+  background-color: var(--bs-tertiary-bg) !important;
+}
+
+/* Combo's <grid> is a Bootstrap row; bordered boxes in it swallow the gutters, so space them with grid gaps. */
+.grid-cs.row:has(> .col:is(.border, .card)) {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+  gap: 1rem;
+  margin: 0 0 1rem;
+}
+
+.grid-cs.row:has(> .col:is(.border, .card)) > .col {
+  width: auto;
+  max-width: none;
+  margin: 0;
+}
+
+/* Only the language that matches <html lang> is shown (bilingual static frame). */
+html[lang="en"] .b5-l[lang="cs"],
+html[lang="cs"] .b5-l[lang="en"] {
+  display: none;
+}
+
+.b5-logo-inverse,
+[data-bs-theme="dark"] .b5-logo {
+  filter: brightness(0) invert(1);
+}

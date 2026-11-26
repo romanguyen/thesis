@@ -1,35 +1,55 @@
 <?php
 if (!defined('DOKU_INC')) die();
 
-/** Pure layout normalization; style remains derived from the selected layout. @return array{layout:string,style:string} */
-function reskin_layout_variant(string $layout): array
+/** Selectable looks; `layout` only chooses where CESNET's navigation lives. */
+const RESKIN_STYLES = ['cesnet', 'metacentrum', 'bootstrap5'];
+
+/**
+ * Pure variant normalization: layout (top|left) and style (cesnet|metacentrum|bootstrap5) are independent inputs.
+ * Unknown values, including the retired `layout=clean`, fall back to Top and CESNET.
+ * @return array{layout:string,style:string}
+ */
+function reskin_layout_variant(string $layout, string $style = ''): array
 {
     $layout = strtolower(trim($layout));
-    if (!in_array($layout, ['left', 'top', 'clean'], true)) $layout = 'top';
-    return ['layout' => $layout, 'style' => $layout === 'top' ? 'cesnet' : 'reskin'];
+    $style = strtolower(trim($style));
+    if (!in_array($style, RESKIN_STYLES, true)) $style = 'cesnet';
+    if (!in_array($layout, ['left', 'top'], true)) $layout = 'top';
+    return ['layout' => $layout, 'style' => $style];
 }
 
-/** Preserve the public current-request API and its request-local static layout policy. */
+/**
+ * Frame the reskin shell renders: MetaCentrum brings its own header/footer (internal key `clean`, used by
+ * css/layouts/clean.css and the body/site classes), otherwise the layout. Bootstrap 5 reaches the shell only as a
+ * fallback (requests ComboStrap does not render) and then uses the CESNET frame of the selected layout.
+ */
+function reskin_variant_frame(array $variant): string
+{
+    return $variant['style'] === 'metacentrum' ? 'clean' : $variant['layout'];
+}
+
+/** Preserve the public current-request API and its request-local static variant policy. */
 function reskin_variant_context(): array
 {
     global $INPUT;
     static $variant;
-    if (!is_array($variant)) $variant = reskin_layout_variant($INPUT->str('layout'));
+    // A Bootstrap 5 request that combo declined (e.g. a missing page) reaches the shell without `style`, see plugin-controller.php.
+    if (!is_array($variant)) $variant = reskin_layout_variant($INPUT->str('layout'), reskin_combo_request_mode() === 'style' ? 'bootstrap5' : $INPUT->str('style'));
     return $variant;
 }
 
 /**
  * Named DokuWiki adapter; the rest of request preparation receives explicit inputs.
- * @return array{id:string,action:mixed,variant:array{layout:string,style:string},article_id:string,fallback_from:string,start:string,sidebar:string}
+ * @return array{id:string,action:mixed,historical:bool,variant:array{layout:string,style:string},fallback_from:string,start:string,sidebar:string}
  */
 function reskin_request_state(): array
 {
-    global $ID, $ACT, $INPUT, $conf;
+    global $ID, $ACT, $INPUT, $conf, $REV, $DATE_AT;
     return [
         'id' => (string) $ID,
         'action' => $ACT,
+        'historical' => !empty($REV) || !empty($DATE_AT),
         'variant' => reskin_variant_context(),
-        'article_id' => $INPUT->str('article'),
         'fallback_from' => $INPUT->str('fallback_from'),
         'start' => (string) $conf['start'],
         'sidebar' => (string) $conf['sidebar'],
@@ -39,16 +59,16 @@ function reskin_request_state(): array
 /** Resolve routing data without printing or redirecting. @return array{url:string,missing:?array}|null */
 function reskin_request_redirect(array $request): ?array
 {
-    if ($request['action'] !== 'show') return null;
+    if ($request['action'] !== 'show' || !empty($request['historical'])) return null;
     $page = reskin_parse_page_id($request['id']);
     if (reskin_i18n_is_excluded_base($page['base'])) return null;
     if (!$page['localized']) {
-        $target = reskin_resolve_page($page['base'], RESKIN_I18N_PRIMARY_LANG, true, true);
-        if (!$target['found'] || $target['legacy'] || $target['id'] === $request['id']) return null;
+        $target = reskin_resolve_page($page['base'], RESKIN_I18N_PRIMARY_LANG);
+        if (!$target['found'] || $target['id'] === $request['id']) return null;
         return ['url' => wl($target['id'], reskin_url_variant_params($request['variant']), true, '&'), 'missing' => null];
     }
     if (page_exists($request['id'])) return null;
-    $target = reskin_resolve_page($page['base'], $page['lang'], true, true);
+    $target = reskin_resolve_page($page['base'], $page['lang']);
     if (!$target['found'] || $target['id'] === '' || $target['id'] === $request['id']) return null;
     $params = [];
     $missing = null;
@@ -71,6 +91,7 @@ function reskin_handle_request(array $request): void
     send_redirect($redirect['url'], 302);
 }
 
+/** Retained current-request routing API, including its native redirect side effects. */
 function reskin_i18n_handle_request(): void
 {
     reskin_handle_request(reskin_request_state());
@@ -86,6 +107,7 @@ function reskin_fallback_notice(array $page, string $from): ?string
     return reskin_i18n_t('fallback_notice', [RESKIN_I18N_LANGS[$from], RESKIN_I18N_LANGS[$to]], $page['lang']);
 }
 
+/** Retained current-ID/input compatibility API; no removal/deprecation scheduled. */
 function reskin_i18n_fallback_notice(): ?string
 {
     global $INPUT;
@@ -93,7 +115,8 @@ function reskin_i18n_fallback_notice(): ?string
 }
 
 /**
- * Pure visibility policy over explicit page/request inputs; sidebar authorization stays with the caller.
+ * Pure visibility policy over explicit page/request inputs and the rendered frame (top|left|clean, see
+ * reskin_variant_frame()); sidebar authorization stays with the caller.
  * @return array{
  *   sidebar_aside:bool,top_navigation:bool,sidebar_mobile_trigger:bool,sidebar_offcanvas:bool,
  *   hero:bool,updates_section:bool,updates_inline:bool,metrics_section:bool,stories_section:bool,
@@ -108,7 +131,8 @@ function reskin_page_visibility(string $base, string $startPage, string $layout,
     $leftInline = $show && $start && $layout === 'left';
     return [
         'sidebar_aside' => $sidebar && $layout === 'left',
-        'top_navigation' => $sidebar && $layout === 'top',
+        // MetaCentrum's navigation is the frame's permanent sidebar, so search, login and editing keep it.
+        'top_navigation' => $hasSidebar && ($layout === 'clean' || ($show && $layout === 'top')),
         'sidebar_mobile_trigger' => $sidebar && in_array($layout, ['left', 'top'], true),
         'sidebar_offcanvas' => $sidebar && in_array($layout, ['left', 'top'], true),
         'hero' => $start && $show,
@@ -124,20 +148,20 @@ function reskin_page_visibility(string $base, string $startPage, string $layout,
 
 /**
  * Prepare one stable page model; native content/TOC rendering still happens later in main.
- * Language selection may use an article during edit/preview, but reading-view selection may not.
- * @param array{id:string,action:mixed,variant:array{layout:string,style:string},article_id:string,fallback_from:string,start:string,sidebar:string} $request
+ * @param array{id:string,action:mixed,historical?:bool,variant:array{layout:string,style:string},fallback_from:string,start:string,sidebar:string} $request
  * @return array{
- *   request:array{id:string,action:mixed,variant:array{layout:string,style:string},article_id:string,fallback_from:string,start:string,sidebar:string},
+ *   request:array{id:string,action:mixed,historical?:bool,variant:array{layout:string,style:string},fallback_from:string,start:string,sidebar:string},
  *   page:array{lang:string,base:string,localized:bool,id:string},variant:array{layout:string,style:string},
  *   show:array{
  *     sidebar_aside:bool,top_navigation:bool,sidebar_mobile_trigger:bool,sidebar_offcanvas:bool,
  *     hero:bool,updates_section:bool,updates_inline:bool,metrics_section:bool,stories_section:bool,
  *     metrics_inline:bool,stories_inline:bool,start:bool
  *   },
- *   news_entries:list<array<string,mixed>>,news_article:array<string,mixed>|null,
+ *   news_entries:list<array{id:string,title:string,date_iso:string,date:string,url:string}>,
  *   language_targets:array<string,array{label:string,url:string,url_abs:string,current:bool,available:bool,resolved_lang:string}>,
- *   layout_links:array{clean:string,left:string,top:string},fallback_notice:string|null,
- *   hardware:bool,hardware_catalog_url:string,page_class:string,breadcrumb_html:string
+ *   variant_links:array{layouts:array{left:string,top:string},styles:array{cesnet:string,metacentrum:string,bootstrap5:string}},
+ *   fallback_notice:string|null,outdated_notice:string,
+ *   hardware:bool,hardware_catalog_url:string,page_class:string
  * }
  */
 function reskin_page_context(array $request): array
@@ -146,31 +170,23 @@ function reskin_page_context(array $request): array
     $show = $request['action'] === 'show';
     $variant = $request['variant'];
     $hasSidebar = reskin_resolve_fragment($request['sidebar'], $page['lang'], $request['id'])['found'];
-    $visibility = reskin_page_visibility($page['base'], $request['start'], $variant['layout'], $request['action'], $hasSidebar);
+    $visibility = reskin_page_visibility($page['base'], $request['start'], reskin_variant_frame($variant), $request['action'], $hasSidebar);
     $entries = [];
-    $selection = null;
-    if ($page['base'] === 'news:start' && page_exists($request['id']) && auth_quickaclcheck($request['id']) >= AUTH_READ) {
-        if ($show || ($request['article_id'] !== '' && strlen($request['article_id']) <= 200)) {
-            $entries = reskin_news_articles($request['id'], $page['lang']);
-            $selection = reskin_select_news_article($entries, $request['article_id']);
-        }
+    if ($show && empty($request['historical']) && $page['base'] === 'news:start' && page_exists($request['id']) && auth_quickaclcheck($request['id']) >= AUTH_READ) {
+        $entries = reskin_news_articles($page['lang'], $variant);
     }
     $hardware = preg_match('/^(cs|en):resources:hardware(?::start)?$/', $request['id']) === 1;
     $pageClass = trim((string) preg_replace('/[^a-z0-9_-]+/i', '-', strtolower($request['id'])), '-');
-    $breadcrumb = $variant['layout'] === 'clean' && $show
-        ? reskin_render_breadcrumb($variant, static function () { return tpl_youarehere(' / ', true); })
-        : '';
     return [
         'request' => $request, 'page' => $page, 'variant' => $variant,
         'show' => $visibility,
-        'news_entries' => $show ? $entries : [],
-        'news_article' => $show ? $selection : null,
-        'language_targets' => reskin_language_targets($page, $variant, $selection),
-        'layout_links' => reskin_layout_links($request['id']),
+        'news_entries' => $entries,
+        'language_targets' => reskin_language_targets($page, $variant),
+        'variant_links' => reskin_variant_links($request['id'], $variant),
         'fallback_notice' => reskin_fallback_notice($page, $request['fallback_from']),
+        'outdated_notice' => reskin_translation_outdated_notice($request),
         'hardware' => $hardware,
         'hardware_catalog_url' => $hardware ? (DOKU_BASE . 'lib/exe/fetch.php?media=' . rawurlencode('hardware:catalog.json')) : '',
         'page_class' => 'reskin-pageid-' . ($pageClass !== '' ? $pageClass : 'start'),
-        'breadcrumb_html' => $breadcrumb,
     ];
 }

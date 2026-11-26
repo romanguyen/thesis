@@ -35,3 +35,15 @@ lib/plugins/*/tmp/
 error.log
 debug.log
 
+# Harness repo
+/thesis/
+.opencode
+/docs/
+/scripts/
+/opencode.json
+/Makefile
+AGENTS.md
+/lib/tpl/reskin/tests/
+data/combo/
+repomix.config.json
+repomix-output.xml

@@ -1,0 +1,135 @@
+/* Brand values for Bootstrap 5.3, loaded after its CSS by the CESNET style and by the Bootstrap 5 (ComboStrap) theme.
+   Palette: snapshot of metacentrum-design/src/tokens/tokens.json at revision 30de28a (2026-11-21, token JSON SHA-256
+   ae07c8762bf25d1a654666510712a3a3e9991e9de1b4f1ac42d8c39f1252a11f), limited to the tokens used here; source names kept.
+   It has no dark values: the dark block is wiki-owned. MetaCentrum loads the design's own tokens instead. */
+:root {
+  --mc-color-base-orange: #f27930;
+  --mc-color-base-grey: #5a5a5a;
+  --mc-color-base-white: #ffffff;
+  --mc-color-base-black: #000000;
+  --mc-color-brand-50: #fef5f0;
+  --mc-color-brand-200: #fac9af;
+  --mc-color-brand-300: #f6a37c;
+  --mc-color-brand-400: var(--mc-color-base-orange);
+  --mc-color-brand-500: #e85f0c;
+  --mc-color-brand-700: #b5380a;
+  --mc-color-brand-800: #922e0f;
+  --mc-color-on-brand: #161616;
+  --mc-color-focus: #8c8c8c;
+  --mc-color-status-error-main: #f65a4f;
+  --mc-color-status-error-strong: #d13b24;
+  --mc-color-status-error-foreground: #311210;
+  --mc-color-status-error-text: #9c2e19;
+  --mc-color-status-error-background: #faaca7;
+  --mc-color-status-warning-main: #f7ce5b;
+  --mc-color-status-warning-foreground: #312912;
+  --mc-color-status-warning-text: #5d4f1e;
+  --mc-color-status-warning-background: #fbe6ad;
+  --mc-color-status-success-main: #1cc16f;
+  --mc-color-status-success-foreground: #062716;
+  --mc-color-status-success-text: #0c6f41;
+  --mc-color-status-success-background: #8ee0b7;
+  --mc-color-status-info-main: #7ecdf8;
+  --mc-color-status-info-foreground: #192932;
+  --mc-color-status-info-text: #2a779b;
+  --mc-color-status-info-background: #bee6fc;
+  --mc-font-family-default: Arial, Helvetica, sans-serif;
+  --mc-table-header: #f7f7f7;
+  --mc-table-header-sorted: #efefef;
+  --mc-card-border: #e0e0e0;
+  --mc-card-background: #ffffff;
+  --mc-card-shadow: 0 1px 2px 0 #0000000d;
+  --mc-field-border: #c6c6c6;
+  --mc-field-border-hover: #8c8c8c;
+  --mc-field-background: #ffffff;
+  --mc-field-background-disabled: #f7f7f7;
+  --mc-control-height: 40px;
+  --mc-card-hover-shadow: 0 8px 24px rgba(18, 24, 30, 0.12);
+}
+
+:root,
+[data-bs-theme="light"] {
+  --bs-primary: var(--mc-color-brand-400);
+  --bs-primary-rgb: 242, 121, 48;
+  --bs-primary-text-emphasis: var(--mc-color-brand-700);
+  --bs-primary-bg-subtle: var(--mc-color-brand-50);
+  --bs-primary-border-subtle: var(--mc-color-brand-200);
+  --bs-link-color: var(--mc-color-brand-700);
+  --bs-link-color-rgb: 181, 56, 10;
+  --bs-link-hover-color: var(--mc-color-brand-800);
+  --bs-link-hover-color-rgb: 146, 46, 15;
+  --bs-danger: var(--mc-color-status-error-strong);
+  --bs-danger-rgb: 209, 59, 36;
+  --bs-danger-text-emphasis: var(--mc-color-status-error-text);
+  --bs-danger-bg-subtle: var(--mc-color-status-error-background);
+  --bs-danger-border-subtle: var(--mc-color-status-error-main);
+  --bs-warning: var(--mc-color-status-warning-main);
+  --bs-warning-rgb: 247, 206, 91;
+  --bs-warning-text-emphasis: var(--mc-color-status-warning-text);
+  --bs-warning-bg-subtle: var(--mc-color-status-warning-background);
+  --bs-warning-border-subtle: var(--mc-color-status-warning-main);
+  --bs-success: var(--mc-color-status-success-main);
+  --bs-success-rgb: 28, 193, 111;
+  --bs-success-text-emphasis: var(--mc-color-status-success-text);
+  --bs-success-bg-subtle: var(--mc-color-status-success-background);
+  --bs-success-border-subtle: var(--mc-color-status-success-main);
+  --bs-info: var(--mc-color-status-info-main);
+  --bs-info-rgb: 126, 205, 248;
+  --bs-info-text-emphasis: var(--mc-color-status-info-text);
+  --bs-info-bg-subtle: var(--mc-color-status-info-background);
+  --bs-info-border-subtle: var(--mc-color-status-info-main);
+  --bs-body-bg: var(--mc-color-base-white);
+  --bs-body-bg-rgb: 255, 255, 255;
+  --bs-body-color: var(--mc-color-base-black);
+  --bs-body-color-rgb: 0, 0, 0;
+  --bs-body-font-family: var(--mc-font-family-default);
+  --bs-font-monospace: "IBM Plex Mono", "SFMono-Regular", monospace;
+  --bs-secondary-color: var(--mc-color-base-grey);
+  --bs-secondary-color-rgb: 90, 90, 90;
+  --bs-secondary-bg: var(--mc-field-background-disabled);
+  --bs-tertiary-bg: var(--mc-table-header);
+  --bs-border-color: var(--mc-card-border);
+  --bs-border-radius: 0.375rem;
+  --bs-border-radius-lg: 0.5rem;
+  --bs-box-shadow-sm: var(--mc-card-shadow);
+}
+
+[data-bs-theme="dark"] {
+  --bs-primary: #ff8533;
+  --bs-primary-rgb: 255, 133, 51;
+  --bs-primary-text-emphasis: #ffad70;
+  --bs-primary-bg-subtle: #3a2418;
+  --bs-primary-border-subtle: var(--mc-color-brand-700);
+  --bs-link-color: #ffad70;
+  --bs-link-color-rgb: 255, 173, 112;
+  --bs-link-hover-color: #ffb88f;
+  --bs-link-hover-color-rgb: 255, 184, 143;
+  --bs-danger: var(--mc-color-status-error-main);
+  --bs-danger-rgb: 246, 90, 79;
+  --bs-danger-text-emphasis: var(--mc-color-status-error-background);
+  --bs-danger-bg-subtle: var(--mc-color-status-error-foreground);
+  --bs-danger-border-subtle: var(--mc-color-status-error-text);
+  --bs-warning-text-emphasis: var(--mc-color-status-warning-background);
+  --bs-warning-bg-subtle: var(--mc-color-status-warning-foreground);
+  --bs-warning-border-subtle: var(--mc-color-status-warning-text);
+  --bs-success-text-emphasis: var(--mc-color-status-success-background);
+  --bs-success-bg-subtle: var(--mc-color-status-success-foreground);
+  --bs-success-border-subtle: var(--mc-color-status-success-text);
+  --bs-info-text-emphasis: var(--mc-color-status-info-background);
+  --bs-info-bg-subtle: var(--mc-color-status-info-foreground);
+  --bs-info-border-subtle: var(--mc-color-status-info-text);
+  --bs-body-bg: #1a1a1a;
+  --bs-body-bg-rgb: 26, 26, 26;
+  --bs-body-color: #e0e0e0;
+  --bs-body-color-rgb: 224, 224, 224;
+  --bs-secondary-color: #cccccc;
+  --bs-secondary-color-rgb: 204, 204, 204;
+  --bs-secondary-bg: #363636;
+  --bs-tertiary-bg: #262626;
+  --bs-border-color: #333333;
+  --mc-card-background: #1e1e1e;
+  --mc-card-border: #454a50;
+  --mc-card-hover-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  --mc-field-background: #2d2d2d;
+  --mc-field-border: #444444;
+}

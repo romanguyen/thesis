@@ -1,0 +1,87 @@
+{{!--
+Bootstrap 5 style (style=bootstrap5): combo's page frame built from Bootstrap 5.3 components and utilities only.
+No reskin stylesheet or markup; theme.css imports css/tokens.css, the Bootstrap CSS variables shared with the CESNET style.
+Handlebars here has no equality helper, so each label exists in both languages and theme.css shows the one
+matching <html lang> (.b5-l). URLs are relative to doku.php (userewrite 0).
+--}}
+<html lang="{{lang}}" dir="{{dir}}">
+<head>
+    <title>{{title}}</title>
+    {{!-- Bootstrap colour mode before first paint; the key is shared with the reskin styles. --}}
+    <script>try{if(localStorage.getItem("reskin-theme")==="dark")document.documentElement.setAttribute("data-bs-theme","dark")}catch(e){}</script>
+    {{> head-partial }}
+    <link rel="stylesheet" href="lib/tpl/reskin/combo-theme/bootstrap5/theme.css">
+</head>
+<body class="{{body-classes}} d-flex flex-column min-vh-100">
+<a class="visually-hidden-focusable btn btn-primary position-absolute top-0 start-0 m-2 z-3" href="#main-content"><span class="b5-l" lang="en">Skip to content</span><span class="b5-l" lang="cs">Přeskočit na obsah</span></a>
+<header class="border-top border-4 border-primary bg-body shadow-sm d-print-none">
+    <div class="container-xl d-flex flex-wrap align-items-center gap-2 py-3">
+        <a class="me-auto" href="doku.php?id={{lang}}:start&amp;style=bootstrap5"><img class="b5-logo" src="lib/tpl/reskin/img/metacentrum_RGB.svg" alt="MetaCentrum" height="48"></a>
+        <div class="btn-group btn-group-sm" role="group" aria-label="Language / Jazyk">
+            <a class="btn btn-outline-secondary" href="doku.php?id=cs:start&amp;style=bootstrap5" data-b5-lang="cs" lang="cs" hreflang="cs">CS</a>
+            <a class="btn btn-outline-secondary" href="doku.php?id=en:start&amp;style=bootstrap5" data-b5-lang="en" lang="en" hreflang="en">EN</a>
+        </div>
+        <div class="dropdown">
+            <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"><span class="b5-l" lang="en">Style</span><span class="b5-l" lang="cs">Styl</span></button>
+            <ul class="dropdown-menu dropdown-menu-end">
+                <li><a class="dropdown-item" href="doku.php?id={{id}}&amp;style=cesnet"><span class="b5-l" lang="en">CESNET look</span><span class="b5-l" lang="cs">Vzhled CESNET</span></a></li>
+                <li><a class="dropdown-item" href="doku.php?id={{id}}&amp;style=metacentrum"><span class="b5-l" lang="en">MetaCentrum design</span><span class="b5-l" lang="cs">Design MetaCentrum</span></a></li>
+                <li><a class="dropdown-item active" href="doku.php?id={{id}}&amp;style=bootstrap5" aria-current="page">Bootstrap 5 (ComboStrap)</a></li>
+            </ul>
+        </div>
+        <button class="btn btn-sm btn-outline-secondary" type="button" aria-pressed="false" data-b5-theme-toggle>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true"><path d="M6 .278a.77.77 0 0 1 .08.858 7.2 7.2 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277q.792-.001 1.533-.16a.79.79 0 0 1 .81.316.73.73 0 0 1-.031.893A8.35 8.35 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.75.75 0 0 1 6 .278"/></svg>
+            <span class="visually-hidden"><span class="b5-l" lang="en">Dark mode</span><span class="b5-l" lang="cs">Tmavý motiv</span></span>
+        </button>
+        <a class="btn btn-sm btn-link link-body-emphasis fw-semibold text-decoration-none d-none d-sm-inline-block" href="https://www.cesnet.cz" target="_blank" rel="noopener">CESNET</a>
+    </div>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary border-top" aria-label="Navigation / Navigace">
+        <div class="container-xl">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#b5-navigation" aria-controls="b5-navigation" aria-expanded="false">
+                <span class="navbar-toggler-icon"></span> <span class="b5-l" lang="en">Menu</span><span class="b5-l" lang="cs">Menu</span>
+            </button>
+            <div class="collapse navbar-collapse" id="b5-navigation">
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a class="nav-link" href="doku.php?id={{lang}}:start&amp;style=bootstrap5"><span class="b5-l" lang="en">Home</span><span class="b5-l" lang="cs">Domů</span></a></li>
+                    <li class="nav-item"><a class="nav-link" href="doku.php?id={{lang}}:about:start&amp;style=bootstrap5"><span class="b5-l" lang="en">About MetaCentrum</span><span class="b5-l" lang="cs">O MetaCentru</span></a></li>
+                    <li class="nav-item"><a class="nav-link" href="doku.php?id={{lang}}:sluzby:start&amp;style=bootstrap5"><span class="b5-l" lang="en">Services</span><span class="b5-l" lang="cs">Služby</span></a></li>
+                    <li class="nav-item"><a class="nav-link" href="doku.php?id={{lang}}:resources:hardware:start&amp;style=bootstrap5">Hardware</a></li>
+                    <li class="nav-item"><a class="nav-link" href="doku.php?id={{lang}}:projekty:start&amp;style=bootstrap5"><span class="b5-l" lang="en">Projects</span><span class="b5-l" lang="cs">Projekty</span></a></li>
+                    <li class="nav-item"><a class="nav-link" href="doku.php?id={{lang}}:faq:start&amp;style=bootstrap5">FAQ</a></li>
+                    <li class="nav-item"><a class="nav-link" href="doku.php?id={{lang}}:news:start&amp;style=bootstrap5"><span class="b5-l" lang="en">News</span><span class="b5-l" lang="cs">Novinky</span></a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+<main id="main-content" class="container-xl flex-grow-1 py-4" tabindex="-1">
+    {{{ main-content-html }}}
+</main>
+<footer class="mt-5 bg-dark text-light border-top border-4 border-primary d-print-none" data-bs-theme="dark">
+    <div class="container-xl py-4">
+        <div class="row g-4">
+            <div class="col-12 col-md-5">
+                <img class="b5-logo-inverse" src="lib/tpl/reskin/img/metacentrum_RGB.svg" alt="MetaCentrum" height="40">
+                <p class="small text-body-secondary mt-3 mb-0"><span class="b5-l" lang="en">National Grid Infrastructure operated by CESNET for the Czech academic community.</span><span class="b5-l" lang="cs">Národní gridová infrastruktura provozovaná CESNETem pro českou akademickou komunitu.</span></p>
+            </div>
+            <div class="col-6 col-md-4">
+                <h2 class="h6 text-white"><span class="b5-l" lang="en">Contact</span><span class="b5-l" lang="cs">Kontakt</span></h2>
+                <address class="small mb-0">CESNET, z. s. p. o.<br>Zikova 4, 160 00 Praha 6<br><a href="mailto:info@cesnet.cz">info@cesnet.cz</a></address>
+            </div>
+            <div class="col-6 col-md-3">
+                <h2 class="h6 text-white"><span class="b5-l" lang="en">Quick links</span><span class="b5-l" lang="cs">Rychlé odkazy</span></h2>
+                <ul class="list-unstyled small mb-0">
+                    <li><a href="https://www.cesnet.cz" target="_blank" rel="noopener">CESNET</a></li>
+                    <li><a href="https://pki.cesnet.cz" target="_blank" rel="noopener">CESNET PKI</a></li>
+                    <li><a href="https://www.egi.eu" target="_blank" rel="noopener">EGI.eu</a></li>
+                </ul>
+            </div>
+        </div>
+        <p class="small text-body-secondary border-top border-secondary-subtle pt-3 mt-4 mb-0">&copy; 1991&ndash;2026 CESNET, z. s. p. o. &middot; Bootstrap 5 (ComboStrap)</p>
+    </div>
+</footer>
+<script src="lib/tpl/reskin/js/variant-links.js" defer></script>
+<script src="lib/tpl/reskin/combo-theme/bootstrap5/theme.js" defer></script>
+{{> body-beforeend-partial }}
+</body>
+</html>

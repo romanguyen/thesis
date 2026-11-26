@@ -8,26 +8,26 @@ $trackId = $options['track_id'];
 ?>
 <section class="reskin-stories<?php echo $inline ? ' reskin-stories--inline' : ''; ?>" aria-label="<?php echo hsc($model['title']); ?>">
     <?php if (!$inline) : ?><div class="container-xl"><?php endif; ?>
-    <div class="reskin-section-head reskin-section-head--stories">
+    <div class="reskin-section-head d-flex justify-content-between gap-3 reskin-section-head--stories">
         <div>
             <h2><?php echo hsc($model['title']); ?></h2>
             <p><?php echo hsc($model['description']); ?></p>
         </div>
-        <a class="reskin-stories-archive" href="<?php echo hsc($model['archive_url']); ?>">
+        <a class="reskin-stories-archive text-decoration-none fw-semibold text-nowrap" href="<?php echo hsc($model['archive_url']); ?>">
             <?php echo hsc($model['archive_label']); ?>
         </a>
     </div>
 
-    <div class="reskin-story-carousel" data-story-slider>
+    <div class="reskin-story-carousel position-relative" data-story-slider>
         <div class="reskin-story-viewport">
-            <div class="reskin-story-track" id="<?php echo hsc($trackId); ?>">
+            <div class="reskin-story-track d-flex gap-3" id="<?php echo hsc($trackId); ?>">
                 <?php foreach ($model['cards'] as $card) : ?>
                     <article class="reskin-story-item">
-                        <a class="reskin-story-card" href="<?php echo hsc($card['url']); ?>">
-                            <span class="reskin-story-image" style="background-image: url('<?php echo hsc($card['image']); ?>');"></span>
-                            <span class="reskin-story-date"><?php echo hsc($card['date'] . '/' . $card['year']); ?></span>
-                            <span class="reskin-story-title"><?php echo hsc($card['title']); ?></span>
-                            <span class="reskin-story-cta">
+                        <a class="reskin-story-card card h-100 text-decoration-none overflow-hidden" href="<?php echo hsc($card['url']); ?>">
+                            <span class="reskin-story-image overflow-hidden" style="background-image: url('<?php echo hsc($card['image']); ?>');"></span>
+                            <span class="reskin-story-date mb-2 fw-bold lh-1"><?php echo hsc($card['date'] . '/' . $card['year']); ?></span>
+                            <span class="reskin-story-title fw-semibold"><?php echo hsc($card['title']); ?></span>
+                            <span class="reskin-story-cta d-inline-flex align-items-center gap-2 fw-semibold text-uppercase mt-auto">
                                 <i class="bi bi-arrow-right" aria-hidden="true"></i>
                                 <?php echo hsc($model['cta_label']); ?>
                             </span>
@@ -39,10 +39,10 @@ $trackId = $options['track_id'];
 
         <?php if (count($model['cards']) > 1) : ?>
             <div class="reskin-story-controls">
-                <button class="btn reskin-story-control" type="button" data-story-prev aria-controls="<?php echo hsc($trackId); ?>" aria-label="<?php echo hsc($model['prev_label']); ?>">
+                <button class="btn reskin-story-control d-inline-flex align-items-center justify-content-center" type="button" data-story-prev aria-controls="<?php echo hsc($trackId); ?>" aria-label="<?php echo hsc($model['prev_label']); ?>">
                     <i class="bi bi-arrow-left" aria-hidden="true"></i>
                 </button>
-                <button class="btn reskin-story-control" type="button" data-story-next aria-controls="<?php echo hsc($trackId); ?>" aria-label="<?php echo hsc($model['next_label']); ?>">
+                <button class="btn reskin-story-control d-inline-flex align-items-center justify-content-center" type="button" data-story-next aria-controls="<?php echo hsc($trackId); ?>" aria-label="<?php echo hsc($model['next_label']); ?>">
                     <i class="bi bi-arrow-right" aria-hidden="true"></i>
                 </button>
             </div>

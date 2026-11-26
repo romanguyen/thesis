@@ -3,32 +3,45 @@ if (!defined('DOKU_INC')) die();
 
 require_once __DIR__ . '/i18n.php';
 
-$footerContent = reskin_i18n_include_page('footer', false, true);
+// Editors own contact/support details through the localized `footer` wiki page;
+// the template keeps the brand, quick links and copyright around that content.
+$footerContent = (string) reskin_i18n_include_page('footer', false, true);
+if (reskin_variant_context()['style'] === 'metacentrum') {
+    reskin_render_partial('design-footer', [
+        'content_html' => $footerContent,
+        'tagline' => reskin_i18n_t('footer_tagline'),
+        'support_label' => reskin_i18n_t('user_support'),
+        'copyright' => '© ' . date('Y') . ' CESNET',
+        'asset_base' => tpl_basedir() . 'img/',
+    ]);
+    return;
+}
+$footerLogo = tpl_basedir() . 'img/metacentrum_RGB.svg';
 ?>
-<footer class="reskin-footer">
+<footer class="reskin-footer mt-auto">
     <div class="container-xl py-5">
-        <?php if ($footerContent) : ?>
-            <div class="reskin-footer-content">
-                <?php echo $footerContent; ?>
+        <div class="row g-4 reskin-footer-grid">
+            <div class="col-12 col-lg-3">
+                <a class="reskin-brand d-flex align-items-center text-decoration-none" href="<?php echo hsc(reskin_i18n_link('start')); ?>">
+                    <span class="reskin-brand-mark d-inline-flex align-items-center justify-content-center">
+                        <img class="reskin-brand-logo" src="<?php echo hsc($footerLogo); ?>" alt="MetaCentrum logo">
+                    </span>
+                </a>
+                <p class="mt-3 text-body-secondary"><?php echo hsc(reskin_i18n_t('footer_tagline')); ?></p>
             </div>
-        <?php else : ?>
-            <div class="row g-4">
-                <div class="col-12 col-lg-3">
-                    <a class="reskin-brand d-flex align-items-center text-decoration-none" href="<?php echo hsc(reskin_i18n_link('start')); ?>">
-                        <span class="reskin-brand-mark">
-                            <img class="reskin-brand-logo" src="<?php echo tpl_basedir(); ?>img/metacentrum_RGB.svg" alt="MetaCentrum logo">
-                        </span>
-                    </a>
-                    <p class="mt-3 text-muted"><?php echo hsc(reskin_i18n_t('footer_tagline')); ?></p>
+            <div class="col-6 col-lg-3">
+                <h5 class="reskin-footer-title"><?php echo hsc(reskin_i18n_t('quick_links')); ?></h5>
+                <ul class="list-unstyled reskin-footer-list">
+                    <li><a href="https://www.cesnet.cz" target="_blank" rel="noopener">CESNET</a></li>
+                    <li><a href="https://pki.cesnet.cz" target="_blank" rel="noopener">CESNET PKI</a></li>
+                    <li><a href="https://www.egi.eu" target="_blank" rel="noopener">EGI.eu</a></li>
+                </ul>
+            </div>
+            <?php if ($footerContent !== '') : ?>
+                <div class="col-12 col-lg-6 reskin-footer-content reskin-footer-wiki">
+                    <?php echo $footerContent; ?>
                 </div>
-                <div class="col-6 col-lg-3">
-                    <h5 class="reskin-footer-title"><?php echo hsc(reskin_i18n_t('quick_links')); ?></h5>
-                    <ul class="list-unstyled reskin-footer-list">
-                        <li><a href="https://www.cesnet.cz" target="_blank" rel="noopener">CESNET</a></li>
-                        <li><a href="https://pki.cesnet.cz" target="_blank" rel="noopener">CESNET PKI</a></li>
-                        <li><a href="https://www.egi.eu" target="_blank" rel="noopener">EGI.eu</a></li>
-                    </ul>
-                </div>
+            <?php else : ?>
                 <div class="col-6 col-lg-3">
                     <h5 class="reskin-footer-title"><?php echo hsc(reskin_i18n_t('contact')); ?></h5>
                     <address class="reskin-footer-text">
@@ -45,13 +58,13 @@ $footerContent = reskin_i18n_include_page('footer', false, true);
                         <a href="mailto:support@cesnet.cz">support@cesnet.cz</a>
                     </div>
                 </div>
+            <?php endif; ?>
+        </div>
+        <div class="reskin-footer-bottom mt-4 pt-4">
+            <div class="d-flex flex-column flex-md-row gap-2 justify-content-between">
+                <span>&copy; 1991-2026 CESNET, z. s. p. o.</span>
+                <span><?php echo hsc(reskin_i18n_t('last_changed')); ?>: Tue Jan 5 13:46:28 CET 2026</span>
             </div>
-            <div class="reskin-footer-bottom mt-4 pt-4">
-                <div class="d-flex flex-column flex-md-row gap-2 justify-content-between">
-                    <span>&copy; 1991-2026 CESNET, z. s. p. o.</span>
-                    <span><?php echo hsc(reskin_i18n_t('last_changed')); ?>: Tue Jan 5 13:46:28 CET 2026</span>
-                </div>
-            </div>
-        <?php endif; ?>
+        </div>
     </div>
 </footer>

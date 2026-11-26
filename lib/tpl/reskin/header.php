@@ -6,10 +6,14 @@ require_once __DIR__ . '/inc/bootstrap.php';
 /** @var array $reskinContext Prepared once by main; shared with head.php. */
 $reskinHeader = reskin_header_model($reskinContext);
 ?>
-<header class="reskin-header<?php echo $reskinHeader['top_layout'] ? ' reskin-header--top' : ''; ?>">
-    <a class="reskin-skip" href="#reskin-main"><?php echo hsc($reskinHeader['labels']['skip_to_content']); ?></a>
+<?php if ($reskinHeader['design_layout']) : ?>
+    <?php reskin_render_partial('design-header', $reskinHeader); ?>
+    <?php return; ?>
+<?php endif; ?>
+<header class="reskin-header position-relative<?php echo $reskinHeader['navigation_header'] ? ' reskin-header--top' : ''; ?>">
+    <a class="reskin-skip position-absolute text-decoration-none" href="#reskin-main"><?php echo hsc($reskinHeader['labels']['skip_to_content']); ?></a>
 
-    <div class="reskin-header-bar">
+    <div class="reskin-header-bar position-relative">
         <div class="container-xl">
             <div class="d-flex align-items-center justify-content-between gap-3 py-3 reskin-header-row">
                 <a class="reskin-brand d-flex align-items-center text-decoration-none" href="<?php echo hsc($reskinHeader['brand_url']); ?>">
@@ -18,7 +22,7 @@ $reskinHeader = reskin_header_model($reskinContext);
 
                 <div class="d-flex align-items-center gap-2 reskin-header-actions">
                     <div class="reskin-header-meta d-flex align-items-center gap-2">
-                        <div class="reskin-lang-switcher" role="group" aria-label="<?php echo hsc($reskinHeader['labels']['language_switcher']); ?>">
+                        <div class="reskin-lang-switcher overflow-hidden" role="group" aria-label="<?php echo hsc($reskinHeader['labels']['language_switcher']); ?>">
                             <?php foreach ($reskinHeader['languages'] as $target) : ?>
                                 <a
                                     class="<?php echo hsc($target['class']); ?>"
@@ -41,15 +45,15 @@ $reskinHeader = reskin_header_model($reskinContext);
 
                     <div class="reskin-search" id="reskinSearchDialog" data-search-modal tabindex="-1">
                         <?php tpl_searchform(); ?>
-                        <button class="btn reskin-search-close" type="button" data-search-close aria-label="<?php echo hsc($reskinHeader['labels']['close_search']); ?>">
+                        <button class="btn reskin-search-close align-items-center justify-content-center" type="button" data-search-close aria-label="<?php echo hsc($reskinHeader['labels']['close_search']); ?>">
                             <i class="bi bi-x-lg" aria-hidden="true"></i>
                         </button>
                     </div>
-                    <button class="btn reskin-search-toggle reskin-control-icon" type="button" data-search-open aria-controls="reskinSearchDialog" aria-expanded="false" aria-label="<?php echo hsc($reskinHeader['labels']['open_search']); ?>">
+                    <button class="btn reskin-search-toggle align-items-center justify-content-center reskin-control-icon" type="button" data-search-open aria-controls="reskinSearchDialog" aria-expanded="false" aria-label="<?php echo hsc($reskinHeader['labels']['open_search']); ?>">
                         <i class="bi bi-search" aria-hidden="true"></i>
                     </button>
                     <button
-                        class="btn reskin-theme-toggle reskin-control-icon"
+                        class="btn reskin-theme-toggle d-inline-flex align-items-center position-relative overflow-hidden reskin-control-icon"
                         type="button"
                         aria-pressed="false"
                         data-theme-toggle
@@ -58,36 +62,20 @@ $reskinHeader = reskin_header_model($reskinContext);
                         <span class="reskin-theme-icon reskin-theme-icon-sun" aria-hidden="true">
                             <i class="bi bi-sun"></i>
                         </span>
-                        <span class="reskin-theme-icon reskin-theme-icon-moon" aria-hidden="true">
+                        <span class="reskin-theme-icon reskin-theme-icon-moon position-absolute" aria-hidden="true">
                             <i class="bi bi-moon"></i>
                         </span>
                         <span class="visually-hidden"><?php echo hsc($reskinHeader['labels']['toggle_theme']); ?></span>
                     </button>
 
-                    <?php if ($reskinHeader['top_layout']) : ?>
-                        <div class="reskin-preferences-home" data-header-preferences-home>
-                            <?php reskin_render_partial('header-preferences', $reskinHeader); ?>
-                        </div>
-                        <?php if ($reskinHeader['mobile_navigation']) : ?>
-                            <button class="btn reskin-header-menu" type="button" data-bs-toggle="offcanvas" data-bs-target="#reskinSidebar" aria-controls="reskinSidebar" aria-expanded="false" aria-label="<?php echo hsc($reskinHeader['labels']['menu']); ?>" data-header-menu>
-                                <i class="bi bi-list" aria-hidden="true"></i>
-                                <span><?php echo hsc($reskinHeader['labels']['menu']); ?></span>
-                            </button>
-                        <?php endif; ?>
-                    <?php else : ?>
-                    <div class="reskin-layout-switcher" role="group" aria-label="<?php echo hsc($reskinHeader['labels']['layout_switcher']); ?>">
-                        <?php foreach ($reskinHeader['layouts'] as $layoutLink) : ?>
-                            <a
-                                class="reskin-layout-btn<?php echo $layoutLink['current'] ? ' is-current' : ''; ?>"
-                                href="<?php echo hsc($layoutLink['url']); ?>"
-                                title="<?php echo hsc($layoutLink['title']); ?>"
-                                <?php if ($layoutLink['current']) echo 'aria-current="page"'; ?>
-                            >
-                                <i class="bi <?php echo hsc($layoutLink['icon']); ?>" aria-hidden="true"></i>
-                                <span class="reskin-layout-label"><?php echo hsc($layoutLink['label']); ?></span>
-                            </a>
-                        <?php endforeach; ?>
+                    <div class="reskin-preferences-home" data-header-preferences-home>
+                        <?php reskin_render_partial('header-preferences', $reskinHeader); ?>
                     </div>
+                    <?php if ($reskinHeader['navigation_header'] && $reskinHeader['mobile_navigation']) : ?>
+                        <button class="btn reskin-header-menu" type="button" data-bs-toggle="offcanvas" data-bs-target="#reskinSidebar" aria-controls="reskinSidebar" aria-expanded="false" aria-label="<?php echo hsc($reskinHeader['labels']['menu']); ?>" data-header-menu>
+                            <i class="bi bi-list" aria-hidden="true"></i>
+                            <span><?php echo hsc($reskinHeader['labels']['menu']); ?></span>
+                        </button>
                     <?php endif; ?>
 
                     <a class="reskin-nav-link d-none d-sm-inline-flex" href="https://www.cesnet.cz" target="_blank" rel="noopener">CESNET</a>

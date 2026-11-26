@@ -1,0 +1,268 @@
+// Project-owned source of components.css (see README.md; build with build.mjs).
+// Output = the design's own dist/index.css, plus the Carbon parts the design does not compile,
+// with native DokuWiki markup mapped onto those classes. @extend keeps every value and state in
+// the design: nothing here re-creates a component. Layout and adapters live in css/layouts/clean.css.
+// The stylesheet is loaded by the MetaCentrum style only, so selectors need no style prefix.
+
+@use "font";
+@use "@carbon/styles/scss/type";
+@use "@carbon/styles/scss/components/list";
+@use "@carbon/styles/scss/components/link";
+@use "dist/index";
+
+// --- Buttons: core forms, section editing, page tools, paging, search ---
+// One extender per role, and roles exclude each other, to keep the output small.
+
+$button: ':where(button, [type="submit"], [type="button"], [type="reset"], .pagenav a, .reskin-project-action, .reskin-pagetools a):where(:not([class*="cds--"], .btn-close))';
+$primary: '#dw__login *, #dw__register *, #dw__profile *, #dw__resendpwd *, #edbtn__save, .search-form [type="submit"], form.search *';
+$ghost: '.btn_secedit *, .pagenav *, .reskin-pagetools *, [name="do[cancel]"], .toolbutton';
+$danger: "#dw__profiledelete *";
+$small: ".btn_secedit *, .pagenav *, .reskin-pagetools *, .reskin-hw-detail-btn, .reskin-project-action, .toolbutton";
+
+.reskin-site #{$button} {
+  @extend .mc-btn;
+  @extend .cds--btn;
+}
+
+.reskin-site #{$button}:where(:not(#{$small})) {
+  @extend .cds--btn--md;
+  // Carbon sets this from a context class in foundation.css, which native markup does not carry.
+  --cds-layout-size-height: var(--cds-layout-size-height-md);
+}
+
+.reskin-site #{$button}:where(#{$small}) {
+  @extend .cds--btn--sm;
+  --cds-layout-size-height: var(--cds-layout-size-height-sm);
+}
+
+.reskin-site #{$button}:where(:not(#{$primary}, #{$ghost}, #{$danger})) {
+  @extend .cds--btn--tertiary;
+}
+
+.reskin-site #{$button}:where(#{$primary}) {
+  @extend .cds--btn--primary;
+}
+
+.reskin-site #{$button}:where(#{$ghost}) {
+  @extend .cds--btn--ghost;
+}
+
+.reskin-site #{$button}:where(#{$danger}) {
+  @extend .cds--btn--danger;
+}
+
+// --- Fields ---
+
+.reskin-page :where(form),
+.reskin-search :where(form) {
+  @extend .mc-field;
+}
+
+.reskin-site
+  :where(
+    input:not(
+      [type="checkbox"],
+      [type="radio"],
+      [type="file"],
+      [type="hidden"],
+      [type="submit"],
+      [type="button"],
+      [type="reset"],
+      [type="image"]
+    ),
+    select:not([multiple])
+  ) {
+  @extend .cds--text-input;
+}
+
+.reskin-page :where(textarea) {
+  @extend .cds--text-area;
+}
+
+.reskin-page
+  :where(
+    label:has(input.edit, textarea, select):not(
+        :has(input[type="checkbox"], input[type="radio"])
+      )
+      > span:first-child,
+    fieldset > legend
+  ) {
+  @extend .cds--label;
+}
+
+.reskin-page :where(label > input[type="checkbox"]:has(+ span)) {
+  @extend .cds--checkbox;
+}
+
+.reskin-page :where(label > input[type="checkbox"] + span) {
+  @extend .cds--checkbox-label;
+}
+
+// --- Tables ---
+
+.reskin-page :where(div.table),
+.reskin-hw-drawer-table {
+  @extend .mc-data-table;
+}
+
+.reskin-page :where(div.table) {
+  @extend .cds--data-table-content;
+}
+
+.reskin-page :where(table.inline),
+.reskin-hw-drawer-table {
+  @extend .cds--data-table;
+  @extend .cds--data-table--md;
+}
+
+// --- Cards and page titles ---
+
+.reskin-page :where(.reskin-project-card, .search_fullpage_result, .preview),
+.insitu-footnote,
+.reskin-design-search-row {
+  @extend .mc-card;
+}
+
+.reskin-page :where(.reskin-project-header) {
+  @extend .mc-card__header;
+}
+
+.reskin-page
+  :where(
+    .reskin-project-title,
+    .reskin-notice > h2,
+    .search_fullpage_result dt
+  ),
+.reskin-page :where(h3:not([class*="mc-"])),
+.reskin-hw-drawer :where(.offcanvas-title) {
+  @extend .mc-card__title;
+}
+
+.reskin-page :where(h1),
+.mc-page-header__row > h1 {
+  @extend .mc-page-header__title;
+}
+
+// --- Messages: native msg() and plugin notices ---
+
+.reskin-main :is(div.error, div.info, div.success, div.notify) {
+  @extend .mc-alert;
+  @extend .cds--inline-notification;
+  @extend .cds--inline-notification--low-contrast;
+}
+
+.reskin-main div.error {
+  @extend .cds--inline-notification--error;
+}
+.reskin-main div.info {
+  @extend .cds--inline-notification--info;
+}
+.reskin-main div.success {
+  @extend .cds--inline-notification--success;
+}
+.reskin-main div.notify {
+  @extend .cds--inline-notification--warning;
+}
+
+// --- Route tabs (native links, not tab panels) ---
+
+.reskin-page :where(ul.tabs > li > a, ul.tabs > li > strong) {
+  @extend .cds--tabs__nav-item;
+  @extend .cds--tabs__nav-link;
+}
+
+.reskin-page :where(ul.tabs > li > strong) {
+  @extend .cds--tabs__nav-item--selected;
+}
+
+// --- Editor toolbar ---
+
+.reskin-site :where(button.toolbutton) {
+  @extend .cds--btn--icon-only;
+}
+
+// --- Wiki prose: Carbon list, link and type with MetaCentrum tokens ---
+
+.reskin-page
+  :where(
+    a:not([class*="cds--"], [class*="mc-"], .reskin-project-action, .pagenav a)
+  ),
+.reskin-page-toc a,
+.reskin-hw-drawer a,
+.insitu-footnote a,
+#qsearch__out a {
+  @extend .cds--link;
+}
+
+.reskin-page :where(ul:has(> li[class^="level"])) {
+  @extend .cds--list--unordered;
+}
+
+.reskin-page :where(ol:has(> li[class^="level"])) {
+  @extend .cds--list--ordered;
+}
+
+.reskin-page :where(:is(ul, ol):has(> li[class^="level"])) {
+  @extend .cds--list--expressive;
+}
+
+.reskin-page :where(li[class^="level"] :is(ul, ol):has(> li[class^="level"])) {
+  @extend .cds--list--nested;
+}
+
+.reskin-page :where(li[class^="level"]) {
+  @extend .cds--list__item;
+}
+
+.reskin-page {
+  @include type.type-style("body-02");
+}
+
+.reskin-page :where(h2:not([class*="mc-"])),
+.reskin-section-head :where(h2) {
+  @include type.type-style("heading-03");
+}
+
+.reskin-page :where(h4) {
+  @include type.type-style("heading-02");
+}
+
+.reskin-page :where(h5, h6) {
+  @include type.type-style("heading-01");
+}
+
+.reskin-page :where(pre, #wiki__text) {
+  @include type.type-style("code-02");
+}
+
+.reskin-page :where(:not(pre) > code) {
+  @include type.type-style("code-02");
+}
+
+.reskin-page
+  :where(
+    figcaption,
+    .wrap_caption,
+    .footnotes .fn,
+    .search_results .snippet,
+    dl.file dt
+  ),
+.insitu-footnote,
+.reskin-hw-drawer {
+  @include type.type-style("body-01");
+}
+
+.reskin-page-toc,
+#qsearch__out {
+  @include type.type-style("body-compact-01");
+}
+
+.reskin-page-info,
+.reskin-page :where(.reskin-project-eyebrow, .search_results .meta, .hint) {
+  @include type.type-style("helper-text-01");
+}
+
+.reskin-page-toc .reskin-toc-title,
+#qsearch__out strong {
+  @include type.type-style("heading-compact-01");
+}

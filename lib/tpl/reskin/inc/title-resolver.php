@@ -3,6 +3,8 @@ if (!defined('DOKU_INC')) die();
 
 /**
  * Normalize page IDs so links to namespace starts map consistently.
+ * Retained compatibility API for external template callers; use the explicit
+ * navigation title policy internally. No removal/deprecation is scheduled.
  *
  * @param string $pageId
  * @return string

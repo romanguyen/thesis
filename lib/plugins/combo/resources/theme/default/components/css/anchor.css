@@ -1,0 +1,25 @@
+.link-primary {
+    color: var(--bs-link-color)
+}
+
+.link-primary:hover {
+    color: var(--bs-link-hover-color)
+}
+
+#page-main a {
+    color: var(--bs-link-color)
+}
+
+#page-main a:hover {
+    color: var(--bs-link-hover-color)
+}
+
+#page-footer a {
+    color: var(--bs-link-color)
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .anchorjs-link {
+        transition: none
+    }
+}

@@ -1,0 +1,101 @@
+/**
+ * Do not edit directly, this file was auto-generated.
+ */
+
+:root {
+  --mc-color-base-orange: #f27930; /** CMYK 0/65/100/0, Pantone 166 C, RGB 242/121/48. */
+  --mc-color-base-grey: #5a5a5a; /** CMYK 0/0/0/80, Pantone Cool Gray 11 C, RGB 90/90/90. */
+  --mc-color-base-light-grey: #aaaaaa; /** CMYK 0/0/0/40, Pantone Cool Gray 6 C, RGB 170/170/170. */
+  --mc-color-base-white: #ffffff; /** CMYK 0/0/0/0, RGB 255/255/255. */
+  --mc-color-base-black: #000000; /** CMYK 0/0/0/100, Pantone Black C, RGB 0/0/0. */
+  --mc-color-brand-50: #fef5f0;
+  --mc-color-brand-100: #fde6d7;
+  --mc-color-brand-200: #fac9af;
+  --mc-color-brand-300: #f6a37c;
+  --mc-color-brand-500: #e85f0c;
+  --mc-color-brand-600: #d94a08;
+  --mc-color-brand-700: #b5380a;
+  --mc-color-brand-800: #922e0f;
+  --mc-color-brand-900: #782a10;
+  --mc-color-brand-950: #401206;
+  --mc-color-on-brand: #161616; /** Text and icons on brand fills, e.g. the primary button. */
+  --mc-color-focus: #8c8c8c; /** Keyboard focus outline. */
+  --mc-color-status-error-main: #f65a4f;
+  --mc-color-status-error-strong: #d13b24; /** Danger button fill, e-INFRA error-600. main is too light for white text. */
+  --mc-color-status-error-hover: #9c2e19; /** Danger button, e-INFRA error-700. */
+  --mc-color-status-error-active: #6a1f0e; /** Danger button, e-INFRA error-800. */
+  --mc-color-status-error-foreground: #311210;
+  --mc-color-status-error-text: #9c2e19; /** e-INFRA error-700. */
+  --mc-color-status-error-background: #faaca7;
+  --mc-color-status-warning-main: #f7ce5b;
+  --mc-color-status-warning-foreground: #312912;
+  --mc-color-status-warning-text: #5d4f1e; /** e-INFRA warning-800 (700 fails AA). */
+  --mc-color-status-warning-background: #fbe6ad;
+  --mc-color-status-success-main: #1cc16f;
+  --mc-color-status-success-foreground: #062716;
+  --mc-color-status-success-text: #0c6f41; /** e-INFRA success-700. */
+  --mc-color-status-success-background: #8ee0b7;
+  --mc-color-status-info-main: #7ecdf8;
+  --mc-color-status-info-foreground: #192932;
+  --mc-color-status-info-text: #2a779b; /** e-INFRA info-700. */
+  --mc-color-status-info-background: #bee6fc;
+  --mc-font-family-default: Arial, Helvetica, sans-serif; /** Arial Regular and Arial Bold. */
+  --mc-font-weight-regular: 400;
+  --mc-font-weight-bold: 700;
+  --mc-radius-button: 0.375rem; /** Applied in carbon-overrides.css. */
+  --mc-page-background: #f4f4f4; /** Page background; light grey so white cards stand out. */
+  --mc-page-padding-block: 1rem; /** PageContainer top and bottom. */
+  --mc-page-padding-block-wide: 1.5rem; /** From 40rem. */
+  --mc-page-padding-inline: 1rem; /** PageContainer sides. */
+  --mc-page-padding-inline-wide: 2rem; /** From 40rem. */
+  --mc-page-padding-inline-max: 4rem; /** From 82rem. */
+  --mc-page-title-size: 1.5rem; /** PageHeader title, from 40rem. */
+  --mc-page-title-size-small: 1.25rem; /** PageHeader title. */
+  --mc-page-header-gap: 1.5rem; /** Below PageHeader. */
+  --mc-page-state-padding: 3rem; /** LoadingState and EmptyState. */
+  --mc-table-radius: 0.5rem;
+  --mc-table-border: #e0e0e0;
+  --mc-table-row: #ffffff;
+  --mc-table-row-hover: #f7f7f7;
+  --mc-table-header: #f7f7f7;
+  --mc-table-header-hover: #efefef;
+  --mc-table-header-sorted: #efefef; /** Sorted column header. */
+  --mc-card-radius: 0.5rem;
+  --mc-card-border: #e0e0e0;
+  --mc-card-background: #ffffff;
+  --mc-card-shadow: 0 1px 2px 0 #0000000d; /** Same as Tailwind shadow-sm. */
+  --mc-card-accent-width: 0;
+  --mc-card-padding: 1rem;
+  --mc-card-padding-wide: 1.5rem; /** From 40rem. */
+  --mc-page-header-background: rgba(0, 0, 0, 0);
+  --mc-page-header-text: #161616;
+  --mc-page-header-padding: 0;
+  --mc-page-header-title-mark-width: 0.25rem; /** 0 hides the bar. */
+  --mc-field-border: #c6c6c6;
+  --mc-field-border-hover: #8c8c8c;
+  --mc-field-background: #ffffff;
+  --mc-field-background-disabled: #f7f7f7;
+  --mc-header-background: #ffffff;
+  --mc-header-nav-current-weight: 400; /** Current item; never lighter than the item's normal weight. */
+  --mc-header-height: 4.5rem; /** Mobile top bar; 0 on wide screens (sidebar). Offset page content by this. */
+  --mc-header-logo-height: 2.75rem;
+  --mc-header-border-width: 0.1875rem;
+  --mc-header-sidebar-width: 16rem; /** Sidebar width; wide screens offset page content by this. */
+  --mc-footer-background: #ffffff;
+  --mc-footer-border-width: 1px;
+  --mc-footer-logo-height: 2rem;
+  --mc-footer-max-width: 72rem; /** Content width; the background spans the full page. */
+  --mc-color-brand-400: var(--mc-color-base-orange);
+  --mc-tabs-indicator: var(--mc-color-brand-500); /** Line under the selected tab. */
+  --mc-tabs-selected-text: var(--mc-color-brand-700); /** Label of the selected tab. */
+  --mc-page-header-link: var(--mc-color-brand-700); /** Breadcrumb links. */
+  --mc-field-radius: var(--mc-radius-button);
+  --mc-header-icon: var(--mc-color-brand-700); /** User name, avatar, action and menu icons. */
+  --mc-header-nav-current: var(--mc-color-brand-700); /** Text of the current navigation item. */
+  --mc-header-nav-indicator: var(--mc-color-brand-500); /** Bar beside the current navigation item. */
+  --mc-header-nav-current-background: var(--mc-color-brand-50); /** Background of the current page link. */
+  --mc-card-accent: var(--mc-color-brand-400); /** Top edge; width 0 hides it. */
+  --mc-page-header-title-mark: var(--mc-color-brand-400); /** Bar before the title. */
+  --mc-header-accent: var(--mc-color-brand-400); /** Sidebar edge, mobile bar bottom border, dividers. */
+  --mc-footer-accent: var(--mc-color-brand-400); /** Top border. */
+}

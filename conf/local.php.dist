@@ -14,3 +14,16 @@
 //$conf['useacl']      = 1;                //Use Access Control Lists to restrict access?
 //$conf['superuser']   = 'joe';
 
+// Project template and optional sibling content store; keep these choices in local.php, not Git.
+//$conf['template'] = 'reskin';
+//$conf['datadir'] = dirname(__DIR__, 2) . '/dokuwiki-content/data/pages';
+//$conf['mediadir'] = dirname(__DIR__, 2) . '/dokuwiki-content/data/media';
+
+// Translation plugin with the reskin template (lib/tpl/reskin/inc/translation.php): the template keeps routing,
+// fallback, the switcher and hreflang; the plugin adds the interface language, outdated notices and pre-filled translations.
+//$conf['plugin']['translation']['translations'] = 'cs en';
+//$conf['plugin']['translation']['translateui'] = 1;
+//$conf['plugin']['translation']['checkage'] = 1;
+//$conf['plugin']['translation']['copytrans'] = 1;
+//$conf['plugin']['translation']['redirectstart'] = 0;
+//$conf['plugin']['translation']['skiptrans'] = '^:(wiki|playground)(:|$)';

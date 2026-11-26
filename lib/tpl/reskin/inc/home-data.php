@@ -21,9 +21,11 @@ function reskin_i18n_home_link(string $target): string
     $target = trim($target);
     if ($target === '') return '#';
 
-    if (preg_match('/^[a-z][a-z0-9+.-]*:\/\//i', $target) || str_starts_with($target, '/')) {
+    if (preg_match('/[\x00-\x20\x7f]/', $target) && preg_match('/^[a-z][a-z0-9+.-]*:/i', $target)) return '#';
+    if (preg_match('/^https?:\/\//i', $target) || str_starts_with($target, '/')) {
         return $target;
     }
+    if (preg_match('/^(?:javascript|vbscript|data|file|blob):/i', $target) || str_contains($target, '://')) return '#';
 
     return reskin_i18n_link($target);
 }
@@ -40,7 +42,7 @@ function reskin_i18n_home_fragment_rows(string $base, int $columns, ?string $pre
 {
     $columns = max(1, $columns);
     $preferred = reskin_i18n_home_lang($preferredLang);
-    $resolved = reskin_i18n_resolve_exact($base, $preferred, true, true);
+    $resolved = reskin_i18n_resolve_exact($base, $preferred);
 
     if (!$resolved['found'] || $resolved['id'] === '') return [];
 
@@ -276,23 +278,21 @@ function reskin_home_default_update_items(string $kind, string $lang): array
     } else {
         $base = 'outages:start';
         $rows = $lang === 'cs' ? [
-            ['Plánovaná odstávka: frontendy a scheduler', '2026-04-14'],
-            ['Údržba úložišť: metadata scratch', '2026-04-16'],
+            ['Obnova provozu S3 úložiště CL4', '2026-10-09', '2026-10-12'],
+            ['Omezená dostupnost služeb (DDoS útok)', '2026-10-07'],
             ['Kde sledovat aktuální stav', ''],
         ] : [
-            ['Planned outage: frontends and scheduler', '2026-04-14'],
-            ['Storage maintenance: metadata scratch', '2026-04-16'],
-            ['Where to track current status', ''],
+            ['Recovery of CL4 S3 Storage Service', '2026-10-09', '2026-10-12'],
+            ['Limited Service Availability (DDoS Attack)', '2026-10-07'],
+            ['Where to follow current incidents', ''],
         ];
     }
     $items = [];
-    foreach ($rows as [$title, $dateIso]) {
+    foreach ($rows as $row) {
         $items[] = [
-            'title' => $title,
+            'title' => $row[0],
             'url' => reskin_i18n_link($base),
-            'date_iso' => $dateIso,
-            'date' => reskin_i18n_format_update_date($dateIso, $lang),
-        ];
+        ] + reskin_update_item_dates($row[1], $row[2] ?? '', $lang);
     }
     return $items;
 }
@@ -307,7 +307,7 @@ function reskin_home_default_update_items(string $kind, string $lang): array
 function reskin_home_updates_model(string $lang, bool $readRecent, bool $allowDemo): array
 {
     $items = $readRecent ? [
-        'news' => reskin_i18n_recent_headings('news:start', 3, $lang),
+        'news' => reskin_news_update_items($lang, 3),
         'outages' => reskin_i18n_recent_headings('outages:start', 3, $lang),
     ] : ['news' => [], 'outages' => []];
     $groups = [
@@ -326,7 +326,7 @@ function reskin_home_updates_model(string $lang, bool $readRecent, bool $allowDe
             'archive_label' => reskin_i18n_t('updates_' . $kind . '_archive', [], $lang),
             'empty_label' => reskin_i18n_t('updates_empty', [], $lang),
             'items' => array_map(static function (array $item): array {
-                return $item + ['date' => '', 'date_iso' => ''];
+                return $item + ['date' => '', 'date_iso' => '', 'end_date' => '', 'end_date_iso' => '', 'date_range_start' => '', 'date_range_separator' => ''];
             }, $items[$kind]),
         ];
     }

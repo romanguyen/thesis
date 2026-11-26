@@ -1,0 +1,11 @@
+/* Theme override of combo's outline component (default: black underlined headings, indented sub-sections):
+   headings follow Bootstrap's heading colour in both colour modes. */
+.outline-heading-cs {
+    max-width: 100%;
+    color: var(--bs-heading-color);
+    font-weight: 700;
+}
+
+.outline-section-cs, .outline-header-cs {
+    position: relative;
+}

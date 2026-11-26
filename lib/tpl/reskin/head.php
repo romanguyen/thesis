@@ -15,7 +15,7 @@ $reskinLangTargets = $reskinContext['language_targets'];
         <script>try{var t=localStorage.getItem("reskin-theme");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-bs-theme",t)}catch(e){}</script>
     <?php endif; ?>
     <?php tpl_metaheaders() ?>
-    <?php echo tpl_favicon(['favicon', 'mobile']) ?>
+    <?php // The template ships only an SVG icon; tpl_favicon() would link the missing images/favicon.ico and apple-touch-icon.png. ?>
     <link rel="icon" type="image/svg+xml" href="<?php echo tpl_basedir(); ?>img/favicon.svg" />
     <?php tpl_includeFile('meta.html') ?>
 

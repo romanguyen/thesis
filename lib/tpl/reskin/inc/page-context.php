@@ -126,15 +126,15 @@ function reskin_i18n_fallback_notice(): ?string
 function reskin_page_visibility(string $base, string $startPage, string $layout, mixed $action, bool $hasSidebar): array
 {
     $show = $action === 'show';
-    $sidebar = $hasSidebar && $show;
     $start = $base === $startPage;
     $leftInline = $show && $start && $layout === 'left';
+    // Navigation renders on every action (search, revisions, backlinks, login, editing), as the main menu.
+    $cesnet = in_array($layout, ['left', 'top'], true);
     return [
-        'sidebar_aside' => $sidebar && $layout === 'left',
-        // MetaCentrum's navigation is the frame's permanent sidebar, so search, login and editing keep it.
-        'top_navigation' => $hasSidebar && ($layout === 'clean' || ($show && $layout === 'top')),
-        'sidebar_mobile_trigger' => $sidebar && in_array($layout, ['left', 'top'], true),
-        'sidebar_offcanvas' => $sidebar && in_array($layout, ['left', 'top'], true),
+        'sidebar_aside' => $hasSidebar && $layout === 'left',
+        'top_navigation' => $hasSidebar && in_array($layout, ['clean', 'top'], true),
+        'sidebar_mobile_trigger' => $hasSidebar && $cesnet,
+        'sidebar_offcanvas' => $hasSidebar && $cesnet,
         'hero' => $start && $show,
         'updates_section' => $show && $start && !$leftInline,
         'updates_inline' => $show && ($base === 'variants:news' || $leftInline),

@@ -157,7 +157,7 @@ function reskin_page_visibility(string $base, string $startPage, string $layout,
  *     hero:bool,updates_section:bool,updates_inline:bool,metrics_section:bool,stories_section:bool,
  *     metrics_inline:bool,stories_inline:bool,start:bool
  *   },
- *   news_entries:list<array{id:string,title:string,date_iso:string,date:string,url:string}>,
+ *   news_entries:list<array{id:string,title:string,date_iso:string,date:string,url:string,body:string,author:string}>,
  *   language_targets:array<string,array{label:string,url:string,url_abs:string,current:bool,available:bool,resolved_lang:string}>,
  *   variant_links:array{layouts:array{left:string,top:string},styles:array{cesnet:string,metacentrum:string,bootstrap5:string}},
  *   fallback_notice:string|null,outdated_notice:string,
@@ -173,7 +173,8 @@ function reskin_page_context(array $request): array
     $visibility = reskin_page_visibility($page['base'], $request['start'], reskin_variant_frame($variant), $request['action'], $hasSidebar);
     $entries = [];
     if ($show && empty($request['historical']) && $page['base'] === 'news:start' && page_exists($request['id']) && auth_quickaclcheck($request['id']) >= AUTH_READ) {
-        $entries = reskin_news_articles($page['lang'], $variant);
+        // Each card carries its article's text, as the MetaCentrum archive does; the list already checked read access.
+        $entries = array_map(static fn(array $article): array => $article + reskin_news_article_card($article['id']), reskin_news_articles($page['lang'], $variant));
     }
     $hardware = preg_match('/^(cs|en):resources:hardware(?::start)?$/', $request['id']) === 1;
     $pageClass = trim((string) preg_replace('/[^a-z0-9_-]+/i', '-', strtolower($request['id'])), '-');

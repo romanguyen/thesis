@@ -4,7 +4,8 @@ if (!defined('DOKU_INC')) die();
 /**
  * News articles of one language, newest first: the readable pages directly in `<lang>:news:` except its start page.
  * An article is the page `news:YYYY-MM-DD-name` in each language, so the same name pairs the translations like any
- * other page, and the date sorts and displays without reading the source.
+ * other page, and the date sorts and displays without reading the source. The archive adds each card's text with
+ * reskin_news_article_card(); the homepage rows need only these fields.
  * @return list<array{id:string,title:string,date_iso:string,date:string,url:string}>
  */
 function reskin_news_articles(string $lang, array $variant, int $limit = 0): array
@@ -27,6 +28,24 @@ function reskin_news_articles(string $lang, array $variant, int $limit = 0): arr
     }
     usort($articles, static fn(array $a, array $b): int => [$b['date_iso'], $b['id']] <=> [$a['date_iso'], $a['id']]);
     return $limit > 0 ? array_slice($articles, 0, $limit) : $articles;
+}
+
+/**
+ * Archive-card text of one (already authorized) article, as on the MetaCentrum news archive: the article's wiki
+ * source without its page title, which the card shows itself. A first line that is the imported byline
+ * (`//Name, date//`) leaves the body and supplies the card's author; the date already comes from the page name.
+ * The source stays unrendered here: the card partial renders it natively at its body slot.
+ * @return array{body:string,author:string}
+ */
+function reskin_news_article_card(string $id): array
+{
+    $source = (string) preg_replace('/\A\s*={2,}[^\r\n]*={2,}[ \t]*(?:\r?\n|\z)/u', '', (string) rawWiki($id), 1);
+    $author = '';
+    if (preg_match('~\A\s*//([^/\r\n]+),[ \t]*([^/,\r\n]*\d[^/,\r\n]*)//[ \t]*(?:\r?\n|\z)~u', $source, $byline)) {
+        $author = trim($byline[1]);
+        $source = substr($source, strlen($byline[0]));
+    }
+    return ['body' => trim($source), 'author' => $author];
 }
 
 /** Homepage update rows: the newest news of the preferred language, else of the other one. */

@@ -820,6 +820,12 @@
   margin-top: 1.5rem;
 }
 
+/* An article without text keeps a single divider between header and footer. */
+.reskin-news-article--archive .reskin-news-article-header + .reskin-news-footer {
+  margin-top: 0;
+  border-top: 0;
+}
+
 .reskin-news-body p,
 .reskin-news-body ul,
 .reskin-news-body ol {

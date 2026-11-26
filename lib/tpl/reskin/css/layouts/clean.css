@@ -693,6 +693,17 @@ th.reskin-update-date {
   margin: 0;
 }
 
+/* Archive Card: date and author side by side, then the article's native text. */
+.mc-card.reskin-news-article .reskin-news-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1rem;
+}
+
+.mc-card.reskin-news-article .reskin-news-body > :last-child {
+  margin-block-end: 0;
+}
+
 .reskin-news-footer {
   display: flex;
   flex-wrap: wrap;

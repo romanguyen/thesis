@@ -17,7 +17,7 @@ function reskin_render_partial(string $name, array $model, array $options = []):
  * Adapt native page content to presentation after the native pageheader hook. The news start page adds its article
  * cards after the native content; every other page, each news article included, is plain native content.
  *
- * @param array<int,array{id:string,title:string,date_iso:string,date:string,url:string}> $entries Authorized news articles of the start page, otherwise []
+ * @param array<int,array{id:string,title:string,date_iso:string,date:string,url:string,body:string,author:string}> $entries Authorized news articles of the start page, otherwise []
  * @param bool $heroTitle The home hero already holds the page H1 (MetaCentrum PageHeader); the native one follows as H2
  * @return array{content_html:string,entries:array,design:bool,labels:array<string,string>}
  */
@@ -58,6 +58,21 @@ function reskin_page_content_model(string $pageId, string $contentHtml, array $e
             'read' => reskin_i18n_t('news_article_read'),
         ],
     ];
+}
+
+/**
+ * Native XHTML of a news card's wiki body, called by the card partials at their body slot. The archive's own TOC and
+ * section-edit buttons belong to `news:start`, so the article's TOC never replaces it and its edit markers are dropped.
+ */
+function reskin_news_body_html(string $source): string
+{
+    global $TOC;
+    if (trim($source) === '') return '';
+    $toc = $TOC;
+    $info = [];
+    $html = (string) p_render('xhtml', p_get_instructions($source), $info);
+    $TOC = $toc;
+    return html_secedit($html, false);
 }
 
 /** Heading HTML is trusted native output or escaped template-owned news markup. */

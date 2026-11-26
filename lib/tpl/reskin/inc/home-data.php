@@ -126,7 +126,7 @@ function reskin_i18n_default_start_metric_cards(string $lang): array
 function reskin_i18n_default_start_metric_highlights(string $lang): array
 {
     return [
-        ['number' => $lang === 'cs' ? '2 000+' : '2,000+', 'label' => $lang === 'cs' ? 'uživatelů' : 'users'],
+        ['number' => $lang === 'cs' ? "2\u{00A0}000+" : '2,000+', 'label' => $lang === 'cs' ? 'uživatelů' : 'users'],
         ['number' => '25+', 'label' => $lang === 'cs' ? 'mezinárodních projektů' : 'international projects'],
         ['number' => '100+', 'label' => $lang === 'cs' ? 'projektů pro průmysl' : 'industry projects'],
     ];
@@ -134,7 +134,7 @@ function reskin_i18n_default_start_metric_highlights(string $lang): array
 
 /**
  * @param string $lang
- * @return array<int, array{date:string,year:string,title:string,url:string,image:string}>
+ * @return array<int, array{date:string,date_iso:string,year:string,title:string,url:string,image:string}>
  */
 function reskin_i18n_default_start_story_cards(string $lang): array
 {
@@ -174,12 +174,11 @@ function reskin_i18n_default_start_story_cards(string $lang): array
     $cards = [];
     foreach ($definitions as $definition) {
         $cards[] = [
-            'date' => $definition['date'],
             'year' => '2026',
             'title' => $definition['title'][$language],
             'url' => reskin_i18n_link('news:start'),
             'image' => reskin_home_story_image_url($definition['image']),
-        ];
+        ] + reskin_home_story_date($definition['date'], '2026', $language);
     }
     return $cards;
 }
@@ -227,6 +226,17 @@ function reskin_i18n_start_metric_highlights(?string $lang = null): array
     return reskin_i18n_default_start_metric_highlights($lang);
 }
 
+/**
+ * Story row date (`DD/MM` and `YYYY`) in the template's date format; an unparsable value stays as written.
+ * @return array{date:string,date_iso:string}
+ */
+function reskin_home_story_date(string $dayMonth, string $year, string $lang): array
+{
+    $iso = preg_match('~^(\d{1,2})/(\d{1,2})$~', trim($dayMonth), $m) && preg_match('/^\d{4}$/', trim($year)) && checkdate((int) $m[2], (int) $m[1], (int) $year)
+        ? sprintf('%04d-%02d-%02d', (int) $year, (int) $m[2], (int) $m[1]) : '';
+    return ['date' => $iso !== '' ? reskin_i18n_format_card_date($iso, $lang) : trim($dayMonth . '/' . $year, '/'), 'date_iso' => $iso];
+}
+
 /** Installation-base boundary for project-relative illustration paths; external URLs remain untouched. */
 function reskin_home_story_image_url(string $image): string
 {
@@ -235,7 +245,7 @@ function reskin_home_story_image_url(string $image): string
 
 /**
  * @param string|null $lang
- * @return array<int, array{date:string,year:string,title:string,url:string,image:string}>
+ * @return array<int, array{date:string,date_iso:string,year:string,title:string,url:string,image:string}>
  */
 function reskin_i18n_start_story_cards(?string $lang = null): array
 {
@@ -245,12 +255,11 @@ function reskin_i18n_start_story_cards(?string $lang = null): array
     $cards = [];
     foreach ($rows as $row) {
         $cards[] = [
-            'date' => $row[0],
             'year' => $row[1],
             'title' => $row[2],
             'url' => reskin_i18n_home_link($row[3]),
             'image' => reskin_home_story_image_url($row[4]),
-        ];
+        ] + reskin_home_story_date($row[0], $row[1], $lang);
     }
 
     if (!empty($cards)) return $cards;

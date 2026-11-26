@@ -22,7 +22,7 @@ function reskin_news_articles(string $lang, array $variant, int $limit = 0): arr
             'id' => $item['id'],
             'title' => (string) (p_get_first_heading($item['id'], METADATA_RENDER_UNLIMITED) ?: noNS($item['id'])), // a list is short; a missing title must not depend on the per-request render limit
             'date_iso' => $date,
-            'date' => reskin_i18n_format_update_date($date, $lang),
+            'date' => reskin_i18n_format_card_date($date, $lang),
             'url' => wl($item['id'], reskin_url_variant_params($variant), false, '&'),
         ];
     }
@@ -158,18 +158,7 @@ function reskin_update_item_dates(string $startIso, string $endIso, string $lang
     ];
 }
 
-/** Long article date: `1 January 2026`, `1. ledna 2026`. */
-function reskin_i18n_format_update_date(string $iso, string $lang): string
-{
-    if ($iso === '') return '';
-    $date = \DateTimeImmutable::createFromFormat('!Y-m-d', $iso);
-    if (!$date) return '';
-    if ($lang !== 'cs') return $date->format('j F Y');
-    $months = [1 => 'ledna', 'února', 'března', 'dubna', 'května', 'června', 'července', 'srpna', 'září', 'října', 'listopadu', 'prosince'];
-    return $date->format('j') . '. ' . $months[(int) $date->format('n')] . ' ' . $date->format('Y');
-}
-
-/** Numeric card date: ISO `2026-04-14` in English, `14. 4. 2026` in Czech. */
+/** The template's one date format: ISO `2026-04-14` in English, `14. 4. 2026` in Czech. */
 function reskin_i18n_format_card_date(string $iso, string $lang): string
 {
     if ($iso === '') return '';

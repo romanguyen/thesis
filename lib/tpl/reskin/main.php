@@ -172,7 +172,7 @@ $reskinPageIdClass = $reskinContext['page_class'];
                                 </div>
 
                                 <div class="reskin-page-info">
-                                    <?php tpl_pageinfo(); ?>
+                                    <?php echo reskin_page_info_html($reskinCurrentLang); ?>
                                 </div>
 
                                 <nav class="reskin-pagetools" aria-label="<?php echo hsc(reskin_i18n_t('page_tools')); ?>">

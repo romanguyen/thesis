@@ -1,6 +1,6 @@
 <?php
 if (!defined('DOKU_INC')) die();
-/** @var array{title:string,description:string,archive_url:string,archive_label:string,cta_label:string,prev_label:string,next_label:string,cards:array<int,array{date:string,year:string,title:string,url:string,image:string}>} $model */
+/** @var array{title:string,description:string,archive_url:string,archive_label:string,cta_label:string,prev_label:string,next_label:string,cards:array<int,array{date:string,date_iso:string,year:string,title:string,url:string,image:string}>} $model */
 /** @var array{inline?:bool,track_id:string} $options Track/control IDs are explicit to preserve existing instances. */
 if ($model['cards'] === []) return;
 $inline = $options['inline'] ?? false;
@@ -25,7 +25,7 @@ $trackId = $options['track_id'];
                     <article class="reskin-story-item">
                         <a class="reskin-story-card card h-100 text-decoration-none overflow-hidden" href="<?php echo hsc($card['url']); ?>">
                             <span class="reskin-story-image overflow-hidden" style="background-image: url('<?php echo hsc($card['image']); ?>');"></span>
-                            <span class="reskin-story-date mb-2 fw-bold lh-1"><?php echo hsc($card['date'] . '/' . $card['year']); ?></span>
+                            <time class="reskin-story-date mb-2 fw-bold lh-1"<?php if ($card['date_iso'] !== '') echo ' datetime="' . hsc($card['date_iso']) . '"'; ?>><?php echo hsc($card['date']); ?></time>
                             <span class="reskin-story-title fw-semibold"><?php echo hsc($card['title']); ?></span>
                             <span class="reskin-story-cta d-inline-flex align-items-center gap-2 fw-semibold text-uppercase mt-auto">
                                 <i class="bi bi-arrow-right" aria-hidden="true"></i>

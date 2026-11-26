@@ -1,6 +1,6 @@
 <?php
 if (!defined('DOKU_INC')) die();
-/** @var array{title:string,description:string,archive_url:string,archive_label:string,cta_label:string,cards:array<int,array{date:string,year:string,title:string,url:string}>} $model */
+/** @var array{title:string,description:string,archive_url:string,archive_label:string,cta_label:string,cards:array<int,array{date:string,date_iso:string,year:string,title:string,url:string}>} $model */
 /** @var array{inline?:bool} $options */
 if ($model['cards'] === []) return;
 ?>
@@ -17,7 +17,7 @@ if ($model['cards'] === []) return;
             <div class="col">
                 <article class="mc-card reskin-story-item">
                     <div class="mc-card__header"><h3 class="mc-card__title"><?php echo hsc($card['title']); ?></h3></div>
-                    <p><?php echo hsc($card['date'] . '/' . $card['year']); ?></p>
+                    <p><time<?php if ($card['date_iso'] !== '') echo ' datetime="' . hsc($card['date_iso']) . '"'; ?>><?php echo hsc($card['date']); ?></time></p>
                     <a class="mc-btn cds--btn cds--btn--sm cds--layout--size-sm cds--btn--tertiary" href="<?php echo hsc($card['url']); ?>" aria-label="<?php echo hsc($model['cta_label'] . ': ' . $card['title']); ?>"><?php echo hsc($model['cta_label']); ?></a>
                 </article>
             </div>

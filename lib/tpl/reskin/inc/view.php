@@ -91,6 +91,20 @@ function reskin_page_tools_html(): string
     return $html;
 }
 
+/**
+ * Page info line. Signed-in users keep the native line; visitors get only the last-modified date in the template's
+ * date format, without the file name and the author (the Git import host, e.g. 127.0.0.1).
+ */
+function reskin_page_info_html(string $language): string
+{
+    global $INFO, $INPUT, $lang;
+    if ($INPUT->server->str('REMOTE_USER') !== '') return (string) tpl_pageinfo(true);
+    if (empty($INFO['exists']) || empty($INFO['lastmod'])) return '';
+    $time = (int) $INFO['lastmod'];
+    return hsc(trim((string) $lang['lastmod'])) . ' <time datetime="' . hsc(date('c', $time)) . '">'
+        . hsc(reskin_i18n_format_card_date(date('Y-m-d', $time), $language)) . '</time>';
+}
+
 /** Heading HTML is trusted native output or escaped template-owned news markup. */
 function reskin_page_header_html(string $headingHtml, array $breadcrumbs, string $contentHtml = ''): string
 {

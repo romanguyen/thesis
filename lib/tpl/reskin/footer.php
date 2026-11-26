@@ -63,7 +63,6 @@ $footerLogo = tpl_basedir() . 'img/metacentrum_RGB.svg';
         <div class="reskin-footer-bottom mt-4 pt-4">
             <div class="d-flex flex-column flex-md-row gap-2 justify-content-between">
                 <span>&copy; 1991-2026 CESNET, z. s. p. o.</span>
-                <span><?php echo hsc(reskin_i18n_t('last_changed')); ?>: Tue Jan 5 13:46:28 CET 2026</span>
             </div>
         </div>
     </div>

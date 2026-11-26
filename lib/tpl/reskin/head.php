@@ -7,7 +7,7 @@ $reskinLangTargets = $reskinContext['language_targets'];
 ?>
 <head>
     <meta charset="utf-8" />
-    <title><?php echo hsc(reskin_page_title()); ?></title>
+    <title><?php echo hsc(reskin_document_title()); ?></title>
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <meta name="referrer" content="no-referrer" />
     <?php if ($reskinContext['variant']['style'] !== 'metacentrum') : ?>

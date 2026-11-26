@@ -10,6 +10,7 @@ global $ID, $ACT, $conf, $lang, $INPUT, $INFO;
 require_once __DIR__ . '/inc/bootstrap.php';
 reskin_register_combo_guards();
 reskin_register_translation_guards();
+reskin_register_search_snippets();
 $reskinRequest = reskin_request_state();
 reskin_handle_request($reskinRequest);
 $reskinContext = reskin_page_context($reskinRequest);

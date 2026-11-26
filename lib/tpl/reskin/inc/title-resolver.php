@@ -26,6 +26,14 @@ function reskin_title_from_sidebar(string $id): ?string
     return reskin_navigation_label(reskin_current_navigation(), $id);
 }
 
+/** Browser tab title: the page title, then the wiki title setting (`$conf['title']`) when it is set. */
+function reskin_document_title(): string
+{
+    global $conf;
+    $site = trim(strip_tags((string) ($conf['title'] ?? '')));
+    return reskin_page_title() . ($site !== '' ? ' – ' . $site : '');
+}
+
 /**
  * Resolve browser tab title with sidebar/nav labels as highest priority.
  *

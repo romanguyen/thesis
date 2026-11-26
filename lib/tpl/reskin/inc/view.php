@@ -113,6 +113,24 @@ function reskin_missing_page_html(): string
         . '<p><a href="' . hsc(reskin_i18n_link('start')) . '">' . hsc(reskin_i18n_t('missing_home')) . '</a></p>';
 }
 
+/** Search snippets come from the rendered page text instead of the raw wiki source. Call before tpl_content(). */
+function reskin_register_search_snippets(): void
+{
+    global $EVENT_HANDLER;
+    $EVENT_HANDLER->register_hook('FULLTEXT_SNIPPET_CREATE', 'BEFORE', null, 'reskin_search_snippet_text');
+}
+
+/** FULLTEXT_SNIPPET_CREATE: plain text of the (cached) page render; core still cuts, highlights and escapes it. */
+function reskin_search_snippet_text(object $event): void
+{
+    global $TOC;
+    $toc = $TOC; // a fresh render sets the global TOC, which the search page must not get
+    $html = (string) p_wiki_xhtml($event->data['id'], '', false);
+    $TOC = $toc;
+    $text = html_entity_decode(strip_tags(str_replace('<', ' <', $html)), ENT_QUOTES | ENT_HTML5, 'UTF-8');
+    $event->data['text'] = trim((string) preg_replace('/\s+/u', ' ', $text));
+}
+
 /** Heading HTML is trusted native output or escaped template-owned news markup. */
 function reskin_page_header_html(string $headingHtml, array $breadcrumbs, string $contentHtml = ''): string
 {

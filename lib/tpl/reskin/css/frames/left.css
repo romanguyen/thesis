@@ -44,3 +44,14 @@
 .reskin-layout-left .reskin-stories--inline {
   padding: 1.35rem 0 0.55rem;
 }
+
+/* The hero sits in the content column, so the sidebar menu starts on the first screen. */
+.reskin-layout-left .reskin-hero--inline {
+  padding: 0.25rem 0 1.5rem;
+  border-bottom: 0;
+  background: transparent;
+}
+
+.reskin-layout-left .reskin-hero--inline::after {
+  display: none;
+}

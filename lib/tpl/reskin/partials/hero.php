@@ -1,9 +1,11 @@
 <?php
 if (!defined('DOKU_INC')) die();
 /** @var array{content_html:string,image_url:string,image_alt:string} $model Trusted native HTML; plain image attributes. */
+/** @var array{inline?:bool} $options Inline: inside the Left layout's content column, beside the sidebar. */
+$inline = $options['inline'] ?? false;
 ?>
-<section class="reskin-hero overflow-hidden" aria-label="Hero">
-    <div class="container-xl">
+<section class="reskin-hero overflow-hidden<?php echo $inline ? ' reskin-hero--inline' : ''; ?>" aria-label="Hero">
+    <div class="<?php echo $inline ? '' : 'container-xl'; ?>">
         <div class="row align-items-center g-4">
             <div class="col-12 col-lg-7">
                 <div class="reskin-hero-content">

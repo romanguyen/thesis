@@ -61,11 +61,13 @@ $reskinPageIdClass = $reskinContext['page_class'];
             <?php if ($showHeroSection) : ?>
                 <?php
                 $reskinHeroHtml = (string) reskin_i18n_include_page('hero', false, true);
-                reskin_render_partial($reskinDesign ? 'design-hero' : 'hero', [
+                $reskinHeroModel = [
                     'content_html' => $reskinHeroHtml,
                     'image_url' => 'https://www.cesnet.cz/gimg/default/2/8/4/284-580-326.jpg',
                     'image_alt' => 'MetaCentrum infrastructure',
-                ]); ?>
+                ];
+                // Left keeps its sidebar menu on the first screen, so its hero sits beside it (below).
+                if ($reskinLayout !== 'left') reskin_render_partial($reskinDesign ? 'design-hero' : 'hero', $reskinHeroModel); ?>
             <?php endif; ?>
 
             <?php if ($showUpdatesSection || $showUpdatesInline) : ?>
@@ -101,6 +103,7 @@ $reskinPageIdClass = $reskinContext['page_class'];
                     <?php endif; ?>
 
                     <div class="<?php echo $showSidebarAside ? 'col-12 col-lg-9' : 'col-12'; ?>">
+                        <?php if ($showHeroSection && $reskinLayout === 'left') reskin_render_partial('hero', $reskinHeroModel, ['inline' => true]); ?>
                         <?php if ($showUpdatesInline) : ?>
                             <?php reskin_render_partial($reskinDesign ? 'design-updates' : 'updates', $reskinUpdatesModel, [
                                 'inline' => true,

@@ -5,7 +5,7 @@
 
 if (!defined('DOKU_INC')) die();
 
-global $ID, $ACT, $conf, $lang, $INPUT;
+global $ID, $ACT, $conf, $lang, $INPUT, $INFO;
 
 require_once __DIR__ . '/inc/bootstrap.php';
 reskin_register_combo_guards();
@@ -134,6 +134,9 @@ $reskinPageIdClass = $reskinContext['page_class'];
                         ob_start();
                         tpl_content($ACT !== 'show');
                         $reskinContentHtml = (string) ob_get_clean();
+                        if ($ACT === 'show' && empty($INFO['exists']) && $INPUT->server->str('REMOTE_USER') === '') {
+                            $reskinContentHtml = reskin_missing_page_html(); // native text asks visitors to create the page
+                        }
                         $reskinTocHtml = '';
                         if ($ACT === 'show' && !preg_match('/^(?:cs|en):(?:variants:news|outages:start)$/', (string) $ID)) {
                             $reskinTocHtml = tpl_toc(true);

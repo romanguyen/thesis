@@ -105,6 +105,14 @@ function reskin_page_info_html(string $language): string
         . hsc(reskin_i18n_format_card_date(date('Y-m-d', $time), $language)) . '</time>';
 }
 
+/** Not-found text that replaces DokuWiki's "create this page" text for anonymous visitors. */
+function reskin_missing_page_html(): string
+{
+    return '<h1>' . hsc(reskin_i18n_t('missing_title')) . '</h1>' . "\n"
+        . '<p>' . hsc(reskin_i18n_t('missing_text')) . '</p>' . "\n"
+        . '<p><a href="' . hsc(reskin_i18n_link('start')) . '">' . hsc(reskin_i18n_t('missing_home')) . '</a></p>';
+}
+
 /** Heading HTML is trusted native output or escaped template-owned news markup. */
 function reskin_page_header_html(string $headingHtml, array $breadcrumbs, string $contentHtml = ''): string
 {

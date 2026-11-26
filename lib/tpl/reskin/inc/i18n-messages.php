@@ -65,6 +65,9 @@ function reskin_i18n_messages(): array
             'user_support' => 'Uživatelská podpora',
             'footer_tagline' => 'Národní gridová infrastruktura provozovaná CESNETem pro českou akademickou komunitu.',
             'table_date' => 'Datum',
+            'missing_title' => 'Stránka nenalezena',
+            'missing_text' => 'Požadovaná stránka neexistuje nebo byla přesunuta. Zkuste vyhledávání nebo pokračujte na úvodní stránku.',
+            'missing_home' => 'Přejít na úvodní stránku',
             'table_title' => 'Název',
         ],
         'en' => [
@@ -125,6 +128,9 @@ function reskin_i18n_messages(): array
             'user_support' => 'User Support',
             'footer_tagline' => 'National Grid Infrastructure operated by CESNET for the Czech academic community.',
             'table_date' => 'Date',
+            'missing_title' => 'Page not found',
+            'missing_text' => 'The requested page does not exist or has moved. Try searching, or continue to the home page.',
+            'missing_home' => 'Go to the home page',
             'table_title' => 'Title',
         ],
     ];

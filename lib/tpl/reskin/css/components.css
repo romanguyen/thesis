@@ -1834,7 +1834,8 @@
   color: var(--mc-color-base-white);
 }
 
-.reskin-footer .reskin-brand-logo {
+.reskin-footer .reskin-brand-logo,
+[data-bs-theme="dark"] .reskin-header .reskin-brand-logo {
   filter: brightness(0) invert(1);
 }
 

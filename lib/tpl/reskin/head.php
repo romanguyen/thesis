@@ -26,9 +26,6 @@ $reskinLangTargets = $reskinContext['language_targets'];
     <?php endforeach; ?>
     <link rel="alternate" hreflang="x-default" href="<?php echo hsc(reskin_i18n_link('start', [], true, RESKIN_I18N_PRIMARY_LANG)); ?>" />
 
-    <?php if ($reskinContext['variant']['style'] !== 'metacentrum') : ?><link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin /><?php endif; ?>
-
     <?php foreach (reskin_stylesheet_assets($reskinContext['variant']) as $reskinAsset) : ?>
         <link rel="stylesheet" href="<?php echo hsc($reskinAsset['url']); ?>"
             <?php if (isset($reskinAsset['integrity'])) : ?>integrity="<?php echo hsc($reskinAsset['integrity']); ?>"<?php endif; ?>

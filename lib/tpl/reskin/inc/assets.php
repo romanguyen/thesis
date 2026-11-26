@@ -1,11 +1,10 @@
 <?php
 if (!defined('DOKU_INC')) die();
 
-/** Pinned dependencies retain their existing order, versions and integrity policy. */
+/** Pinned dependencies retain their existing order, versions and integrity policy; the web font is local (css/tokens.css). */
 function reskin_external_stylesheets(): array
 {
     return [
-        ['url' => 'https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;600&family=Source+Sans+3:wght@400;500;600;700&family=Open+Sans:wght@400;500;600;700&display=swap'],
         ['url' => 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css', 'integrity' => 'sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB', 'crossorigin' => 'anonymous'],
         ['url' => 'https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css', 'integrity' => 'sha384-XGjxtQfXaH2tnPFa9x+ruJTuLE3Aa6LhHSWRr1XeTyhezb4abCG4ccI5AkVDxqC+', 'crossorigin' => 'anonymous'],
     ];
@@ -38,7 +37,7 @@ function reskin_stylesheet_assets(array $variant): array
     $frame = reskin_variant_frame($variant);
     $external = reskin_external_stylesheets();
     // MetaCentrum keeps Bootstrap for grid and behaviour; its font and icons are the design's.
-    if ($frame === 'clean') $external = [$external[1]];
+    if ($frame === 'clean') $external = [$external[0]];
     return array_merge($external, array_map('reskin_local_asset', reskin_css_paths($frame)));
 }
 

@@ -64,7 +64,7 @@ $reskinPageIdClass = $reskinContext['page_class'];
                 $reskinHeroHtml = (string) reskin_i18n_include_page('hero', false, true);
                 $reskinHeroModel = [
                     'content_html' => $reskinHeroHtml,
-                    'image_url' => 'https://www.cesnet.cz/gimg/default/2/8/4/284-580-326.jpg',
+                    'image_url' => tpl_basedir() . 'img/hero-infrastructure.jpg', // local copy, source in img/README.md
                     'image_alt' => 'MetaCentrum infrastructure',
                 ];
                 // Left keeps its sidebar menu on the first screen, so its hero sits beside it (below).

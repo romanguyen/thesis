@@ -41,3 +41,11 @@ legibility adaptation. Footer default logos are embedded in the canonical bundle
 the three local images also provide no-JavaScript/module-failure footer output.
 Existing original/compact assets remain for historical evidence and alternative
 layouts. This provenance does not expand the supplied artwork's usage rights.
+
+## Homepage hero photo — 2026-11-26
+
+`hero-infrastructure.jpg` (580×326 JPEG, SHA-256
+`9a94b5e68ba0bcccd9dba88522aa45da4d2ad964464f5ccf69f88c7c0b53dbc2`) is a byte-for-byte copy of
+<https://www.cesnet.cz/gimg/default/2/8/4/284-580-326.jpg>, which the homepage
+hero previously hotlinked from cesnet.cz. It is CESNET's own image; the copy only
+removes the runtime dependency and grants no new usage rights.

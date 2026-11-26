@@ -101,7 +101,7 @@
 
 .reskin-header-meta .reskin-lang-btn.is-current {
   background: var(--bs-primary);
-  color: var(--mc-color-base-white);
+  color: var(--mc-color-on-brand);
   box-shadow: 0 4px 12px rgba(201, 75, 26, 0.28);
 }
 
@@ -139,7 +139,7 @@
 }
 
 [data-bs-theme="dark"] .reskin-header-meta .reskin-lang-btn.is-current {
-  color: var(--mc-color-base-white);
+  color: var(--mc-color-on-brand);
   background: var(--bs-primary);
   box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.12) inset;
 }
@@ -818,6 +818,19 @@
 
 .reskin-news-article--archive .reskin-news-footer {
   margin-top: 1.5rem;
+}
+
+/* Archive cards show the article's opening paragraph, ending after four lines; the card links to the article. */
+.reskin-news-article--archive .reskin-news-body p {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+  line-clamp: 4;
+  overflow: hidden;
+}
+
+.reskin-news-paging {
+  margin-top: 2rem;
 }
 
 /* An article without text keeps a single divider between header and footer. */
@@ -1912,9 +1925,9 @@
   flex-wrap: wrap;
   align-items: center;
   gap: 0.75rem;
-  margin-top: 1rem;
-  padding-top: 1rem;
-  border-top: 1px solid var(--bs-border-color);
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--bs-border-color);
 }
 
 .reskin-offcanvas--top-cesnet .reskin-mobile-preferences .reskin-header-meta {
@@ -1931,8 +1944,8 @@
 }
 
 .reskin-offcanvas--top-cesnet .reskin-preferences-panel {
-  top: auto;
-  bottom: calc(100% + 0.5rem);
+  top: calc(100% + 0.5rem);
+  bottom: auto;
   width: min(280px, calc(92vw - 2.5rem));
   max-height: none;
   padding: 0.75rem;

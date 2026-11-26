@@ -18,7 +18,7 @@ $ghost = 'mc-btn cds--btn cds--btn--sm cds--layout--size-sm cds--btn--ghost';
             <?php if ($author !== '') : ?><span class="reskin-news-author"><?php echo hsc($author); ?></span><?php endif; ?>
         </div>
     <?php endif; ?>
-    <?php $body = reskin_news_body_html($article['body'] ?? ''); // native rendering stays at the body slot ?>
+    <?php $body = reskin_news_excerpt_html($article['body'] ?? ''); // native rendering stays at the body slot ?>
     <?php if ($body !== '') : ?>
         <div class="reskin-news-body"><?php echo $body; ?></div>
     <?php endif; ?>

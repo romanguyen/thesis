@@ -40,7 +40,7 @@ function reskin_variant_context(): array
 
 /**
  * Named DokuWiki adapter; the rest of request preparation receives explicit inputs.
- * @return array{id:string,action:mixed,historical:bool,variant:array{layout:string,style:string},fallback_from:string,start:string,sidebar:string}
+ * @return array{id:string,action:mixed,historical:bool,variant:array{layout:string,style:string},fallback_from:string,news_page:int,start:string,sidebar:string}
  */
 function reskin_request_state(): array
 {
@@ -51,6 +51,7 @@ function reskin_request_state(): array
         'historical' => !empty($REV) || !empty($DATE_AT),
         'variant' => reskin_variant_context(),
         'fallback_from' => $INPUT->str('fallback_from'),
+        'news_page' => $INPUT->int('page', 1),
         'start' => (string) $conf['start'],
         'sidebar' => (string) $conf['sidebar'],
     ];
@@ -158,6 +159,7 @@ function reskin_page_visibility(string $base, string $startPage, string $layout,
  *     metrics_inline:bool,stories_inline:bool,start:bool
  *   },
  *   news_entries:list<array{id:string,title:string,date_iso:string,date:string,url:string,body:string,author:string}>,
+ *   news_paging:array{current:int,total:int,pages:list<array{number:int,url:string,current:bool}>,prev:string,next:string}|array{},
  *   language_targets:array<string,array{label:string,url:string,url_abs:string,current:bool,available:bool,resolved_lang:string}>,
  *   variant_links:array{layouts:array{left:string,top:string},styles:array{cesnet:string,metacentrum:string,bootstrap5:string}},
  *   fallback_notice:string|null,outdated_notice:string,
@@ -172,9 +174,13 @@ function reskin_page_context(array $request): array
     $hasSidebar = reskin_resolve_fragment($request['sidebar'], $page['lang'], $request['id'])['found'];
     $visibility = reskin_page_visibility($page['base'], $request['start'], reskin_variant_frame($variant), $request['action'], $hasSidebar);
     $entries = [];
+    $paging = [];
     if ($show && empty($request['historical']) && $page['base'] === 'news:start' && page_exists($request['id']) && auth_quickaclcheck($request['id']) >= AUTH_READ) {
-        // Each card carries its article's text, as the MetaCentrum archive does; the list already checked read access.
-        $entries = array_map(static fn(array $article): array => $article + reskin_news_article_card($article['id']), reskin_news_articles($page['lang'], $variant));
+        // One page of cards, each with its article's opening text; the list already checked read access.
+        $articles = reskin_news_articles($page['lang'], $variant);
+        $paging = reskin_news_paging($request['id'], count($articles), (int) ($request['news_page'] ?? 1), $variant);
+        $slice = array_slice($articles, ($paging['current'] - 1) * RESKIN_NEWS_PAGE_SIZE, RESKIN_NEWS_PAGE_SIZE);
+        $entries = array_map(static fn(array $article): array => $article + reskin_news_article_card($article['id']), $slice);
     }
     $hardware = preg_match('/^(cs|en):resources:hardware(?::start)?$/', $request['id']) === 1;
     $pageClass = trim((string) preg_replace('/[^a-z0-9_-]+/i', '-', strtolower($request['id'])), '-');
@@ -182,6 +188,7 @@ function reskin_page_context(array $request): array
         'request' => $request, 'page' => $page, 'variant' => $variant,
         'show' => $visibility,
         'news_entries' => $entries,
+        'news_paging' => $paging,
         'language_targets' => reskin_language_targets($page, $variant),
         'variant_links' => reskin_variant_links($request['id'], $variant),
         'fallback_notice' => reskin_fallback_notice($page, $request['fallback_from']),

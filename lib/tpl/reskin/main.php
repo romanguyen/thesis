@@ -174,7 +174,8 @@ $reskinPageIdClass = $reskinContext['page_class'];
                                         $reskinContentHtml,
                                         $reskinNewsEntries,
                                         $reskinContext['variant'],
-                                        isset($reskinHeroHtml) && str_contains($reskinHeroHtml, '<h1')
+                                        isset($reskinHeroHtml) && str_contains($reskinHeroHtml, '<h1'),
+                                        $reskinContext['news_paging']
                                     )); ?>
                                     <?php tpl_includeFile('pagefooter.html'); ?>
                                 </div>
@@ -208,9 +209,10 @@ $reskinPageIdClass = $reskinContext['page_class'];
                 <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="<?php echo hsc(reskin_i18n_t('close')); ?>"></button>
             </div>
             <div class="offcanvas-body">
+                <?php // Language, theme and preferences first, so the language switch is reachable without scrolling. ?>
+                <div class="reskin-mobile-preferences" data-header-preferences-mobile></div>
                 <?php $reskinSidebarInstance = 'offcanvas'; ?>
                 <?php require __DIR__ . '/sidebar.php'; ?>
-                <div class="reskin-mobile-preferences" data-header-preferences-mobile></div>
             </div>
         </div>
     <?php endif; ?>

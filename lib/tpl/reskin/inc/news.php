@@ -48,6 +48,27 @@ function reskin_news_article_card(string $id): array
     return ['body' => trim($source), 'author' => $author];
 }
 
+/** Archive cards per page of `news:start`. */
+const RESKIN_NEWS_PAGE_SIZE = 10;
+
+/**
+ * Archive page links (`page` request parameter, 1-based; out-of-range values clamp to the nearest page).
+ * @return array{current:int,total:int,pages:list<array{number:int,url:string,current:bool}>,prev:string,next:string}
+ */
+function reskin_news_paging(string $id, int $count, int $requested, array $variant): array
+{
+    $total = max(1, (int) ceil($count / RESKIN_NEWS_PAGE_SIZE));
+    $current = min(max(1, $requested), $total);
+    $url = static fn(int $number): string => wl($id, reskin_url_variant_params($variant, $number > 1 ? ['page' => $number] : []), false, '&');
+    $pages = [];
+    for ($number = 1; $number <= $total; $number++) $pages[] = ['number' => $number, 'url' => $url($number), 'current' => $number === $current];
+    return [
+        'current' => $current, 'total' => $total, 'pages' => $pages,
+        'prev' => $current > 1 ? $url($current - 1) : '',
+        'next' => $current < $total ? $url($current + 1) : '',
+    ];
+}
+
 /** Homepage update rows: the newest news of the preferred language, else of the other one. */
 function reskin_news_update_items(string $preferred, int $limit): array
 {

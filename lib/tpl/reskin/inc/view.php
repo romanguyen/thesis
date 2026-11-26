@@ -19,9 +19,10 @@ function reskin_render_partial(string $name, array $model, array $options = []):
  *
  * @param array<int,array{id:string,title:string,date_iso:string,date:string,url:string,body:string,author:string}> $entries Authorized news articles of the start page, otherwise []
  * @param bool $heroTitle The home hero already holds the page H1 (MetaCentrum PageHeader); the native one follows as H2
- * @return array{content_html:string,entries:array,design:bool,labels:array<string,string>}
+ * @param array $paging Archive paging from reskin_news_paging(), otherwise []
+ * @return array{content_html:string,entries:array,design:bool,labels:array<string,string>,paging:array}
  */
-function reskin_page_content_model(string $pageId, string $contentHtml, array $entries, ?array $variant = null, bool $heroTitle = false): array
+function reskin_page_content_model(string $pageId, string $contentHtml, array $entries, ?array $variant = null, bool $heroTitle = false, array $paging = []): array
 {
     global $ACT;
     $variant = $variant ?? reskin_variant_context();
@@ -56,7 +57,11 @@ function reskin_page_content_model(string $pageId, string $contentHtml, array $e
         'labels' => $entries === [] ? [] : [
             'eyebrow' => reskin_i18n_t('updates_news_title'),
             'read' => reskin_i18n_t('news_article_read'),
+            'paging' => reskin_i18n_t('news_paging'),
+            'newer' => reskin_i18n_t('news_newer'),
+            'older' => reskin_i18n_t('news_older'),
         ],
+        'paging' => ($paging['total'] ?? 1) > 1 ? $paging : [],
     ];
 }
 
@@ -129,6 +134,12 @@ function reskin_search_snippet_text(object $event): void
     $TOC = $toc;
     $text = html_entity_decode(strip_tags(str_replace('<', ' <', $html)), ENT_QUOTES | ENT_HTML5, 'UTF-8');
     $event->data['text'] = trim((string) preg_replace('/\s+/u', ' ', $text));
+}
+
+/** Archive-card excerpt: the first native paragraph of the article body; the card links to the full article. */
+function reskin_news_excerpt_html(string $source): string
+{
+    return preg_match('~<p\b[^>]*>.*?</p>~su', reskin_news_body_html($source), $match) ? $match[0] : '';
 }
 
 /** Heading HTML is trusted native output or escaped template-owned news markup. */

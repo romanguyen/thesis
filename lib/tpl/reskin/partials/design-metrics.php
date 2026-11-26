@@ -11,7 +11,7 @@ if ($model['cards'] === []) return;
             <p><?php echo hsc($model['description']); ?></p>
         </div>
     </div>
-    <div class="row row-cols-1 row-cols-sm-2 row-cols-xl-5 g-4">
+    <div class="row row-cols-2 row-cols-xl-5 g-3 g-sm-4">
         <?php foreach ($model['cards'] as $card) : ?>
             <div class="col">
                 <a class="mc-card reskin-metric-link" href="<?php echo hsc($card['url']); ?>"><h3 class="mc-card__title"><?php echo hsc($card['title']); ?></h3></a>

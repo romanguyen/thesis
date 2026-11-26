@@ -567,9 +567,54 @@
   }
 }
 
+/* Phones: two compact entry cards per row and the three metrics in one row, instead of eight full-width blocks. */
 @media (max-width: 575px) {
   .reskin-metric-links {
-    grid-template-columns: 1fr;
+    gap: 0.6rem;
+  }
+
+  .reskin-metric-link {
+    min-height: 0;
+    padding: 0.75rem 0.5rem;
+  }
+
+  .reskin-metric-link-icon {
+    width: 44px;
+    height: 44px;
+    font-size: 1.75rem;
+  }
+
+  .reskin-metric-link-title {
+    font-size: 1rem;
+  }
+
+  .reskin-metric-link-arrow {
+    display: none;
+  }
+
+  .reskin-metric-hex-wrap {
+    display: grid !important; /* overrides the d-flex utility */
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+
+  .reskin-metric-hex {
+    width: auto;
+    aspect-ratio: auto;
+    clip-path: none;
+    border-radius: var(--bs-border-radius-lg);
+    padding: 0.75rem 0.25rem;
+  }
+
+  .reskin-metric-hex-number {
+    font-size: 1.5rem;
+  }
+
+  .reskin-metric-hex-label {
+    margin-top: 0.35rem;
+    font-size: 0.8rem;
+    overflow-wrap: anywhere;
   }
 }
 

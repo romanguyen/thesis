@@ -19,7 +19,7 @@ $author = $article['author'] ?? '';
             </div>
         <?php endif; ?>
     </header>
-    <?php $body = reskin_news_body_html($article['body'] ?? ''); // native rendering stays at the body slot ?>
+    <?php $body = reskin_news_excerpt_html($article['body'] ?? ''); // native rendering stays at the body slot ?>
     <?php if ($body !== '') : ?>
         <div class="reskin-news-body"><?php echo $body; ?></div>
     <?php endif; ?>

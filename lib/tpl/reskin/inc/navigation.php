@@ -129,17 +129,25 @@ function reskin_navigation_label(array $source, string $pageId): ?string
     return null;
 }
 
+/** The `#section` of a native menu href ('' without one); a section link is never the current page itself. */
+function reskin_navigation_fragment(string $href): string
+{
+    $fragment = (string) parse_url($href, PHP_URL_FRAGMENT);
+    return $fragment !== '' ? '#' . $fragment : '';
+}
+
 /** Transform a node to the existing top-menu policy, pruning below its immediate children. */
 function reskin_navigation_top_item(array $node, string $currentId, array $variant, bool $withChildren): array
 {
-    $id = $node['wiki_id'] !== '' ? reskin_navigation_top_id($node['wiki_id']) : '';
+    $fragment = reskin_navigation_fragment($node['href']);
+    $id = $node['wiki_id'] !== '' && $fragment === '' ? reskin_navigation_top_id($node['wiki_id']) : '';
     $children = [];
     if ($withChildren) {
         foreach ($node['children'] as $child) $children[] = reskin_navigation_top_item($child, $currentId, $variant, false);
     }
     return [
         'title' => $node['title'],
-        'href' => $node['wiki_id'] !== '' ? wl($node['wiki_id'], reskin_url_variant_params($variant), false, '&') : $node['href'],
+        'href' => $node['wiki_id'] !== '' ? wl($node['wiki_id'], reskin_url_variant_params($variant), false, '&') . $fragment : $node['href'],
         'is_current' => $id !== '' && $id === $currentId,
         'is_parent' => $id !== '' && strpos($currentId, $id . ':') === 0,
         'children' => $children,
@@ -201,7 +209,9 @@ function reskin_sidebar_navigation_html(array $source, string $pageId, array $va
         if (!($link instanceof DOMElement)) continue;
         $id = $link->getAttribute('data-wiki-id');
         if (!$id) continue;
-        $link->setAttribute('href', wl($id, reskin_url_variant_params($variant), false, '&'));
+        $fragment = reskin_navigation_fragment($link->getAttribute('href'));
+        $link->setAttribute('href', wl($id, reskin_url_variant_params($variant), false, '&') . $fragment);
+        if ($fragment !== '') continue;
         $linkId = reskin_navigation_sidebar_id($id);
         $current = $linkId === $currentId;
         $parent = !$current && strpos($currentId, $linkId . ':') === 0;
